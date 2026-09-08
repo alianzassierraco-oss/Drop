@@ -346,7 +346,7 @@
         <div class="gallery">
           {% for image in product.images limit: 6 %}
             <div class="gallery__item gallery__bg-a" data-reveal="scale">
-              <img class="product-photo" src="{{ image | image_url: width: 700 }}" alt="{{ product.title }}" loading="lazy">
+              <img class="product-photo" src="{{ image | image_url: width: 700 }}" alt="{{ product.title }}" width="700" height="700" loading="lazy">
             </div>
           {% endfor %}
         </div>
@@ -470,7 +470,7 @@
         <div class="offer__visual">
           <span class="offer__badge">30 ml / 1 fl oz</span>
           {% if product.featured_image %}
-            <img class="product-photo" src="{{ product.featured_image | image_url: width: 700 }}" alt="{{ product.title }}" loading="lazy">
+            <img class="product-photo" src="{{ product.featured_image | image_url: width: 700 }}" alt="{{ product.title }}" width="700" height="875" loading="lazy">
           {% else %}
             <svg class="bottle-illustration" viewBox="0 0 240 480"><use href="#gx-bottle"/></svg>
           {% endif %}
