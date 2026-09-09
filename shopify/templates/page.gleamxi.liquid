@@ -4,7 +4,6 @@
   Producto real conectado por handle: cámbialo aquí si alguna vez cambias el handle del producto en Shopify.
 {%- endcomment -%}
 {% assign product = all_products['aceite-capilar-de-romero-y-queratina-hid'] %}
-{% assign variant = product.selected_or_first_available_variant %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -121,7 +120,7 @@
       <li><a href="#faq">FAQ</a></li>
     </ul>
     <div class="nav__actions">
-      <a href="#oferta" class="btn btn--gold nav__cta">Comprar ahora</a>
+      <a href="{{ product.url }}" class="btn btn--gold nav__cta">Comprar ahora</a>
       <button class="nav__burger" aria-label="Abrir menú"><svg><use href="#ic-burger"/></svg></button>
     </div>
   </nav>
@@ -135,7 +134,7 @@
     <li><a href="#como-usar">Cómo usar</a></li>
     <li><a href="#resenas">Reseñas</a></li>
     <li><a href="#faq">FAQ</a></li>
-    <li><a href="#oferta">Comprar</a></li>
+    <li><a href="{{ product.url }}">Comprar</a></li>
   </ul>
 </div>
 
@@ -149,7 +148,7 @@
         <h1>Cabello suave, brillante<br>y con <em>apariencia saludable</em></h1>
         <p class="lede">Una fórmula ligera con romero y queratina hidrolizada diseñada para cuidar tu cabello y darle una apariencia más suave, luminosa y manejable.</p>
         <div class="hero__actions">
-          <a href="#oferta" class="btn btn--gold">Comprar ahora</a>
+          <a href="{{ product.url }}" class="btn btn--gold">Comprar ahora</a>
           <div class="hero__price">
             <small>GleamXi · 30 ml</small>
             <strong>{{ product.price | money }}</strong>
@@ -508,8 +507,8 @@
     </div>
   </section>
 
-  <!-- ============ OFERTA / PRODUCTO (conectada al carrito real de Shopify) ============ -->
-  <section class="section" id="oferta">
+  <!-- ============ OFERTA / PRODUCTO (vista previa — el botón lleva a la página real del producto) ============ -->
+  <section class="section">
     <div class="container">
       <div class="offer" data-reveal>
         <div class="offer__visual">
@@ -521,31 +520,20 @@
           {% endif %}
         </div>
         <div class="offer__info">
-          {% form 'product', product, id: 'gx-buy-form' %}
           <span class="eyebrow">Edición actual</span>
           <h2>GleamXi Rosemary Hydrolyzed<br>Keratin Smoothing Hair Oil</h2>
           <p class="offer__meta">Aceite capilar de romero + queratina hidrolizada · 30 ml / 1 fl oz</p>
           <div class="offer__price-row">
-            <span class="offer__price" id="offer-total" data-unit-price="{{ product.price | divided_by: 100.0 }}" data-currency="{{ shop.currency }}">{{ product.price | money }}</span>
-          </div>
-          <input type="hidden" name="id" value="{{ variant.id }}">
-          <input type="hidden" name="return_to" value="/checkout">
-          <div class="qty">
-            <button type="button" id="qty-minus" aria-label="Restar">−</button>
-            <input type="number" name="quantity" id="qty-input" value="1" min="1" max="10" inputmode="numeric" aria-label="Cantidad" />
-            <button type="button" id="qty-plus" aria-label="Sumar">+</button>
+            <span class="offer__price">{{ product.price | money }}</span>
           </div>
           <div class="offer__actions">
-            <button type="submit" class="btn btn--gold btn--block"{% unless product.available %} disabled{% endunless %}>
-              {% if product.available %}Quiero GleamXi{% else %}Agotado{% endif %}
-            </button>
+            <a href="{{ product.url }}" class="btn btn--gold btn--block">Ver y comprar GleamXi</a>
             <ul class="trust-row">
               <li><svg><use href="#ic-lock"/></svg>Pago seguro</li>
               <li><svg><use href="#ic-shield"/></svg>Compra protegida</li>
               <li><svg><use href="#ic-chat"/></svg>Atención al cliente</li>
             </ul>
           </div>
-          {% endform %}
         </div>
       </div>
     </div>
@@ -556,7 +544,7 @@
     <div class="container" data-reveal>
       <h2>Convierte el cuidado de tu cabello en un ritual.</h2>
       <p>Descubre una forma sencilla de añadir cuidado, suavidad y brillo a tu rutina.</p>
-      <a href="#oferta" class="btn btn--gold">Comprar GleamXi</a>
+      <a href="{{ product.url }}" class="btn btn--gold">Comprar GleamXi</a>
     </div>
   </section>
 
@@ -578,7 +566,7 @@
       <div class="footer-col">
         <h4>Tienda</h4>
         <ul>
-          <li><a href="#oferta">Comprar GleamXi</a></li>
+          <li><a href="{{ product.url }}">Comprar GleamXi</a></li>
           <li><a href="#beneficios">Beneficios</a></li>
           <li><a href="#ingredientes">Ingredientes</a></li>
           <li><a href="#resenas">Reseñas</a></li>
@@ -626,7 +614,7 @@
     <small>GleamXi · 30 ml</small>
     <strong>{{ product.price | money }}</strong>
   </div>
-  <a href="#oferta" class="btn btn--gold">Comprar</a>
+  <a href="{{ product.url }}" class="btn btn--gold">Comprar</a>
 </div>
 
 <script src="{{ 'gleamxi.js' | asset_url }}" defer></script>

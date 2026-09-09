@@ -37,66 +37,13 @@ document.addEventListener("DOMContentLoaded", function () {
     revealEls.forEach(function (el) { el.classList.add("is-visible"); });
   }
 
-  /* ---- Quantity selector (reads the real Shopify price from data-unit-price) ---- */
-  var qtyInput = document.getElementById("qty-input");
-  var qtyMinus = document.getElementById("qty-minus");
-  var qtyPlus = document.getElementById("qty-plus");
-  var totalPriceEl = document.getElementById("offer-total");
-  var unitPrice = totalPriceEl ? parseFloat(totalPriceEl.getAttribute("data-unit-price")) || 0 : 0;
-  var currency = totalPriceEl ? totalPriceEl.getAttribute("data-currency") || "COP" : "COP";
-
-  function formatMoney(amount) {
-    try {
-      return new Intl.NumberFormat("es-CO", {
-        style: "currency",
-        currency: currency,
-        maximumFractionDigits: 0
-      }).format(amount);
-    } catch (e) {
-      return "$" + Math.round(amount);
-    }
-  }
-
-  function updateTotal() {
-    if (!qtyInput || !totalPriceEl) return;
-    var qty = parseInt(qtyInput.value, 10) || 1;
-    totalPriceEl.textContent = formatMoney(unitPrice * qty);
-  }
-  if (qtyInput) {
-    qtyMinus.addEventListener("click", function () {
-      var val = Math.max(1, (parseInt(qtyInput.value, 10) || 1) - 1);
-      qtyInput.value = val;
-      updateTotal();
-    });
-    qtyPlus.addEventListener("click", function () {
-      var val = Math.min(10, (parseInt(qtyInput.value, 10) || 1) + 1);
-      qtyInput.value = val;
-      updateTotal();
-    });
-    qtyInput.addEventListener("change", function () {
-      var val = Math.min(10, Math.max(1, parseInt(qtyInput.value, 10) || 1));
-      qtyInput.value = val;
-      updateTotal();
-    });
-    updateTotal();
-  }
-
-  /* ---- Sticky mobile buy bar ---- */
+  /* ---- Sticky mobile buy bar (shows once the hero is scrolled past) ---- */
   var buybar = document.querySelector(".mobile-buybar");
   var hero = document.querySelector(".hero");
-  var offer = document.getElementById("oferta");
   if (buybar && hero) {
     var toggle = function () {
-      var heroBottom = hero.getBoundingClientRect().bottom;
-      var offerTop = offer ? offer.getBoundingClientRect().top : Infinity;
-      var offerBottom = offer ? offer.getBoundingClientRect().bottom : Infinity;
-      var pastHero = heroBottom < 0;
-      var withinOffer = offerTop < window.innerHeight && offerBottom > 0;
-      if (pastHero && !withinOffer) {
-        buybar.classList.add("is-visible");
-      } else {
-        buybar.classList.remove("is-visible");
-      }
+      var pastHero = hero.getBoundingClientRect().bottom < 0;
+      buybar.classList.toggle("is-visible", pastHero);
     };
     window.addEventListener("scroll", toggle, { passive: true });
     toggle();
