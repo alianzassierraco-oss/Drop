@@ -1,0 +1,629 @@
+{% layout none %}
+{%- comment -%}
+  Página de venta GleamXi — plantilla de página personalizada (sin header/footer del tema).
+  Producto real conectado por handle: cámbialo aquí si alguna vez cambias el handle del producto en Shopify.
+{%- endcomment -%}
+{% assign product = all_products['aceite-capilar-de-romero-y-queratina-hid'] %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+{%- comment -%}
+  Obligatorio: Shopify inyecta aquí los píxeles (TikTok, Meta, Google), las analíticas
+  y los scripts de las apps (EasySell COD, Releasit, Dropify). Sin esta línea, en esta
+  plantilla no se mide nada y las apps no cargan.
+{%- endcomment -%}
+{{ content_for_header }}
+<title>{{ product.title | default: 'GleamXi — Rosemary Hydrolyzed Keratin Smoothing Hair Oil' }}</title>
+<meta name="description" content="GleamXi Rosemary Hydrolyzed Keratin Smoothing Hair Oil. Aceite capilar de romero y queratina hidrolizada para una apariencia más suave, luminosa y manejable." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+{{ 'gleamxi.css' | asset_url | stylesheet_tag }}
+</head>
+<body>
+
+<!-- ============ SVG SPRITE (icons + illustrated product bottle placeholder) ============ -->
+<svg style="display:none" aria-hidden="true">
+  <defs>
+    <linearGradient id="gxGoldGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f0e0b8"/>
+      <stop offset="45%" stop-color="#c9a566"/>
+      <stop offset="100%" stop-color="#9c7940"/>
+    </linearGradient>
+    <linearGradient id="gxGlassGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#24402f"/>
+      <stop offset="55%" stop-color="#12241a"/>
+      <stop offset="100%" stop-color="#080f0a"/>
+    </linearGradient>
+    <linearGradient id="gxNeckGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1c3324"/>
+      <stop offset="100%" stop-color="#0a140e"/>
+    </linearGradient>
+  </defs>
+
+  <symbol id="gx-bottle" viewBox="0 0 240 480">
+    <ellipse cx="120" cy="452" rx="66" ry="14" fill="#000" opacity="0.35"/>
+    <rect x="86" y="16" width="68" height="20" rx="6" fill="url(#gxGoldGrad)"/>
+    <rect x="82" y="32" width="76" height="40" rx="10" fill="url(#gxGoldGrad)"/>
+    <rect x="86" y="66" width="68" height="10" fill="#8a6a38" opacity="0.5"/>
+    <path d="M104 74 L136 74 L146 118 L94 118 Z" fill="url(#gxNeckGrad)"/>
+    <rect x="40" y="110" width="160" height="326" rx="30" fill="url(#gxGlassGrad)"/>
+    <rect x="40" y="110" width="160" height="326" rx="30" fill="none" stroke="#3c5a45" stroke-opacity="0.4" stroke-width="1.5"/>
+    <path d="M58 130 C58 122 66 118 74 118 L80 118 L80 420 C80 428 74 434 66 434 C58 434 58 428 58 420 Z" fill="#ffffff" opacity="0.05"/>
+    <rect x="60" y="196" width="120" height="150" rx="12" fill="#f4f1e8"/>
+    <rect x="60" y="196" width="120" height="150" rx="12" fill="none" stroke="#c9a566" stroke-opacity="0.5" stroke-width="1"/>
+    <line x1="78" y1="224" x2="162" y2="224" stroke="#a9824a" stroke-width="1"/>
+    <text x="120" y="250" text-anchor="middle" font-family="Cormorant Garamond, serif" font-weight="600" font-size="27" fill="#12241a" letter-spacing="1">GleamXi</text>
+    <text x="120" y="270" text-anchor="middle" font-family="Jost, sans-serif" font-size="7.5" letter-spacing="1.5" fill="#4d564c">ROSEMARY + KERATIN</text>
+    <text x="120" y="283" text-anchor="middle" font-family="Jost, sans-serif" font-size="7.5" letter-spacing="1.5" fill="#4d564c">SMOOTHING HAIR OIL</text>
+    <line x1="78" y1="298" x2="162" y2="298" stroke="#a9824a" stroke-width="1"/>
+    <text x="120" y="322" text-anchor="middle" font-family="Jost, sans-serif" font-size="8" letter-spacing="1" fill="#7c8a78">30 ml · 1 fl oz</text>
+    <rect x="40" y="410" width="160" height="26" rx="10" fill="#000" opacity="0.18"/>
+  </symbol>
+
+  <symbol id="gx-rosemary" viewBox="0 0 60 220">
+    <path d="M30 4 C30 90 30 150 30 216" stroke="#5c7a5c" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <g fill="#7d9a70">
+      <ellipse cx="30" cy="26" rx="4" ry="15" transform="rotate(-40 30 26)"/>
+      <ellipse cx="30" cy="26" rx="4" ry="15" transform="rotate(40 30 26)"/>
+      <ellipse cx="30" cy="50" rx="4" ry="15" transform="rotate(-40 30 50)"/>
+      <ellipse cx="30" cy="50" rx="4" ry="15" transform="rotate(40 30 50)"/>
+      <ellipse cx="30" cy="74" rx="4" ry="15" transform="rotate(-38 30 74)"/>
+      <ellipse cx="30" cy="74" rx="4" ry="15" transform="rotate(38 30 74)"/>
+      <ellipse cx="30" cy="98" rx="4" ry="15" transform="rotate(-36 30 98)"/>
+      <ellipse cx="30" cy="98" rx="4" ry="15" transform="rotate(36 30 98)"/>
+      <ellipse cx="30" cy="122" rx="4" ry="14" transform="rotate(-34 30 122)"/>
+      <ellipse cx="30" cy="122" rx="4" ry="14" transform="rotate(34 30 122)"/>
+      <ellipse cx="30" cy="145" rx="4" ry="13" transform="rotate(-32 30 145)"/>
+      <ellipse cx="30" cy="145" rx="4" ry="13" transform="rotate(32 30 145)"/>
+    </g>
+  </symbol>
+
+  <symbol id="gx-rosemary-cluster" viewBox="0 0 320 320">
+    <use href="#gx-rosemary" x="20" y="60" width="70" height="230" transform="rotate(-18 55 175)"/>
+    <use href="#gx-rosemary" x="120" y="10" width="80" height="260" transform="rotate(6 160 140)"/>
+    <use href="#gx-rosemary" x="220" y="70" width="70" height="220" transform="rotate(24 255 180)"/>
+  </symbol>
+
+  <symbol id="ic-check" viewBox="0 0 24 24"><path d="M4 12.5L9.5 18L20 6" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-shield" viewBox="0 0 24 24"><path d="M12 3l7 3v6c0 4.5-3 7.7-7 9-4-1.3-7-4.5-7-9V6l7-3z" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linejoin="round"/><path d="M9 12l2 2 4-4.5" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-truck" viewBox="0 0 24 24"><path d="M2.5 6.5h11v9h-11z" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linejoin="round"/><path d="M13.5 10h4l3 3v2.5h-7z" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linejoin="round"/><circle cx="6.5" cy="17.5" r="1.6" stroke="currentColor" stroke-width="1.5" fill="none"/><circle cx="17" cy="17.5" r="1.6" stroke="currentColor" stroke-width="1.5" fill="none"/></symbol>
+  <symbol id="ic-chat" viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4V5z" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-lock" viewBox="0 0 24 24"><rect x="5" y="10.5" width="14" height="9.5" rx="2" stroke="currentColor" stroke-width="1.6" fill="none"/><path d="M8 10.5V8a4 4 0 018 0v2.5" stroke="currentColor" stroke-width="1.6" fill="none"/></symbol>
+  <symbol id="ic-return" viewBox="0 0 24 24"><path d="M4 11a8 8 0 1 1 2.2 5.5" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round"/><path d="M4 6.5V11h4.5" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-leaf" viewBox="0 0 24 24"><path d="M5 19c8 1 14-5 14-14-8 0-14 6-14 14z" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linejoin="round"/><path d="M5 19c2-4 6-8 11-10.5" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linecap="round"/></symbol>
+  <symbol id="ic-sparkle" viewBox="0 0 24 24"><path d="M12 3l1.8 5.6L19.5 10.5l-5.7 1.9L12 18l-1.8-5.6-5.7-1.9 5.7-1.9L12 3z" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-drop" viewBox="0 0 24 24"><path d="M12 3.5S6 11 6 15a6 6 0 0012 0c0-4-6-11.5-6-11.5z" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-comb" viewBox="0 0 24 24"><path d="M4 5h16v3H4z" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linejoin="round"/><path d="M6 8v11M9.5 8v11M13 8v11M16.5 8v11M20 8v11" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></symbol>
+  <symbol id="ic-star" viewBox="0 0 24 24"><path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.1 1 5.9L12 16.9l-5.2 2.8 1-5.9-4.3-4.1 5.9-.8L12 3.5z" fill="currentColor"/></symbol>
+  <symbol id="ic-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+  <symbol id="ic-burger" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+  <symbol id="ic-ig" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="5" stroke="currentColor" stroke-width="1.5" fill="none"/><circle cx="12" cy="12" r="3.6" stroke="currentColor" stroke-width="1.5" fill="none"/><circle cx="16.6" cy="7.4" r="1" fill="currentColor"/></symbol>
+  <symbol id="ic-fb" viewBox="0 0 24 24"><path d="M14 21v-7h2.4l.4-3H14V9c0-.9.2-1.5 1.6-1.5H17V5c-.3 0-1.2-.1-2.2-.1-2.2 0-3.7 1.3-3.7 3.8V11H8.5v3H11v7h3z" fill="currentColor"/></symbol>
+  <symbol id="ic-tt" viewBox="0 0 24 24"><path d="M13.5 3.5c.5 2 2 3.4 4 3.6v2.6c-1.5 0-2.9-.5-4-1.3v6.2a5.4 5.4 0 11-4.7-5.4v2.7a2.7 2.7 0 102 2.6V3.5h2.7z" fill="currentColor"/></symbol>
+</svg>
+
+<!-- ============ TOP ANNOUNCEMENT BAR ============ -->
+<div class="announce">
+  <div class="announce__track">
+    <span class="announce__item"><svg><use href="#ic-truck"/></svg>Envío disponible</span>
+    <span class="announce__item"><svg><use href="#ic-lock"/></svg>Compra segura</span>
+    <span class="announce__item"><svg><use href="#ic-chat"/></svg>Atención al cliente</span>
+  </div>
+</div>
+
+<!-- ============ HEADER ============ -->
+<header class="site-header">
+  <nav class="nav container">
+    <a href="#top" class="nav__logo">Gleam<span>Xi</span></a>
+    <ul class="nav__links">
+      <li><a href="#beneficios">Beneficios</a></li>
+      <li><a href="#ingredientes">Ingredientes</a></li>
+      <li><a href="#como-usar">Cómo usar</a></li>
+      <li><a href="#resenas">Reseñas</a></li>
+      <li><a href="#faq">FAQ</a></li>
+    </ul>
+    <div class="nav__actions">
+      <a href="{{ product.url }}" class="btn btn--gold nav__cta">Comprar ahora</a>
+      <button class="nav__burger" aria-label="Abrir menú"><svg><use href="#ic-burger"/></svg></button>
+    </div>
+  </nav>
+</header>
+
+<div class="mobile-drawer">
+  <button class="mobile-drawer__close" aria-label="Cerrar menú"><svg><use href="#ic-close"/></svg></button>
+  <ul>
+    <li><a href="#beneficios">Beneficios</a></li>
+    <li><a href="#ingredientes">Ingredientes</a></li>
+    <li><a href="#como-usar">Cómo usar</a></li>
+    <li><a href="#resenas">Reseñas</a></li>
+    <li><a href="#faq">FAQ</a></li>
+    <li><a href="{{ product.url }}">Comprar</a></li>
+  </ul>
+</div>
+
+<main id="top">
+
+  <!-- ============ HERO ============ -->
+  <section class="hero">
+    <div class="container hero__grid">
+      <div data-reveal>
+        <span class="hero__eyebrow">Romero · Queratina hidrolizada</span>
+        <h1>Cabello suave, brillante<br>y con <em>apariencia saludable</em></h1>
+        <p class="lede">Una fórmula ligera con romero y queratina hidrolizada diseñada para cuidar tu cabello y darle una apariencia más suave, luminosa y manejable.</p>
+        <div class="hero__actions">
+          <a href="{{ product.url }}" class="btn btn--gold">Comprar ahora</a>
+          <div class="hero__price">
+            <small>GleamXi · 30 ml</small>
+            <strong>{{ product.price | money }}</strong>
+          </div>
+        </div>
+        <ul class="trust-row">
+          <li><svg><use href="#ic-shield"/></svg>Compra segura</li>
+          <li><svg><use href="#ic-lock"/></svg>Pago protegido</li>
+          <li><svg><use href="#ic-chat"/></svg>Atención al cliente</li>
+        </ul>
+      </div>
+      <div class="hero__visual" data-reveal="scale">
+        <div class="hero__stage">
+          {% if product.featured_image %}
+            <img class="product-photo" src="{{ product.featured_image | image_url: width: 900 }}" alt="{{ product.title }}" width="900" height="1125" loading="eager">
+          {% else %}
+            <svg class="hero__leaf-a"><use href="#gx-rosemary" width="90" height="330"/></svg>
+            <svg class="bottle-illustration" viewBox="0 0 240 480"><use href="#gx-bottle"/></svg>
+            <svg class="hero__leaf-b"><use href="#gx-rosemary" width="110" height="400"/></svg>
+          {% endif %}
+          <span class="hero__badge">30 ml / 1 fl oz</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ BENEFICIOS ============ -->
+  <section class="section" id="beneficios">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <span class="eyebrow">Beneficios</span>
+        <h2>Tu rutina de cabello, mejorada</h2>
+        <p>Una fórmula ligera pensada para acompañar tu cabello en el día a día.</p>
+      </div>
+      <div class="benefits-grid">
+        <div class="benefit-card" data-reveal>
+          <div class="benefit-card__icon"><svg><use href="#ic-drop"/></svg></div>
+          <h3>Suavidad</h3>
+          <p>Ayuda a dejar el cabello con una sensación más suave y manejable.</p>
+        </div>
+        <div class="benefit-card" data-reveal>
+          <div class="benefit-card__icon"><svg><use href="#ic-sparkle"/></svg></div>
+          <h3>Brillo</h3>
+          <p>Aporta una apariencia luminosa y saludable al cabello.</p>
+        </div>
+        <div class="benefit-card" data-reveal>
+          <div class="benefit-card__icon"><svg><use href="#ic-comb"/></svg></div>
+          <h3>Control del frizz</h3>
+          <p>Ayuda a controlar la apariencia del frizz y los cabellos rebeldes.</p>
+        </div>
+        <div class="benefit-card" data-reveal>
+          <div class="benefit-card__icon"><svg><use href="#ic-leaf"/></svg></div>
+          <h3>Cuidado</h3>
+          <p>Una fórmula ligera pensada para complementar tu rutina capilar.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ INGREDIENTES ============ -->
+  <section class="section section--cream" id="ingredientes">
+    <div class="container ingredients">
+      <div class="ingredients__visual" data-reveal="scale">
+        {% if product.featured_image %}
+          <img class="product-photo" src="{{ product.featured_image | image_url: width: 700 }}" alt="{{ product.title }}" width="700" height="700" loading="lazy">
+        {% else %}
+          <svg class="leaf-cluster leaf-cluster--tl"><use href="#gx-rosemary-cluster"/></svg>
+          <svg class="bottle-illustration" viewBox="0 0 240 480"><use href="#gx-bottle"/></svg>
+          <svg class="leaf-cluster leaf-cluster--br"><use href="#gx-rosemary-cluster"/></svg>
+        {% endif %}
+      </div>
+      <div data-reveal>
+        <span class="eyebrow">Ingredientes</span>
+        <h2>Una combinación pensada para tu cabello</h2>
+        <div class="ingredient-list">
+          <div class="ingredient-item">
+            <div class="ingredient-item__icon"><svg><use href="#ic-leaf"/></svg></div>
+            <div>
+              <h3>Romero</h3>
+              <p>Asociado con una rutina de cuidado capilar natural.</p>
+            </div>
+          </div>
+          <div class="ingredient-item">
+            <div class="ingredient-item__icon"><svg><use href="#ic-sparkle"/></svg></div>
+            <div>
+              <h3>Queratina hidrolizada</h3>
+              <p>Ingrediente utilizado en productos capilares para ayudar a mejorar la apariencia y sensación del cabello.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ POR QUÉ GLEAMXI ============ -->
+  <section class="section section--dark">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <span class="eyebrow">Comparación</span>
+        <h2>¿Por qué GleamXi?</h2>
+        <p>Así es como muchas personas describen el cambio en su rutina diaria.</p>
+      </div>
+      <div class="compare" data-reveal>
+        <div class="compare__col compare__col--old">
+          <span class="compare__label">Rutina tradicional</span>
+          <h3>Sin GleamXi</h3>
+          <ul class="compare__list">
+            <li><svg><use href="#ic-close"/></svg>Cabello con apariencia opaca</li>
+            <li><svg><use href="#ic-close"/></svg>Frizz visible</li>
+            <li><svg><use href="#ic-close"/></svg>Rutina complicada</li>
+            <li><svg><use href="#ic-close"/></svg>Producto pesado</li>
+          </ul>
+        </div>
+        <div class="compare__divider"></div>
+        <div class="compare__col compare__col--new">
+          <span class="compare__label">Con GleamXi</span>
+          <h3>Rutina GleamXi</h3>
+          <ul class="compare__list">
+            <li><svg><use href="#ic-check"/></svg>Apariencia más luminosa</li>
+            <li><svg><use href="#ic-check"/></svg>Apariencia más controlada</li>
+            <li><svg><use href="#ic-check"/></svg>Aplicación sencilla</li>
+            <li><svg><use href="#ic-check"/></svg>Fórmula ligera</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CÓMO USARLO ============ -->
+  <section class="section" id="como-usar">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <span class="eyebrow">Modo de uso</span>
+        <h2>Cómo usarlo</h2>
+        <p>Tres pasos sencillos para incorporarlo a tu rutina.</p>
+      </div>
+      <div class="steps">
+        <div class="step-card" data-reveal>
+          <div class="step-card__num">01</div>
+          <h3>Aplica</h3>
+          <p>Coloca una pequeña cantidad de aceite en las manos.</p>
+        </div>
+        <div class="step-card" data-reveal>
+          <div class="step-card__num">02</div>
+          <h3>Distribuye</h3>
+          <p>Aplica de medios a puntas y distribuye uniformemente.</p>
+        </div>
+        <div class="step-card" data-reveal>
+          <div class="step-card__num">03</div>
+          <h3>Peina</h3>
+          <p>Peina o acomoda tu cabello como de costumbre.</p>
+        </div>
+      </div>
+      <p class="steps-note" data-reveal>Sigue siempre las instrucciones del empaque. Uso externo únicamente — evita el contacto con los ojos y con piel irritada. Ante cualquier reacción, suspende el uso.</p>
+    </div>
+  </section>
+
+  <!-- ============ RESEÑAS ============ -->
+  <section class="section section--dark" id="resenas">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <span class="eyebrow">Experiencias</span>
+        <h2>Ellos ya lo están incorporando a su rutina</h2>
+      </div>
+      <div class="reviews-grid">
+        <div class="review-card" data-reveal>
+          <div class="review-card__stars"><svg><use href="#ic-star"/></svg><svg><use href="#ic-star"/></svg><svg><use href="#ic-star"/></svg><svg><use href="#ic-star"/></svg><svg><use href="#ic-star"/></svg></div>
+          <p>"Me encanta cómo se siente mi cabello después de usarlo."</p>
+          <div class="review-card__author"><span class="dot"></span>Cliente verificado</div>
+        </div>
+        <div class="review-card" data-reveal>
+          <div class="review-card__stars"><svg><use href="#ic-star"/></svg><svg><use href="#ic-star"/></svg><svg><use href="#ic-star"/></svg><svg><use href="#ic-star"/></svg><svg><use href="#ic-star"/></svg></div>
+          <p>"Me gusta que sea ligero y fácil de incorporar a mi rutina."</p>
+          <div class="review-card__author"><span class="dot"></span>Cliente verificado</div>
+        </div>
+        <div class="review-card" data-reveal>
+          <div class="review-card__stars"><svg><use href="#ic-star"/></svg><svg><use href="#ic-star"/></svg><svg><use href="#ic-star"/></svg><svg><use href="#ic-star"/></svg><svg><use href="#ic-star"/></svg></div>
+          <p>"Se aplica fácil y no deja el cabello pesado."</p>
+          <div class="review-card__author"><span class="dot"></span>Cliente verificado</div>
+        </div>
+        <div class="review-card" data-reveal>
+          <div class="review-card__stars"><svg><use href="#ic-star"/></svg><svg><use href="#ic-star"/></svg><svg><use href="#ic-star"/></svg><svg><use href="#ic-star"/></svg><svg><use href="#ic-star"/></svg></div>
+          <p>"El olor es muy agradable y se siente un producto de buena calidad."</p>
+          <div class="review-card__author"><span class="dot"></span>Cliente verificado</div>
+        </div>
+        <div class="review-card" data-reveal>
+          <div class="review-card__stars"><svg><use href="#ic-star"/></svg><svg><use href="#ic-star"/></svg><svg><use href="#ic-star"/></svg><svg><use href="#ic-star"/></svg><svg><use href="#ic-star"/></svg></div>
+          <p>"Noté mi cabello más manejable desde las primeras aplicaciones."</p>
+          <div class="review-card__author"><span class="dot"></span>Cliente verificado</div>
+        </div>
+        <div class="review-card" data-reveal>
+          <div class="review-card__stars"><svg><use href="#ic-star"/></svg><svg><use href="#ic-star"/></svg><svg><use href="#ic-star"/></svg><svg><use href="#ic-star"/></svg><svg><use href="#ic-star"/></svg></div>
+          <p>"Con dos gotas es suficiente, rinde bastante el envase."</p>
+          <div class="review-card__author"><span class="dot"></span>Cliente verificado</div>
+        </div>
+      </div>
+      <p class="reviews-note">Reseñas de demostración — reemplázalas por opiniones reales de tus clientes.</p>
+    </div>
+  </section>
+
+  <!-- ============ TIKTOK / COMUNIDAD ============ -->
+  <section class="section section--cream" id="tiktok">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <span class="eyebrow">Comunidad</span>
+        <h2>Así lo comparten en TikTok</h2>
+        <p>Contenido real de nuestra comunidad — se actualiza a medida que suben nuevos videos.</p>
+      </div>
+      <div class="tiktok-grid">
+        {%- comment -%}
+          EDITABLE: reemplaza cada bloque .tiktok-card por el código de inserción (embed) real de tu video de TikTok
+          cuando lo tengas. Mientras tanto se muestra un espacio reservado.
+        {%- endcomment -%}
+        <div class="tiktok-card" data-reveal="scale">
+          <div class="tiktok-card__play"><svg><use href="#ic-drop"/></svg></div>
+          <span class="tiktok-card__label">Video próximamente</span>
+        </div>
+        <div class="tiktok-card" data-reveal="scale">
+          <div class="tiktok-card__play"><svg><use href="#ic-drop"/></svg></div>
+          <span class="tiktok-card__label">Video próximamente</span>
+        </div>
+        <div class="tiktok-card" data-reveal="scale">
+          <div class="tiktok-card__play"><svg><use href="#ic-drop"/></svg></div>
+          <span class="tiktok-card__label">Video próximamente</span>
+        </div>
+      </div>
+      <p class="steps-note" style="margin-top:32px;" data-reveal>Espacio reservado para videos reales de TikTok. Pásame los links de tus videos y los incrusto aquí.</p>
+    </div>
+  </section>
+
+  <!-- ============ GALERÍA ============ -->
+  <section class="section section--cream">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <span class="eyebrow">Galería</span>
+        <h2>GleamXi en detalle</h2>
+      </div>
+      {% if product.images.size > 1 %}
+        <div class="gallery">
+          {% for image in product.images limit: 6 %}
+            <div class="gallery__item gallery__bg-a" data-reveal="scale">
+              <img class="product-photo" src="{{ image | image_url: width: 700 }}" alt="{{ product.title }}" width="700" height="700" loading="lazy">
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <div class="gallery">
+          <div class="gallery__item gallery__bg-a" data-reveal="scale">
+            <svg class="bottle-illustration" viewBox="0 0 240 480"><use href="#gx-bottle"/></svg>
+            <span class="gallery__caption">Producto en primer plano</span>
+          </div>
+          <div class="gallery__item gallery__bg-b" data-reveal="scale">
+            <svg style="width:26%;position:absolute;left:14%;top:10%;"><use href="#gx-rosemary-cluster"/></svg>
+            <svg class="bottle-illustration" viewBox="0 0 240 480"><use href="#gx-bottle"/></svg>
+            <span class="gallery__caption">Con hojas de romero</span>
+          </div>
+          <div class="gallery__item gallery__bg-c" data-reveal="scale">
+            <svg class="bottle-illustration" viewBox="0 0 240 480"><use href="#gx-bottle"/></svg>
+            <span class="gallery__caption">En un baño moderno</span>
+          </div>
+          <div class="gallery__item gallery__bg-d" data-reveal="scale">
+            <svg class="bottle-illustration" viewBox="0 0 240 480"><use href="#gx-bottle"/></svg>
+            <span class="gallery__caption">Sobre superficie natural</span>
+          </div>
+          <div class="gallery__item gallery__bg-e" data-reveal="scale">
+            <svg class="bottle-illustration" viewBox="0 0 240 480"><use href="#gx-bottle"/></svg>
+            <span class="gallery__caption">Aplicación del producto</span>
+          </div>
+          <div class="gallery__item gallery__bg-f" data-reveal="scale">
+            <svg style="width:30%"><use href="#ic-drop"/></svg>
+            <span class="gallery__caption">Textura del aceite</span>
+          </div>
+        </div>
+        <p class="steps-note" style="margin-top:32px;" data-reveal>Galería ilustrativa preparada como placeholder. Sube fotos reales del producto en Shopify (Productos → GleamXi → Media) y esta sección las usará automáticamente.</p>
+      {% endif %}
+    </div>
+  </section>
+
+  <!-- ============ CONFIANZA ============ -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <span class="eyebrow">Confianza</span>
+        <h2>Compra con tranquilidad</h2>
+      </div>
+      <div class="trust-grid">
+        <div class="trust-card" data-reveal>
+          <div class="trust-card__icon"><svg><use href="#ic-lock"/></svg></div>
+          <h3>Pago seguro</h3>
+          <p>Tus datos de pago se procesan de forma segura.</p>
+        </div>
+        <div class="trust-card" data-reveal>
+          <div class="trust-card__icon"><svg><use href="#ic-truck"/></svg></div>
+          <h3>Envío</h3>
+          <p>Recibe tu pedido en la dirección indicada durante la compra.</p>
+        </div>
+        <div class="trust-card" data-reveal>
+          <div class="trust-card__icon"><svg><use href="#ic-chat"/></svg></div>
+          <h3>Atención al cliente</h3>
+          <p>Estamos disponibles para ayudarte con tus preguntas.</p>
+        </div>
+        <div class="trust-card" data-reveal>
+          <div class="trust-card__icon"><svg><use href="#ic-return"/></svg></div>
+          <h3>Garantía / Devoluciones</h3>
+          <p><!-- EDITABLE: reemplaza este texto por la política real de devoluciones de tu tienda. --> Consulta nuestra política de devoluciones para conocer los plazos y condiciones aplicables.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FAQ ============ -->
+  <section class="section section--cream" id="faq">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <span class="eyebrow">Preguntas frecuentes</span>
+        <h2>FAQ</h2>
+      </div>
+      <div class="faq-list" data-reveal>
+        <details class="faq-item">
+          <summary>¿Qué es GleamXi? <span class="plus"></span></summary>
+          <div class="faq-answer">GleamXi Rosemary Hydrolyzed Keratin Smoothing Hair Oil es un aceite capilar ligero formulado con romero y queratina hidrolizada, pensado para acompañar tu rutina de cuidado del cabello.</div>
+        </details>
+        <details class="faq-item">
+          <summary>¿Cómo se utiliza? <span class="plus"></span></summary>
+          <div class="faq-answer">Aplica una pequeña cantidad en las manos, distribuye de medios a puntas y peina como de costumbre. Sigue siempre las instrucciones del empaque.</div>
+        </details>
+        <details class="faq-item">
+          <summary>¿Para qué tipo de cabello sirve? <span class="plus"></span></summary>
+          <div class="faq-answer">Su fórmula ligera está pensada para adaptarse a distintos tipos de cabello. Si tienes dudas sobre tu caso particular, te recomendamos hacer una prueba en una zona pequeña antes de la aplicación completa.</div>
+        </details>
+        <details class="faq-item">
+          <summary>¿Se puede utilizar todos los días? <span class="plus"></span></summary>
+          <div class="faq-answer">Puede incorporarse a tu rutina diaria utilizando una cantidad pequeña. Ajusta la frecuencia según la necesidad de tu cabello.</div>
+        </details>
+        <details class="faq-item">
+          <summary>¿El producto deja el cabello grasoso? <span class="plus"></span></summary>
+          <div class="faq-answer">Está formulado como un aceite ligero. Usar una cantidad moderada ayuda a evitar una sensación pesada o grasosa.</div>
+        </details>
+        <details class="faq-item">
+          <summary>¿Cuánto producto debo utilizar? <span class="plus"></span></summary>
+          <div class="faq-answer">Con una pequeña cantidad (un par de gotas) suele ser suficiente para distribuir de medios a puntas. Puedes ajustar según el largo y grosor de tu cabello.</div>
+        </details>
+        <details class="faq-item">
+          <summary>¿Cómo se debe almacenar? <span class="plus"></span></summary>
+          <div class="faq-answer">Conserva el envase bien cerrado, en un lugar fresco y seco, alejado de la luz solar directa.</div>
+        </details>
+        <details class="faq-item">
+          <summary>¿Cuánto tarda el envío? <span class="plus"></span></summary>
+          <div class="faq-answer"><!-- EDITABLE: agrega aquí el tiempo estimado de envío real de tu operador logístico. --> El tiempo de envío puede variar según tu ubicación. Este texto debe actualizarse con la información real de la tienda.</div>
+        </details>
+        <details class="faq-item">
+          <summary>¿Puedo devolver mi pedido? <span class="plus"></span></summary>
+          <div class="faq-answer"><!-- EDITABLE: agrega aquí la política real de devoluciones de tu tienda. --> Consulta la política de devoluciones de la tienda para conocer los plazos y condiciones aplicables a tu pedido.</div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ OFERTA / PRODUCTO (vista previa — el botón lleva a la página real del producto) ============ -->
+  <section class="section">
+    <div class="container">
+      <div class="offer" data-reveal>
+        <div class="offer__visual">
+          <span class="offer__badge">30 ml / 1 fl oz</span>
+          {% if product.featured_image %}
+            <img class="product-photo" src="{{ product.featured_image | image_url: width: 700 }}" alt="{{ product.title }}" width="700" height="875" loading="lazy">
+          {% else %}
+            <svg class="bottle-illustration" viewBox="0 0 240 480"><use href="#gx-bottle"/></svg>
+          {% endif %}
+        </div>
+        <div class="offer__info">
+          <span class="eyebrow">Edición actual</span>
+          <h2>GleamXi Rosemary Hydrolyzed<br>Keratin Smoothing Hair Oil</h2>
+          <p class="offer__meta">Aceite capilar de romero + queratina hidrolizada · 30 ml / 1 fl oz</p>
+          <div class="offer__price-row">
+            <span class="offer__price">{{ product.price | money }}</span>
+          </div>
+          <div class="offer__actions">
+            <a href="{{ product.url }}" class="btn btn--gold btn--block">Ver y comprar GleamXi</a>
+            <ul class="trust-row">
+              <li><svg><use href="#ic-lock"/></svg>Pago seguro</li>
+              <li><svg><use href="#ic-shield"/></svg>Compra protegida</li>
+              <li><svg><use href="#ic-chat"/></svg>Atención al cliente</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CTA FINAL ============ -->
+  <section class="cta-final">
+    <div class="container" data-reveal>
+      <h2>Convierte el cuidado de tu cabello en un ritual.</h2>
+      <p>Descubre una forma sencilla de añadir cuidado, suavidad y brillo a tu rutina.</p>
+      <a href="{{ product.url }}" class="btn btn--gold">Comprar GleamXi</a>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#top" class="nav__logo">Gleam<span>Xi</span></a>
+        <p>Aceite capilar de romero y queratina hidrolizada. Una rutina de cuidado simple, ligera y elegante.</p>
+        <div class="footer-social">
+          <a href="#" aria-label="Instagram"><svg><use href="#ic-ig"/></svg></a>
+          <a href="#" aria-label="Facebook"><svg><use href="#ic-fb"/></svg></a>
+          <a href="#" aria-label="TikTok"><svg><use href="#ic-tt"/></svg></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Tienda</h4>
+        <ul>
+          <li><a href="{{ product.url }}">Comprar GleamXi</a></li>
+          <li><a href="#beneficios">Beneficios</a></li>
+          <li><a href="#ingredientes">Ingredientes</a></li>
+          <li><a href="#resenas">Reseñas</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Ayuda</h4>
+        <ul>
+          <li><a href="#faq">Preguntas frecuentes</a></li>
+          <li><a href="{{ pages['contact'].url | default: '#' }}">Contacto</a></li>
+          <li><a href="{{ pages['shipping-policy'].url | default: '#' }}">Política de envíos</a></li>
+          <li><a href="{{ pages['return-policy'].url | default: '#' }}">Política de devoluciones</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="{{ pages['data-sharing-opt-out'].url | default: '#' }}">Política de privacidad</a></li>
+          <li><a href="{{ pages['terms-and-conditions'].url | default: '#' }}">Términos y condiciones</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contacto</h4>
+        <ul>
+          <li><a href="mailto:{{ shop.email }}">{{ shop.email }}</a></li>
+          <li><!-- EDITABLE: agrega aquí tu número o canal de atención real --> Atención al cliente disponible por mensaje</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© <span id="year"></span> {{ shop.name }}. Todos los derechos reservados.</span>
+      <div class="payment-icons">
+        <span>VISA</span>
+        <span>MASTERCARD</span>
+        <span>AMEX</span>
+        <span>PAYPAL</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ============ MOBILE STICKY BUY BAR ============ -->
+<div class="mobile-buybar">
+  <div class="mobile-buybar__info">
+    <small>GleamXi · 30 ml</small>
+    <strong>{{ product.price | money }}</strong>
+  </div>
+  <a href="{{ product.url }}" class="btn btn--gold">Comprar</a>
+</div>
+
+<script src="{{ 'gleamxi.js' | asset_url }}" defer></script>
+</body>
+</html>
