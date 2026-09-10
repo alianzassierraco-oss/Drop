@@ -642,6 +642,90 @@ a { color: inherit; text-decoration: none; }
   .tiktok-grid .tiktok-card:nth-child(2) { display: none; }
 }
 
+/* ---------- Product page (PDP) ---------- */
+.pdp-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--c-ink-soft);
+  margin-bottom: 32px;
+  transition: color 0.3s var(--ease);
+}
+.pdp-back:hover { color: var(--c-dark); }
+.pdp-back svg { width: 16px; height: 16px; }
+
+.pdp-grid {
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: 64px;
+  align-items: start;
+}
+
+.pdp-gallery {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  position: sticky;
+  top: 100px;
+}
+.pdp-gallery__item {
+  border-radius: var(--radius-m);
+  overflow: hidden;
+  background: var(--c-cream);
+  aspect-ratio: 1 / 1;
+}
+.pdp-gallery__item--main { grid-column: span 2; }
+.pdp-gallery__item img { width: 100%; height: 100%; object-fit: cover; }
+.pdp-gallery__item--empty {
+  display: flex; align-items: center; justify-content: center;
+  color: var(--c-ink-soft); font-size: 13px;
+}
+
+.pdp-buy .eyebrow { margin-bottom: 12px; }
+.pdp-title {
+  font-size: clamp(28px, 3.6vw, 42px);
+  line-height: 1.15;
+  margin-bottom: 10px;
+}
+.pdp-meta { font-size: 14.5px; margin-bottom: 22px; }
+.pdp-price {
+  font-family: var(--f-display);
+  font-size: 42px;
+  color: var(--c-dark);
+  margin-bottom: 28px;
+}
+.pdp-buy .qty { margin-bottom: 18px; }
+.pdp-trust { margin-top: 22px; gap: 20px; }
+.pdp-trust li { color: var(--c-ink-soft); }
+.pdp-trust svg { color: var(--c-gold-deep); }
+
+.pdp-desc {
+  margin-top: 36px;
+  padding-top: 32px;
+  border-top: 1px solid rgba(15,31,23,0.12);
+  font-size: 15px;
+  color: var(--c-ink-soft);
+  line-height: 1.75;
+}
+.pdp-desc h2, .pdp-desc h3 { font-size: 20px; margin: 26px 0 10px; }
+.pdp-desc ul, .pdp-desc ol { padding-left: 20px; margin: 0 0 16px; }
+.pdp-desc li { margin-bottom: 6px; }
+.pdp-desc hr { border: none; border-top: 1px solid rgba(15,31,23,0.1); margin: 26px 0; }
+
+@media (max-width: 900px) {
+  .pdp-grid { grid-template-columns: 1fr; gap: 36px; }
+  .pdp-gallery { position: static; }
+}
+
+/* Reviews on a light background */
+.reviews-grid--light .review-card {
+  background: var(--c-cream);
+  border-color: rgba(15,31,23,0.1);
+}
+
 /* ---------- Gallery ---------- */
 .gallery {
   display: grid;
