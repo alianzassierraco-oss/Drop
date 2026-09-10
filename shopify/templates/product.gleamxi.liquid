@@ -9,6 +9,13 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+{%- comment -%}
+  Obligatorio: Shopify inyecta aquí los píxeles (TikTok, Meta, Google), las analíticas
+  y los scripts de las apps (EasySell COD, Releasit, Dropify). Sin esta línea, en esta
+  plantilla no se mide nada y las apps no cargan.
+{%- endcomment -%}
+{{ content_for_header }}
 <title>{{ product.title }} — {{ shop.name }}</title>
 <meta name="description" content="{{ product.description | strip_html | truncate: 160 }}" />
 <link rel="preconnect" href="https://fonts.googleapis.com">

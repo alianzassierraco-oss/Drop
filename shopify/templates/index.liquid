@@ -10,6 +10,13 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+{%- comment -%}
+  Obligatorio: Shopify inyecta aquí los píxeles (TikTok, Meta, Google), las analíticas
+  y los scripts de las apps (EasySell COD, Releasit, Dropify). Sin esta línea, en esta
+  plantilla no se mide nada y las apps no cargan.
+{%- endcomment -%}
+{{ content_for_header }}
 <title>{{ product.title | default: 'GleamXi — Rosemary Hydrolyzed Keratin Smoothing Hair Oil' }}</title>
 <meta name="description" content="GleamXi Rosemary Hydrolyzed Keratin Smoothing Hair Oil. Aceite capilar de romero y queratina hidrolizada para una apariencia más suave, luminosa y manejable." />
 <link rel="preconnect" href="https://fonts.googleapis.com">
