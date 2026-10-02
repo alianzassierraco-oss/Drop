@@ -1,0 +1,5 @@
+anthropic>=1.11.0
+flask>=3.0
+pillow>=10.1
+imageio-ffmpeg>=0.5
+yt-dlp>=2025.1.1

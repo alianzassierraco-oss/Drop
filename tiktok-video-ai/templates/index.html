@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TikTok Video AI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800&family=Manrope:wght@400;500;700&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Layout: estudio de edición oscuro — panel de entrada a la izquierda, "teléfono" 9:16 de vista previa a la derecha */
+:root {
+  color-scheme: dark;
+  --bg: #05070d;
+  --panel: #0b1020;
+  --line: #1a2440;
+  --fg: #e8eeff;
+  --muted: #8291b8;
+  --blue: #2f7bff;
+  --cyan: #19d3ff;
+  --danger: #ff5a6e;
+  --display: "Unbounded", "Arial Black", sans-serif;
+  --body: "Manrope", system-ui, -apple-system, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body {
+  background: var(--bg);
+  background-image:
+    radial-gradient(900px 500px at 85% -10%, rgba(47,123,255,.22), transparent 60%),
+    radial-gradient(700px 400px at -10% 110%, rgba(25,211,255,.10), transparent 60%);
+  background-attachment: fixed;
+  color: var(--fg);
+  font: 15px/1.6 var(--body);
+  min-height: 100vh;
+}
+.wrap { max-width: 1180px; margin: 0 auto; padding-inline: 20px; padding-block: 28px 60px; }
+header { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 36px; }
+.brand { display: flex; align-items: center; gap: 12px; font-family: var(--display); font-weight: 700; letter-spacing: -.01em; font-size: 18px; }
+.logo { width: 34px; height: 34px; border-radius: 10px; background: linear-gradient(135deg, var(--blue), var(--cyan)); display: grid; place-items: center; box-shadow: 0 0 24px rgba(47,123,255,.6); }
+.logo svg { width: 16px; height: 16px; fill: #05070d; }
+.icon-btn { background: transparent; border: 1px solid var(--line); color: var(--fg); border-radius: 10px; padding: 8px 14px; font: 500 13px var(--body); cursor: pointer; display: flex; gap: 8px; align-items: center; }
+.icon-btn:hover { border-color: var(--blue); }
+.dot { width: 8px; height: 8px; border-radius: 50%; background: var(--danger); }
+.dot.ok { background: #36e39a; }
+
+h1 { font-family: var(--display); font-weight: 800; font-size: clamp(32px, 5.4vw, 64px); line-height: 1.02; letter-spacing: -.03em; margin: 0 0 14px; text-wrap: balance; }
+h1 span { background: linear-gradient(90deg, var(--blue), var(--cyan)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.lead { color: var(--muted); max-width: 58ch; margin: 0 0 36px; font-size: 16px; }
+
+.grid { display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: 28px; align-items: start; }
+@media (max-width: 900px) { .grid { grid-template-columns: 1fr; } }
+
+form { display: grid; gap: 20px; min-width: 0; }
+.label { font: 500 11px var(--mono); text-transform: uppercase; letter-spacing: .12em; color: var(--muted); margin-bottom: 8px; display: block; }
+.drop {
+  border: 1.5px dashed #2a3a66; border-radius: 18px; padding: 34px 20px; text-align: center; cursor: pointer;
+  background: rgba(11,16,32,.6); transition: border-color .2s, background .2s;
+}
+.drop:hover, .drop.over { border-color: var(--cyan); background: rgba(47,123,255,.08); }
+.drop strong { font-family: var(--display); font-weight: 500; font-size: 16px; display: block; margin-bottom: 4px; }
+.drop small { color: var(--muted); }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.chip { background: #111a33; border: 1px solid var(--line); border-radius: 999px; padding: 4px 12px; font-size: 12px; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+textarea, input[type=number], input[type=password] {
+  width: 100%; background: var(--panel); border: 1px solid var(--line); color: var(--fg); border-radius: 12px;
+  padding: 12px 14px; font: 14px var(--body); resize: vertical;
+}
+textarea:focus, input:focus, .drop:focus-visible, button:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+.row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+@media (max-width: 560px) { .row { grid-template-columns: 1fr; } }
+.presets { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+.preset { background: transparent; border: 1px solid var(--line); color: var(--muted); border-radius: 999px; padding: 5px 12px; font: 12px var(--body); cursor: pointer; }
+.preset:hover { color: var(--fg); border-color: var(--blue); }
+.go {
+  border: 0; border-radius: 14px; padding: 18px; cursor: pointer; color: #fff;
+  font: 700 15px var(--display); letter-spacing: .02em;
+  background: linear-gradient(90deg, var(--blue), #3d5bff 60%, var(--cyan));
+  box-shadow: 0 10px 40px -10px rgba(47,123,255,.8);
+  transition: transform .15s, box-shadow .15s;
+}
+.go:hover { transform: translateY(-1px); box-shadow: 0 14px 50px -10px rgba(25,211,255,.8); }
+.go:disabled { opacity: .5; cursor: wait; transform: none; }
+
+.phone {
+  position: sticky; top: 20px; aspect-ratio: 9 / 16; max-width: 100%; border-radius: 34px; padding: 10px;
+  background: linear-gradient(160deg, #1b2850, #070b17); box-shadow: 0 30px 80px -30px rgba(47,123,255,.7), inset 0 0 0 1px #24345f;
+}
+.screen { width: 100%; height: 100%; border-radius: 26px; background: #000; overflow: hidden; display: grid; place-items: center; position: relative; }
+.screen video { width: 100%; height: 100%; object-fit: cover; }
+.idle { text-align: center; padding: 24px; color: var(--muted); font-size: 13px; }
+.idle b { display: block; font: 700 22px var(--display); color: var(--fg); margin-bottom: 6px; }
+.spinner { width: 46px; height: 46px; border-radius: 50%; border: 3px solid #1a2440; border-top-color: var(--cyan); animation: spin 1s linear infinite; margin: 0 auto 16px; }
+@keyframes spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .spinner { animation-duration: 3s; } .go { transition: none; } }
+
+.result { margin-top: 40px; display: grid; gap: 16px; }
+.card { background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 20px; min-width: 0; }
+.card h3 { font: 700 15px var(--display); margin: 0 0 10px; }
+.card p { margin: 0; white-space: pre-wrap; }
+.tags { color: var(--cyan); font-family: var(--mono); font-size: 13px; }
+.actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.btn2 { background: #111a33; border: 1px solid var(--line); color: var(--fg); border-radius: 10px; padding: 10px 16px; font: 600 13px var(--body); cursor: pointer; text-decoration: none; }
+.btn2:hover { border-color: var(--blue); }
+.err { color: var(--danger); font-weight: 600; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+td, th { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--line); }
+th { font: 500 11px var(--mono); color: var(--muted); text-transform: uppercase; letter-spacing: .1em; }
+td.n { font-family: var(--mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.scroll { overflow-x: auto; }
+
+dialog { background: var(--panel); color: var(--fg); border: 1px solid var(--line); border-radius: 18px; padding: 24px; max-width: 440px; width: calc(100% - 32px); }
+dialog::backdrop { background: rgba(0,0,0,.7); }
+dialog h2 { font: 700 18px var(--display); margin: 0 0 8px; }
+dialog p { color: var(--muted); font-size: 13px; margin: 0 0 16px; }
+dialog a { color: var(--cyan); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand"><div class="logo"><svg viewBox="0 0 10 10"><path d="M2 1 L9 5 L2 9 Z"/></svg></div>TikTok Video AI</div>
+    <button class="icon-btn" id="keyBtn" type="button"><span class="dot {{ 'ok' if has_key else '' }}" id="keyDot"></span>API key</button>
+  </header>
+
+  <h1>Sube tus TikToks.<br><span>La IA edita uno nuevo.</span></h1>
+  <p class="lead">La IA mira tus videos, encuentra los mejores momentos, los recorta y los une en un video vertical nuevo con textos en pantalla, caption y hashtags listos para publicar.</p>
+
+  <div class="grid">
+    <form id="form">
+      <div>
+        <span class="label">1 · Videos de TikTok</span>
+        <div class="drop" id="drop" tabindex="0" role="button">
+          <strong>Arrastra tus videos aquí</strong>
+          <small>o haz clic para elegirlos · MP4 o MOV · puedes subir varios</small>
+          <input type="file" id="videos" name="videos" accept="video/*" multiple hidden>
+        </div>
+        <div class="chips" id="chips"></div>
+      </div>
+
+      <div>
+        <label class="label" for="links">…o pega links de TikTok (uno por línea)</label>
+        <textarea id="links" name="links" rows="2" placeholder="https://www.tiktok.com/@usuario/video/123…"></textarea>
+      </div>
+
+      <div>
+        <label class="label" for="instrucciones">2 · ¿Qué video quieres?</label>
+        <textarea id="instrucciones" name="instrucciones" rows="4">Haz un video promocional para mi aceite capilar de romero y queratina. Empieza con un gancho fuerte, muestra el antes y después y termina con "Compra ahora, link en la bio".</textarea>
+        <div class="presets">
+          <button type="button" class="preset" data-p="Haz un resumen viral con los momentos más impactantes, con textos llamativos.">Resumen viral</button>
+          <button type="button" class="preset" data-p="Haz un anuncio para vender mi producto: gancho, problema, solución, beneficios y llamado a la acción.">Anuncio de venta</button>
+          <button type="button" class="preset" data-p="Haz un video tipo tutorial paso a paso, con un texto corto que explique cada paso.">Tutorial</button>
+          <button type="button" class="preset" data-p="Haz un video tipo 'antes y después' muy dinámico con cortes rápidos.">Antes y después</button>
+        </div>
+      </div>
+
+      <div class="row">
+        <div>
+          <label class="label" for="duracion">Duración (segundos)</label>
+          <input type="number" id="duracion" name="duracion" value="20" min="5" max="90">
+        </div>
+        <div>
+          <label class="label" for="musica">Música de fondo (opcional)</label>
+          <input type="file" id="musica" name="musica" accept="audio/*" class="btn2" style="width:100%">
+        </div>
+      </div>
+
+      <button class="go" id="go" type="submit">Crear video con IA</button>
+    </form>
+
+    <div class="phone"><div class="screen" id="screen">
+      <div class="idle"><b>9:16</b>Tu video aparecerá aquí</div>
+    </div></div>
+  </div>
+
+  <section class="result" id="result" hidden></section>
+</div>
+
+<dialog id="keyDlg">
+  <form method="dialog" id="keyForm">
+    <h2>Tu API key de Anthropic</h2>
+    <p>La app usa a Claude para ver y editar tus videos. Crea una key en <a href="https://console.anthropic.com/settings/keys" target="_blank" rel="noopener">console.anthropic.com</a> y pégala aquí. Se guarda solo en tu Mac.</p>
+    <input type="password" id="keyInput" placeholder="sk-ant-…" autocomplete="off">
+    <div class="actions" style="margin-top:16px">
+      <button class="go" style="padding:12px 18px" id="keySave" value="save">Guardar</button>
+      <button class="btn2" value="cancel">Cancelar</button>
+    </div>
+  </form>
+</dialog>
+
+<script>
+const $ = (s) => document.querySelector(s);
+const drop = $('#drop'), input = $('#videos'), chips = $('#chips');
+let files = [];
+
+function showChips() {
+  chips.innerHTML = '';
+  files.forEach(f => { const c = document.createElement('span'); c.className = 'chip'; c.textContent = '🎬 ' + f.name; chips.appendChild(c); });
+}
+drop.onclick = () => input.click();
+drop.onkeydown = (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); input.click(); } };
+input.onchange = () => { files = files.concat([...input.files]); showChips(); };
+['dragenter','dragover'].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.add('over'); }));
+['dragleave','drop'].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.remove('over'); }));
+drop.addEventListener('drop', e => { files = files.concat([...e.dataTransfer.files].filter(f => f.type.startsWith('video'))); showChips(); });
+document.querySelectorAll('.preset').forEach(b => b.onclick = () => { $('#instrucciones').value = b.dataset.p; });
+
+// API key
+const dlg = $('#keyDlg');
+$('#keyBtn').onclick = () => dlg.showModal();
+$('#keySave').onclick = async (e) => {
+  e.preventDefault();
+  const r = await fetch('/api/key', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ api_key: $('#keyInput').value }) });
+  if (r.ok) { $('#keyDot').classList.add('ok'); dlg.close(); }
+};
+if (!$('#keyDot').classList.contains('ok')) dlg.showModal();
+
+const screen = $('#screen'), result = $('#result'), go = $('#go');
+function esc(s) { const d = document.createElement('div'); d.textContent = s ?? ''; return d.innerHTML; }
+
+$('#form').onsubmit = async (e) => {
+  e.preventDefault();
+  const fd = new FormData();
+  files.forEach(f => fd.append('videos', f));
+  fd.append('links', $('#links').value);
+  fd.append('instrucciones', $('#instrucciones').value);
+  fd.append('duracion', $('#duracion').value);
+  if ($('#musica').files[0]) fd.append('musica', $('#musica').files[0]);
+
+  go.disabled = true; result.hidden = true;
+  screen.innerHTML = '<div class="idle"><div class="spinner"></div><b>Creando…</b><span id="st">Subiendo videos…</span></div>';
+  const r = await fetch('/api/crear', { method: 'POST', body: fd });
+  const data = await r.json();
+  if (!r.ok) return fail(data.error);
+  poll(data.job_id);
+};
+
+function fail(msg) {
+  go.disabled = false;
+  screen.innerHTML = `<div class="idle"><b>Ups</b><span class="err">${esc(msg)}</span></div>`;
+}
+
+async function poll(id) {
+  const r = await fetch('/api/estado/' + id);
+  const j = await r.json();
+  if (j.error) return fail(j.error);
+  const st = document.getElementById('st'); if (st) st.textContent = j.status;
+  if (!j.done) return setTimeout(() => poll(id), 1500);
+  go.disabled = false;
+  const src = '/videos/' + j.video;
+  screen.innerHTML = `<video src="${src}" controls autoplay playsinline loop></video>`;
+  const p = j.plan;
+  const rows = p.segmentos.map((s, i) => `<tr><td class="n">${i + 1}</td><td class="n">Video ${s.video}</td><td class="n">${s.inicio.toFixed(1)}s → ${s.fin.toFixed(1)}s</td><td>${esc(s.texto)}</td></tr>`).join('');
+  const caption = p.caption + '\n\n' + p.hashtags.map(h => h.startsWith('#') ? h : '#' + h).join(' ');
+  result.innerHTML = `
+    <div class="card"><h3>${esc(p.titulo)}</h3>
+      <div class="actions"><a class="btn2" href="${src}" download>Descargar video</a><button class="btn2" id="copy">Copiar caption + hashtags</button></div></div>
+    <div class="card"><h3>Caption</h3><p>${esc(p.caption)}</p><p class="tags" style="margin-top:10px">${esc(p.hashtags.join(' '))}</p></div>
+    <div class="card"><h3>Lo que la IA vio en tus videos</h3><p>${esc(p.analisis)}</p></div>
+    <div class="card"><h3>Guion para voz en off</h3><p>${esc(p.guion_voz)}</p></div>
+    <div class="card"><h3>Plan de edición</h3><div class="scroll"><table><tr><th>#</th><th>Fuente</th><th>Tiempo</th><th>Texto en pantalla</th></tr>${rows}</table></div></div>`;
+  result.hidden = false;
+  $('#copy').onclick = (ev) => navigator.clipboard.writeText(caption).then(() => ev.target.textContent = '¡Copiado!');
+}
+</script>
+</body>
+</html>
