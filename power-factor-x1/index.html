@@ -85,7 +85,7 @@
 
   /* ---------- TIMER ---------- */
   .timer{display:flex;gap:8px;margin:4px 0 22px}
-  .timer .u{background:#fff;color:var(--ink);border-radius:12px;min-width:66px;padding:8px 6px;text-align:center;box-shadow:0 4px 0 rgba(0,0,0,.25)}
+  .timer .u{background:#fff;color:var(--ink);border-radius:12px;min-width:86px;padding:8px 6px;text-align:center;box-shadow:0 4px 0 rgba(0,0,0,.25)}
   .timer .u b{display:block;font-family:Anton,sans-serif;font-size:32px;line-height:1;font-variant-numeric:tabular-nums}
   .timer .u small{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase}
   .timer-label{font-weight:800;color:var(--yellow);text-transform:uppercase;font-size:14px;letter-spacing:.5px}
@@ -303,7 +303,7 @@
 
 <!-- ================= PROMO BAR ================= -->
 <div class="promobar">
-  🔥 PROMO <b>2x1</b> — Lleva 2 por $99.900 · ⏰ Tiempo limitado · Termina en <span class="mini-timer" data-mini>--:--:--</span>
+  🔥 PROMO <b>2x1</b> — Lleva 2 por $99.900 · ⏰ Tu oferta vence en <span class="mini-timer" data-mini>--:--:--</span>
 </div>
 
 <!-- ================= HEADER ================= -->
@@ -330,10 +330,8 @@
         <div class="price">$99.900<small>2 unidades · Precio normal $79.900 c/u</small></div>
       </div>
 
-      <div class="timer-label">⏰ La promo termina en:</div>
+      <div class="timer-label">⏰ Tu 2x1 está reservado por:</div>
       <div class="timer" data-timer>
-        <div class="u"><b data-d>00</b><small>Días</small></div>
-        <div class="u"><b data-h>00</b><small>Horas</small></div>
         <div class="u"><b data-m>00</b><small>Min</small></div>
         <div class="u"><b data-s>00</b><small>Seg</small></div>
       </div>
@@ -542,19 +540,17 @@
         <h2>Ahorrador De Energía Power Factor X1 <span class="tag-2x1">2x1</span></h2>
         <div class="price" style="margin:12px 0 16px">$99.900<small>2 unidades · precio normal por unidad $79.900 (COP)</small></div>
 
-        <div class="timer-label">⏰ Termina en:</div>
+        <div class="timer-label">⏰ Tu precio 2x1 vence en:</div>
         <div class="timer" data-timer>
-          <div class="u"><b data-d>00</b><small>Días</small></div>
-          <div class="u"><b data-h>00</b><small>Horas</small></div>
           <div class="u"><b data-m>00</b><small>Min</small></div>
           <div class="u"><b data-s>00</b><small>Seg</small></div>
         </div>
 
-        <div class="ended-msg">La promoción 2x1 ha finalizado. Puedes seguir comprando por unidad a $79.900.</div>
+        <div class="ended-msg">Tu tiempo para el 2x1 terminó. Puedes seguir comprando por unidad a $79.900.</div>
 
         <div class="packs">
           <label class="pack"><input type="radio" name="pack" value="1"><span class="p-name">1 unidad<small>Precio normal</small></span><span class="p-price">$79.900</span></label>
-          <label class="pack"><span class="best">🔥 PROMO · AHORRAS $59.900</span><input type="radio" name="pack" value="2" checked><span class="p-name">Lleva 2 · 2x1<small>Te llevas 2 por casi el precio de 1</small><span class="limit">⏰ TIEMPO LIMITADO · <span data-mini>--:--:--</span></span></span><span class="p-price" style="color:var(--red)">$99.900</span></label>
+          <label class="pack"><span class="best">🔥 PROMO · AHORRAS $59.900</span><input type="radio" name="pack" value="2" checked><span class="p-name">Lleva 2 · 2x1<small>Te llevas 2 por casi el precio de 1</small><span class="limit">⏰ SOLO 15 MINUTOS · <span data-mini>--:--:--</span></span></span><span class="p-price" style="color:var(--red)">$99.900</span></label>
         </div>
 
         <div class="qty">
@@ -651,7 +647,7 @@
     <h2 class="rv">Preguntas frecuentes</h2>
     <p class="lead rv">Resolvemos tus dudas antes de comprar.</p>
     <div class="faq rv">
-      <details><summary>¿En qué consiste la promoción 2x1?</summary><p>El precio normal es $79.900 COP por unidad. Con la promo pagas $99.900 COP y recibes 2 unidades del Power Factor X1. La promoción es válida hasta la fecha que indica el contador o hasta agotar existencias.</p></details>
+      <details><summary>¿En qué consiste la promoción 2x1?</summary><p>El precio normal es $79.900 COP por unidad. Con la promo pagas $99.900 COP y recibes 2 unidades del Power Factor X1. Al entrar a la página tu precio 2x1 queda reservado por 15 minutos. Cuando el contador llega a cero, la oferta vence y el precio vuelve a $79.900 por unidad.</p></details>
       <details><summary>¿Cómo se instala?</summary><p>Solo lo conectas a un tomacorriente. Cuando la franja verde se enciende, el dispositivo está activo. No requiere herramientas ni cableado.</p></details>
       <details><summary>¿Cuánto voy a ahorrar en mi factura?</summary><p>No podemos prometer un porcentaje de ahorro. En los hogares el medidor registra principalmente la energía activa que consumen tus aparatos, así que el efecto en la factura depende de tu instalación, tus equipos y tus hábitos de consumo. Lo que más reduce la factura sigue siendo apagar lo que no usas y usar equipos eficientes.</p></details>
       <details><summary>¿Con qué voltaje funciona?</summary><p>Según el fabricante, funciona entre 90 V y 250 V a 50/60 Hz, por lo que es compatible con la red eléctrica doméstica de Colombia (110–120 V).</p></details>
@@ -667,12 +663,10 @@
 <!-- ================= CTA FINAL ================= -->
 <section class="final">
   <div class="wrap">
-    <div class="chip rv" style="background:var(--ink);border-color:var(--ink);color:var(--yellow)">⏰ TIEMPO LIMITADO</div>
+    <div class="chip rv" style="background:var(--ink);border-color:var(--ink);color:var(--yellow)">⏰ OFERTA DE 15 MINUTOS</div>
     <h2 class="rv">¡Lleva 2 por <span>$99.900</span>!</h2>
-    <p class="rv">Deja de solo quejarte del recibo y empieza a cuidar tu energía. Una para tu casa y otra para regalar, para la oficina o para el negocio. La promo 2x1 es por tiempo limitado.</p>
+    <p class="rv">Deja de solo quejarte del recibo y empieza a cuidar tu energía. Una para tu casa y otra para regalar, para la oficina o para el negocio. Tu precio 2x1 se reserva solo por 15 minutos.</p>
     <div class="timer rv" data-timer>
-      <div class="u"><b data-d>00</b><small>Días</small></div>
-      <div class="u"><b data-h>00</b><small>Horas</small></div>
       <div class="u"><b data-m>00</b><small>Min</small></div>
       <div class="u"><b data-s>00</b><small>Seg</small></div>
     </div>
@@ -706,7 +700,7 @@
         <div class="pay"><span>VISA</span><span>MASTERCARD</span><span>PSE</span><span>NEQUI</span></div>
       </div>
     </div>
-    <div class="legal">© <span id="yr"></span> Power Factor X1. Promoción 2x1 válida hasta la fecha indicada o hasta agotar existencias. Las funciones descritas corresponden a la información del fabricante; el ahorro en la factura de energía no está garantizado y depende del consumo de cada hogar. Ilustraciones de referencia.</div>
+    <div class="legal">© <span id="yr"></span> Power Factor X1. Promoción 2x1 válida por 15 minutos desde tu primera visita o hasta agotar existencias. Las funciones descritas corresponden a la información del fabricante; el ahorro en la factura de energía no está garantizado y depende del consumo de cada hogar. Ilustraciones de referencia.</div>
   </div>
 </footer>
 
@@ -721,8 +715,8 @@
    CONFIGURACIÓN — edita estos valores
 ========================================================== */
 const CONFIG = {
-  // Fecha REAL en que termina la promo 2x1 (hora Colombia, -05:00).
-  promoEnd: "2026-10-31T23:59:59-05:00",
+  // Minutos que dura la oferta 2x1 para cada visitante (cuenta desde su primera visita)
+  offerMinutes: 15,
   // Precios en COP
   unitPrice: 79900,           // 1 unidad
   comboPrice: 99900,          // promo 2x1 (2 unidades)
@@ -735,27 +729,31 @@ const CONFIG = {
 const fmt = n => "$" + n.toLocaleString("es-CO");
 const pad = n => String(n).padStart(2, "0");
 
-/* ---------- Contador real hasta CONFIG.promoEnd ---------- */
-const end = new Date(CONFIG.promoEnd).getTime();
+/* ---------- Contador de 15 minutos por visitante ----------
+   Empieza en la primera visita y se guarda en el navegador: recargar la
+   página NO lo reinicia. Al llegar a cero, el 2x1 se desactiva de verdad. */
+const KEY = "pfx1_offer_start";
+let start = Date.now();
+try {
+  const saved = Number(localStorage.getItem(KEY));
+  if (saved) start = saved; else localStorage.setItem(KEY, String(start));
+} catch (e) {}
+const end = start + CONFIG.offerMinutes * 6e4;
 function tick(){
   let diff = Math.max(0, end - Date.now());
-  const d = Math.floor(diff / 864e5); diff -= d * 864e5;
-  const h = Math.floor(diff / 36e5);  diff -= h * 36e5;
-  const m = Math.floor(diff / 6e4);   diff -= m * 6e4;
+  const m = Math.floor(diff / 6e4); diff -= m * 6e4;
   const s = Math.floor(diff / 1e3);
   document.querySelectorAll("[data-timer]").forEach(t => {
-    t.querySelector("[data-d]").textContent = pad(d);
-    t.querySelector("[data-h]").textContent = pad(h);
     t.querySelector("[data-m]").textContent = pad(m);
     t.querySelector("[data-s]").textContent = pad(s);
   });
-  const mini = (d > 0 ? d + "d " : "") + pad(h) + ":" + pad(m) + ":" + pad(s);
-  document.querySelectorAll("[data-mini]").forEach(e => e.textContent = mini);
-  if (end - Date.now() <= 0){
+  document.querySelectorAll("[data-mini]").forEach(e => e.textContent = pad(m) + ":" + pad(s));
+  if (end - Date.now() <= 0 && !document.body.classList.contains("promo-ended")){
     document.body.classList.add("promo-ended");
     document.querySelectorAll("[data-timer]").forEach(t => t.classList.add("ended"));
-    document.querySelectorAll("[data-mini]").forEach(e => e.textContent = "finalizada");
+    document.querySelectorAll("[data-mini]").forEach(e => e.textContent = "vencida");
     clearInterval(timerId);
+    if (window.pfReady) endPromo();
   }
 }
 const timerId = setInterval(tick, 1000); tick();
@@ -780,11 +778,14 @@ document.querySelectorAll("[data-qty]").forEach(b => b.addEventListener("click",
   qty = Math.min(10, Math.max(1, qty + Number(b.dataset.qty))); renderQty();
 }));
 document.querySelectorAll('input[name="pack"]').forEach(r => r.addEventListener("change", renderQty));
-if (document.body.classList.contains("promo-ended")){
+function endPromo(){
   const two = document.querySelector('input[name="pack"][value="2"]');
   two.disabled = true; two.closest(".pack").style.opacity = .45;
   document.querySelector('input[name="pack"][value="1"]').checked = true;
+  renderQty();
 }
+if (document.body.classList.contains("promo-ended")) endPromo();
+window.pfReady = true;
 renderQty();
 
 /* ---------- Botón de compra ---------- */
