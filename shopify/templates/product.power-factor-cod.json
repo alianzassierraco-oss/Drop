@@ -1,26 +1,7 @@
 {
+  "layout": "pf-product",
   "sections": {
-    "pf_buybox": {
-      "type": "pf-buybox",
-      "settings": {}
-    },
-    "pf_dolor": {
-      "type": "pf-dolor",
-      "settings": {}
-    },
-    "pf_funciones": {
-      "type": "pf-funciones",
-      "settings": {}
-    },
-    "pf_resenas": {
-      "type": "pf-resenas",
-      "settings": {}
-    }
+    "pf_buybox": {"type": "pf-buybox", "settings": {}}
   },
-  "order": [
-    "pf_buybox",
-    "pf_dolor",
-    "pf_funciones",
-    "pf_resenas"
-  ]
+  "order": ["pf_buybox"]
 }

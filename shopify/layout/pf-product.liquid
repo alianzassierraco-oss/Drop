@@ -5,6 +5,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{{ pf.title }} – Lleva 2 por $99.900</title>
+<link rel="canonical" href="{{ canonical_url }}">
 <meta name="description" content="{{ pf.title }}. Lleva 2 por $99.900 por tiempo limitado.">
 {{ content_for_header }}
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -26,6 +27,7 @@
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth}
+  #comprar{scroll-margin-top:70px}
   body{font-family:Poppins,system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.5;overflow-x:hidden}
   img,svg{display:block;max-width:100%}
   a{color:inherit}
@@ -317,63 +319,12 @@
       <span class="bolt"><svg width="20" height="20" fill="#0B1630"><use href="#bolt"/></svg></span>
       <span>Power Factor <em>X1</em></span>
     </a>
-    <a href="{{ pf.url }}" class="btn btn-sm header-cta">Comprar 2x1 ⚡</a>
+    <a href="#comprar" class="btn btn-sm header-cta">Comprar 2x1 ⚡</a>
   </div>
 </header>
 
-<!-- ================= HERO ================= -->
-<section class="hero">
-  <div class="wrap">
-    <div class="rv">
-      <div class="chip"><i></i> ¿Cansado de que la factura de luz suba cada mes?</div>
-      <h1>Ahorrador de <span class="y">Energía</span><br>Power Factor <span class="g">X1</span></h1>
-      <p class="sub">Precio normal $79.900 por unidad. Hoy te llevas <b style="color:#FFD60A">2 por $99.900</b>. Conéctalo, se enciende la luz verde y listo. Un dispositivo compacto que, según el fabricante, ayuda a estabilizar el voltaje y mejorar el factor de potencia de tus aparatos.</p>
-
-      <div class="price-row">
-        <div class="burst"><div><span>2x1</span><small>¡PROMO!</small></div></div>
-        <div class="price">$99.900<small>2 unidades · Precio normal $79.900 c/u</small></div>
-      </div>
-
-      <div class="timer-label">⏰ La promo termina en:</div>
-      <div class="timer" data-timer>
-        <div class="u"><b data-d>00</b><small>Días</small></div>
-        <div class="u"><b data-h>00</b><small>Horas</small></div>
-        <div class="u"><b data-m>00</b><small>Min</small></div>
-        <div class="u"><b data-s>00</b><small>Seg</small></div>
-      </div>
-
-      <a href="{{ pf.url }}" class="btn btn-promo pulse">¡Quiero mi 2x1! ⚡</a>
-      <div class="trust-mini"><span>Compra segura</span><span>Pago protegido</span><span>Atención al cliente</span></div>
-    </div>
-
-    <!-- Ilustración hero: toma de pared + dispositivo -->
-    <div class="hero-art rv">
-      <svg viewBox="0 0 440 440" role="img" aria-label="Ilustración del Power Factor X1 conectado a la pared">
-        <defs>
-          <radialGradient id="halo"><stop offset="0" stop-color="#22E06B" stop-opacity=".45"/><stop offset="1" stop-color="#22E06B" stop-opacity="0"/></radialGradient>
-        </defs>
-        <circle cx="220" cy="220" r="210" fill="url(#halo)"/>
-        <!-- rayos -->
-        <g fill="#FFD60A" opacity=".9">
-          <use href="#bolt" x="30" y="60" width="46" height="46"/>
-          <use href="#bolt" x="370" y="110" width="38" height="38"/>
-          <use href="#bolt" x="352" y="330" width="44" height="44"/>
-          <use href="#bolt" x="48" y="320" width="32" height="32"/>
-        </g>
-        <!-- placa de pared -->
-        <rect x="110" y="70" width="220" height="220" rx="22" fill="#E9EDF4" stroke="#C3CBD8" stroke-width="3"/>
-        <rect x="128" y="88" width="184" height="184" rx="14" fill="#F7F9FC"/>
-        <!-- dispositivo -->
-        <use href="#dev" x="140" y="120" width="160" height="250" filter="url(#shadow)"/>
-        <!-- sticker -->
-        <g transform="translate(300 300) rotate(12)">
-          <rect x="-10" y="0" width="120" height="44" rx="10" fill="#FF2E3B"/>
-          <text x="50" y="29" text-anchor="middle" font-family="Anton,sans-serif" font-size="22" fill="#fff">PLUG&amp;PLAY</text>
-        </g>
-      </svg>
-    </div>
-  </div>
-</section>
+<!-- ================= BLOQUE DE COMPRA (sección pf-buybox del producto, con Releasit) ================= -->
+<div id="comprar">{{ content_for_layout }}</div>
 
 <!-- ================= DOLOR ================= -->
 <section class="pain">
@@ -405,7 +356,7 @@
         <div>🧊 No dejes la puerta de la nevera abierta</div>
         <div>💡 Cambia a bombillos LED</div>
       </div>
-      <a href="{{ pf.url }}" class="btn btn-promo pulse">¡Quiero tomar el control! · 2x1 ⚡</a>
+      <a href="#comprar" class="btn btn-promo pulse">¡Quiero tomar el control! · 2x1 ⚡</a>
     </div>
   </div>
 </section>
@@ -439,7 +390,7 @@
     </div>
     <p class="note rv">Las funciones descritas son las indicadas por el fabricante. Los resultados varían según la instalación eléctrica y los equipos de cada hogar.</p>
     <div style="text-align:center;margin-top:30px" class="rv">
-      <a href="{{ pf.url }}" class="btn btn-promo">Aprovechar el 2x1 ⚡</a>
+      <a href="#comprar" class="btn btn-promo">Aprovechar el 2x1 ⚡</a>
     </div>
   </div>
 </section>
@@ -490,7 +441,7 @@
         <li>Tamaño compacto, no estorba en la pared</li>
         <li>Ideal para zonas con nevera, lavadora o aire acondicionado</li>
       </ul>
-      <a href="{{ pf.url }}" class="btn btn-green">Comprar 2 por $99.900</a>
+      <a href="#comprar" class="btn btn-green">Comprar 2 por $99.900</a>
     </div>
   </div>
 </section>
@@ -575,7 +526,7 @@
         </div>
         <div class="total">Total: <span id="total">$99.900</span></div>
 
-        <a href="{{ pf.url }}" id="buyBtn" class="btn btn-promo btn-block pulse">¡Comprar ahora! ⚡</a>
+        <a href="#comprar" id="buyBtn" class="btn btn-promo btn-block pulse">¡Comprar ahora! ⚡</a>
         <div class="ok-list"><span>Pago seguro</span><span>Compra protegida</span><span>Atención al cliente</span></div>
       </div>
     </div>
@@ -690,7 +641,7 @@
         <div class="u"><b data-m>00</b><small>Min</small></div>
       <div class="u"><b data-s>00</b><small>Seg</small></div>
     </div>
-    <a href="{{ pf.url }}" class="btn btn-promo pulse rv">Pedir mi combo 2x1 ⚡</a>
+    <a href="#comprar" class="btn btn-promo pulse rv">Pedir mi combo 2x1 ⚡</a>
   </div>
 </section>
 
@@ -708,7 +659,7 @@
       </div>
       <div>
         <h4>Ayuda</h4>
-        <ul><li><a href="{{ pf.url }}">Comprar</a></li><li><a href="#beneficios">Beneficios</a></li><li><a href="#">Preguntas frecuentes</a></li></ul>
+        <ul><li><a href="#comprar">Comprar</a></li><li><a href="#beneficios">Beneficios</a></li><li><a href="#">Preguntas frecuentes</a></li></ul>
       </div>
       <div>
         <h4>Políticas</h4>
@@ -727,7 +678,7 @@
 <!-- ================= STICKY MÓVIL ================= -->
 <div class="sticky">
   <div class="s-info"><b>Lleva 2 por $99.900</b><small>⏰ Termina en <span data-mini>--:--:--</span></small></div>
-  <a href="{{ pf.url }}" class="btn btn-promo">Comprar ⚡</a>
+  <a href="#comprar" class="btn btn-promo">Comprar ⚡</a>
 </div>
 
 <script>
@@ -817,6 +768,5 @@ document.querySelectorAll(".rv").forEach(el => io.observe(el));
 
 document.getElementById("yr").textContent = new Date().getFullYear();
 </script>
-<div hidden>{{ content_for_layout }}</div>
 </body>
 </html>
