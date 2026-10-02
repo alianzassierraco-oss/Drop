@@ -1,0 +1,166 @@
+{%- comment -%}
+  Power Factor X1 · Bloque de compra de la página de producto.
+  Foto(s) + precio + contador real + "1 unidad / Lleva 2" + botón.
+  El botón es un formulario de producto de Shopify: Releasit COD Form lo toma y abre su formulario.
+  Si Releasit no lo toma, agrega al carrito y va al checkout (con LLEVA2 cuando eligen "Lleva 2").
+{%- endcomment -%}
+{% render 'pfx-styles' %}
+{%- assign v = product.selected_or_first_available_variant -%}
+<style>
+  .pfx-buy{background:linear-gradient(135deg,#FFD60A,#FFB800);padding:32px 0 48px;position:relative;overflow:hidden}
+  .pfx-buy:before{content:"2x1 2x1 2x1 2x1 2x1 2x1 2x1 2x1 2x1 2x1";position:absolute;top:50%;left:-5%;width:120%;transform:translateY(-50%) rotate(-8deg);font-family:Anton,sans-serif;font-size:180px;line-height:1;color:rgba(255,255,255,.18);white-space:nowrap;pointer-events:none}
+  .pfx-box{position:relative;background:#fff;border-radius:28px;display:grid;grid-template-columns:1fr 1.1fr;overflow:hidden;box-shadow:0 20px 50px rgba(0,0,0,.2);border:4px solid var(--ink)}
+  .pfx-art{background:var(--n);padding:24px;position:relative;display:flex;flex-direction:column;gap:12px;justify-content:center}
+  .pfx-art .ribbon{position:absolute;top:18px;left:-40px;background:var(--r);color:#fff;font-weight:800;padding:6px 50px;transform:rotate(-35deg);font-size:14px;letter-spacing:1px;z-index:2}
+  .pfx-main{border-radius:18px;background:#fff;overflow:hidden;aspect-ratio:1}
+  .pfx-main img{display:block;width:100%;height:100%;object-fit:contain}
+  .pfx-thumbs{display:flex;gap:8px;flex-wrap:wrap}
+  .pfx-thumbs button{width:62px;height:62px;border-radius:10px;border:3px solid transparent;padding:0;background:#fff;cursor:pointer;overflow:hidden}
+  .pfx-thumbs button[aria-current="true"]{border-color:var(--y)}
+  .pfx-thumbs img{width:100%;height:100%;object-fit:contain;display:block}
+  .pfx-body{padding:30px}
+  .pfx-chip{display:inline-flex;align-items:center;gap:6px;background:#FFE9EA;color:#A3121C;border:1px solid #FFC2C6;padding:6px 12px;border-radius:999px;font-size:13px;font-weight:700;margin-bottom:12px}
+  .pfx-chip i{width:8px;height:8px;border-radius:50%;background:var(--r)}
+  .pfx-body h1{font-family:Anton,Impact,sans-serif;font-weight:400;text-transform:uppercase;line-height:1.05;font-size:clamp(28px,4vw,42px);margin:0}
+  .pfx-tag{display:inline-block;background:var(--r);color:#fff;font-family:Anton,sans-serif;font-size:15px;padding:2px 10px;border-radius:6px;vertical-align:middle}
+  .pfx-price{font-family:Anton,sans-serif;font-size:60px;color:var(--r);line-height:1;margin:12px 0 14px}
+  .pfx-price small{display:block;font-family:Poppins;font-size:14px;color:var(--mut);font-weight:600}
+  .pfx-tl{font-weight:800;color:var(--r);text-transform:uppercase;font-size:14px;letter-spacing:.5px}
+  .pfx-tm{display:flex;gap:8px;margin:4px 0 18px}
+  .pfx-tm div{background:var(--n);color:#fff;border-radius:12px;min-width:66px;padding:8px 6px;text-align:center;box-shadow:0 4px 0 rgba(0,0,0,.25)}
+  .pfx-tm b{display:block;font-family:Anton,sans-serif;font-size:30px;line-height:1;font-variant-numeric:tabular-nums}
+  .pfx-tm span{font-size:11px;font-weight:700;color:#9FB0D6;text-transform:uppercase}
+  .pfx-packs{display:grid;gap:12px;margin:6px 0 16px}
+  .pfx-pack{display:flex;align-items:center;gap:12px;border:3px solid #D5DBE5;border-radius:16px;padding:12px 14px;cursor:pointer;position:relative}
+  .pfx-pack input{accent-color:var(--r);width:20px;height:20px;flex:none;margin:0}
+  .pfx-pack .nm{flex:1;font-weight:800;line-height:1.2}
+  .pfx-pack .nm small{display:block;font-weight:600;color:var(--mut);font-size:13px}
+  .pfx-pack .pr{font-family:Anton,sans-serif;font-size:24px}
+  .pfx-pack:has(input:checked){border-color:var(--r);background:#FFF4F4}
+  .pfx-pack .best{position:absolute;top:-12px;right:14px;background:var(--r);color:#fff;font-size:11px;font-weight:800;padding:3px 10px;border-radius:999px}
+  .pfx-pack .lim{display:inline-block;margin-top:5px;background:var(--ink);color:var(--y);font-size:11.5px;font-weight:800;padding:3px 9px;border-radius:6px;font-variant-numeric:tabular-nums}
+  .pfx-pack.off{opacity:.45;pointer-events:none}
+  .pfx-tot{font-weight:800;font-size:18px;margin-bottom:12px}
+  .pfx-tot span{color:var(--r)}
+  .pfx-body form{margin:0}
+  .pfx-body .btn{width:100%;font-size:20px;padding:18px 24px;animation:pfxPulse 1.8s infinite}
+  .pfx-body .btn[disabled]{opacity:.5;animation:none;cursor:not-allowed}
+  @keyframes pfxPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.03)}}
+  .pfx-ok{display:flex;flex-wrap:wrap;gap:6px 16px;margin-top:14px;font-size:14px;font-weight:600}
+  .pfx-ok span:before{content:"✓ ";color:var(--gd);font-weight:800}
+  .pfx-ended{display:none;background:#FFE9EA;color:#A3121C;border-radius:12px;padding:10px 14px;font-weight:700;margin-bottom:12px}
+  .pfx-buy.ended .pfx-ended{display:block}
+  .pfx-buy.ended .pfx-tm{opacity:.4}
+  .pfx-desc{margin-top:16px;color:var(--mut);font-size:14px}
+  @media (max-width:900px){.pfx-box{grid-template-columns:1fr}}
+  @media (max-width:560px){.pfx-body{padding:20px}.pfx-price{font-size:50px}.pfx-tm div{min-width:0;flex:1}.pfx-body .btn{font-size:17px}}
+  @media (prefers-reduced-motion:reduce){.pfx-body .btn{animation:none}}
+</style>
+<div class="pfx">
+  <section class="pfx-buy" id="pfx-buy">
+    <div class="w">
+      <div class="pfx-box">
+        <div class="pfx-art">
+          <div class="ribbon">2x1</div>
+          <div class="pfx-main">
+            {%- if product.featured_media -%}
+              <img id="pfx-main-img" src="{{ product.featured_media.preview_image | image_url: width: 1000 }}" alt="{{ product.featured_media.alt | default: product.title | escape }}" width="500" height="500">
+            {%- endif -%}
+          </div>
+          {%- if product.media.size > 1 -%}
+            <div class="pfx-thumbs">
+              {%- for m in product.media limit: 6 -%}
+                <button type="button" data-src="{{ m.preview_image | image_url: width: 1000 }}" aria-label="Ver foto {{ forloop.index }}" {% if forloop.first %}aria-current="true"{% endif %}>
+                  <img src="{{ m.preview_image | image_url: width: 140 }}" alt="" loading="lazy" width="62" height="62">
+                </button>
+              {%- endfor -%}
+            </div>
+          {%- endif -%}
+        </div>
+        <div class="pfx-body">
+          <div class="pfx-chip"><i></i> Oferta por tiempo limitado</div>
+          <h1>{{ product.title }} <span class="pfx-tag">2x1</span></h1>
+          <div class="pfx-price">$99.900<small>2 unidades · precio normal por unidad {{ v.price | money_without_trailing_zeros }} (COP)</small></div>
+
+          <div class="pfx-tl">⏰ La promo termina en:</div>
+          <div class="pfx-tm" aria-label="Tiempo restante de la promoción">
+            <div><b data-pfb="d">00</b><span>Días</span></div>
+            <div><b data-pfb="h">00</b><span>Horas</span></div>
+            <div><b data-pfb="m">00</b><span>Min</span></div>
+            <div><b data-pfb="s">00</b><span>Seg</span></div>
+          </div>
+          <div class="pfx-ended">La promoción "Lleva 2" terminó. Puedes seguir comprando por unidad.</div>
+
+          <div class="pfx-packs">
+            <label class="pfx-pack"><input type="radio" name="pfx-pack" value="1"><span class="nm">1 unidad<small>Precio normal</small></span><span class="pr">{{ v.price | money_without_trailing_zeros }}</span></label>
+            <label class="pfx-pack" id="pfx-pack2"><span class="best">🔥 PROMO · AHORRAS $59.900</span><input type="radio" name="pfx-pack" value="2" checked><span class="nm">Lleva 2 · 2x1<small>Te llevas 2 por casi el precio de 1</small><span class="lim">⏰ HASTA EL <span data-pfb-date>31 de octubre</span></span></span><span class="pr" style="color:var(--r)">$99.900</span></label>
+          </div>
+          <div class="pfx-tot">Total: <span id="pfx-total">$99.900</span></div>
+
+          {%- form 'product', product, id: 'pfx-form' -%}
+            <input type="hidden" name="id" value="{{ v.id }}">
+            <input type="hidden" name="quantity" id="pfx-qty" value="2">
+            <input type="hidden" name="return_to" id="pfx-return" value="/checkout?discount=LLEVA2">
+            <button type="submit" name="add" class="btn" {% unless v.available %}disabled{% endunless %}>
+              {%- if v.available -%}¡Comprar ahora! ⚡{%- else -%}Agotado{%- endif -%}
+            </button>
+          {%- endform -%}
+          <div class="pfx-ok"><span>Pago contra entrega</span><span>Compra protegida</span><span>Atención al cliente</span></div>
+          {%- if product.description != blank -%}<div class="pfx-desc">{{ product.description }}</div>{%- endif -%}
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+<script>
+(function(){
+  var unit = {{ v.price | divided_by: 100 | json }}, combo = 99900, code = "LLEVA2";
+  var endIso = {{ product.metafields.custom.promo_fin.value | default: "2026-10-31T23:59:59-05:00" | json }};
+  var end = new Date(endIso).getTime();
+  var box = document.getElementById("pfx-buy");
+  var qty = document.getElementById("pfx-qty"), ret = document.getElementById("pfx-return"), tot = document.getElementById("pfx-total");
+  var fmt = function(n){ return "$" + n.toLocaleString("es-CO"); };
+  var pad = function(n){ return String(n).padStart(2, "0"); };
+  var txt = new Date(end).toLocaleDateString("es-CO", {day: "numeric", month: "long", timeZone: "America/Bogota"});
+  document.querySelectorAll("[data-pfb-date]").forEach(function(e){ e.textContent = txt; });
+
+  function promoOn(){ return Date.now() < end; }
+  function sync(){
+    var two = promoOn() && document.querySelector('input[name="pfx-pack"]:checked').value === "2";
+    qty.value = two ? 2 : 1;
+    ret.value = two ? "/checkout?discount=" + code : "/checkout";
+    tot.textContent = fmt(two ? combo : unit);
+  }
+  function endPromo(){
+    box.classList.add("ended");
+    document.getElementById("pfx-pack2").classList.add("off");
+    document.querySelector('input[name="pfx-pack"][value="1"]').checked = true;
+    sync();
+  }
+  function tick(){
+    var diff = Math.max(0, end - Date.now());
+    var d = Math.floor(diff / 864e5); diff -= d * 864e5;
+    var h = Math.floor(diff / 36e5);  diff -= h * 36e5;
+    var m = Math.floor(diff / 6e4);   diff -= m * 6e4;
+    var s = Math.floor(diff / 1e3);
+    var val = {d: d, h: h, m: m, s: s};
+    document.querySelectorAll("[data-pfb]").forEach(function(e){ e.textContent = pad(val[e.dataset.pfb]); });
+    if (!promoOn()){ clearInterval(t); endPromo(); }
+  }
+  document.querySelectorAll('input[name="pfx-pack"]').forEach(function(r){ r.addEventListener("change", sync); });
+  document.querySelectorAll(".pfx-thumbs button").forEach(function(b){
+    b.addEventListener("click", function(){
+      document.getElementById("pfx-main-img").src = b.dataset.src;
+      document.querySelectorAll(".pfx-thumbs button").forEach(function(x){ x.removeAttribute("aria-current"); });
+      b.setAttribute("aria-current", "true");
+    });
+  });
+  var t = setInterval(tick, 1000); tick(); sync();
+})();
+</script>
+{% schema %}
+{
+  "name": "PF · Bloque de compra",
+  "settings": []
+}
+{% endschema %}
