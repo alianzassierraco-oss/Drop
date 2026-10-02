@@ -3,6 +3,7 @@
   Página de producto personalizada (GleamXi).
   Se asigna al producto desde Shopify: Productos → GleamXi → Theme template → gleamxi.
 {%- endcomment -%}
+{% assign variant = product.selected_or_first_available_variant %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -92,10 +93,18 @@
 
           <div class="pdp-price">{{ product.price | money }}</div>
 
-          {%- comment -%}
-            El formulario de compra propio se quitó a propósito: la compra va por el
-            formulario de contraentrega de la app (Releasit / EasySell), que se inyecta aquí.
-          {%- endcomment -%}
+          {% form 'product', product, id: 'gx-pdp-form' %}
+            <input type="hidden" name="id" value="{{ variant.id }}">
+            <input type="hidden" name="return_to" value="/checkout">
+            <div class="qty">
+              <button type="button" id="qty-minus" aria-label="Restar">−</button>
+              <input type="number" name="quantity" id="qty-input" value="1" min="1" max="10" inputmode="numeric" aria-label="Cantidad" />
+              <button type="button" id="qty-plus" aria-label="Sumar">+</button>
+            </div>
+            <button type="submit" class="btn btn--gold btn--block"{% unless product.available %} disabled{% endunless %}>
+              {% if product.available %}Comprar ahora{% else %}Agotado{% endif %}
+            </button>
+          {% endform %}
 
           <ul class="trust-row pdp-trust">
             <li><svg><use href="#ic-lock"/></svg>Pago seguro</li>
