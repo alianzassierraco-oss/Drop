@@ -92,9 +92,9 @@ def crear():
     music = save("musica", "musica_")
     instrucciones = request.form.get("instrucciones", "")
     duracion = int(request.form.get("duracion", "16") or 16)
-    calidad = request.form.get("calidad", "calidad")
+    calidad = request.form.get("calidad", "economico")
     if calidad not in pipeline.VEO_MODELS:
-        calidad = "calidad"
+        calidad = "economico"
 
     out_name = f"video_{job_id}.mp4"
     job = jobs[job_id] = {"status": "Empezando…", "done": False, "error": None, "plan": None, "video": out_name}

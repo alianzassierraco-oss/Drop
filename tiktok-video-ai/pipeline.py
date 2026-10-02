@@ -34,6 +34,9 @@ CLAUDE_MODEL = "claude-opus-5-5"
 VEO_MODELS = {
     "calidad": ["veo-3.1-generate-001", "veo-3.1-generate-preview"],
     "rapido": ["veo-3.1-fast-generate-001", "veo-3.1-fast-generate-preview"],
+    # el más barato; si Google no lo tiene disponible usa el rápido
+    "economico": ["veo-3.1-lite-generate-001", "veo-3.1-lite-generate-preview",
+                  "veo-3.1-fast-generate-001", "veo-3.1-fast-generate-preview"],
 }
 SCENE_SECONDS = 8
 WIDTH, HEIGHT, FPS = 1080, 1920, 30
