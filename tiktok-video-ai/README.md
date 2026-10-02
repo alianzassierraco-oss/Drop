@@ -1,42 +1,40 @@
-# 🎬 TikTok Video AI (para Mac)
+# 🎬 TikTok Video AI (app para tu Mac)
 
-App que corre en tu Mac: le mandas videos de TikTok (archivos o links) y la IA (Claude)
-los mira, elige los mejores momentos y crea un **video nuevo vertical 9:16** con textos en
-pantalla, además del caption, hashtags y un guion para voz en off.
+Le das **2 o 3 TikToks** y la IA crea **un video totalmente nuevo**: estudia qué hace funcionar a tus
+TikToks, escribe un guion propio y genera cada escena desde cero, con imagen y sonido.
+Te entrega un video vertical listo para publicar, con caption y hashtags.
 
-## Cómo instalarla (una sola vez)
+- **Claude** (Anthropic) mira tus TikToks y escribe el guion.
+- **Veo** (Google) genera las escenas de video.
 
-1. **Descarga esta carpeta** `tiktok-video-ai` en tu Mac
-   (en GitHub: botón verde **Code → Download ZIP**, y descomprímelo).
-2. Si no tienes Python: instálalo desde <https://www.python.org/downloads/macos/>.
-3. Consigue tu **API key** de Anthropic en <https://console.anthropic.com/settings/keys>
-   (necesita saldo; cada video cuesta pocos centavos de dólar).
+## Instalar (una sola vez)
 
-## Cómo abrirla
+1. Abre la app **Terminal** (búscala con ⌘ + espacio y escribe "Terminal").
+2. Pega esta línea y pulsa Enter:
 
-- Haz **doble clic** en `Abrir TikTok Video AI.command`.
-  - La primera vez macOS puede bloquearlo: clic derecho → **Abrir** → **Abrir**.
-  - Si dice "permiso denegado", abre Terminal y escribe:
-    `chmod +x ` (con espacio), arrastra el archivo a la ventana y pulsa Enter.
-- Se abre sola en tu navegador: <http://127.0.0.1:5055>
-- La primera vez te pide la API key (botón **API key** arriba a la derecha).
+```
+curl -fsSL https://raw.githubusercontent.com/alianzassierraco-oss/Drop/claude/elegant-meitner-i5yqk8/tiktok-video-ai/instalar.sh | bash
+```
 
-## Cómo se usa
+3. Espera 1-2 minutos. Aparecerá el ícono **TikTok Video AI** en tu Dock y en Aplicaciones.
 
-1. Arrastra uno o varios videos de TikTok (o pega links de TikTok).
-2. Escribe qué video quieres (o elige un estilo: Resumen viral, Anuncio, Tutorial, Antes y después).
-3. Elige la duración y, si quieres, una música de fondo.
-4. Pulsa **Crear video con IA** y espera 1–3 minutos.
-5. Descarga el video y copia el caption + hashtags.
+## Las dos claves (se piden la primera vez)
 
-Los videos creados se guardan en tu carpeta `~/TikTokVideoAI/videos_creados`.
+| Clave | Dónde sacarla | Para qué |
+|---|---|---|
+| Claude | <https://console.anthropic.com/settings/keys> | Escribir el guion (centavos por video) |
+| Google | <https://aistudio.google.com/apikey> (activa la facturación) | Generar el video |
 
-## Cómo funciona
+El video IA se cobra por segundo generado: un video de 16 s cuesta aproximadamente entre 2 y 7 USD,
+según elijas "Rápido" o "Máxima calidad". Revisa los precios actuales en la página de Google.
 
-1. `ffmpeg` saca fotogramas de cada video.
-2. Claude ve los fotogramas + tus instrucciones y devuelve un plan de edición
-   (qué partes cortar, en qué orden, qué texto poner).
-3. `ffmpeg` corta, recorta a 1080×1920, pone los textos y une todo.
+## Usarla
 
-> Usa videos propios o con permiso del creador: subir contenido ajeno puede violar derechos de autor
-> y las normas de TikTok.
+1. Arrastra 2 o 3 TikToks (o pega sus links).
+2. Escribe qué video quieres, o toca un estilo (Anuncio de venta, Tutorial…).
+3. Opcional: sube una foto de tu producto y una música.
+4. Pulsa **Crear video con IA** y espera de 3 a 8 minutos.
+
+Los videos quedan en tu carpeta personal › **TikTokVideoAI › Videos creados**.
+
+> Usa los TikToks solo como referencia de estilo; la app no copia personas ni logos.

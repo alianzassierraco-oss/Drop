@@ -62,7 +62,7 @@ form { display: grid; gap: 20px; min-width: 0; }
 .drop small { color: var(--muted); }
 .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
 .chip { background: #111a33; border: 1px solid var(--line); border-radius: 999px; padding: 4px 12px; font-size: 12px; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-textarea, input[type=number], input[type=password] {
+textarea, select, input[type=number], input[type=password] {
   width: 100%; background: var(--panel); border: 1px solid var(--line); color: var(--fg); border-radius: 12px;
   padding: 12px 14px; font: 14px var(--body); resize: vertical;
 }
@@ -102,6 +102,7 @@ textarea:focus, input:focus, .drop:focus-visible, button:focus-visible { outline
 .actions { display: flex; flex-wrap: wrap; gap: 10px; }
 .btn2 { background: #111a33; border: 1px solid var(--line); color: var(--fg); border-radius: 10px; padding: 10px 16px; font: 600 13px var(--body); cursor: pointer; text-decoration: none; }
 .btn2:hover { border-color: var(--blue); }
+.muted { color: var(--muted); font-size: 12px; }
 .err { color: var(--danger); font-weight: 600; }
 table { width: 100%; border-collapse: collapse; font-size: 13px; }
 td, th { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--line); }
@@ -120,16 +121,16 @@ dialog a { color: var(--cyan); }
 <div class="wrap">
   <header>
     <div class="brand"><div class="logo"><svg viewBox="0 0 10 10"><path d="M2 1 L9 5 L2 9 Z"/></svg></div>TikTok Video AI</div>
-    <button class="icon-btn" id="keyBtn" type="button"><span class="dot {{ 'ok' if has_key else '' }}" id="keyDot"></span>API key</button>
+    <button class="icon-btn" id="keyBtn" type="button"><span class="dot {{ 'ok' if has_keys else '' }}" id="keyDot"></span>Claves</button>
   </header>
 
-  <h1>Sube tus TikToks.<br><span>La IA edita uno nuevo.</span></h1>
-  <p class="lead">La IA mira tus videos, encuentra los mejores momentos, los recorta y los une en un video vertical nuevo con textos en pantalla, caption y hashtags listos para publicar.</p>
+  <h1>Dale 2 o 3 TikToks.<br><span>La IA crea uno nuevo.</span></h1>
+  <p class="lead">La IA estudia qué hace funcionar a tus TikToks de referencia, escribe un guion propio y genera desde cero cada escena con imagen y sonido. Recibes un video vertical listo para publicar, con caption y hashtags.</p>
 
   <div class="grid">
     <form id="form">
       <div>
-        <span class="label">1 · Videos de TikTok</span>
+        <span class="label">1 · TikToks de referencia (2 o 3)</span>
         <div class="drop" id="drop" tabindex="0" role="button">
           <strong>Arrastra tus videos aquí</strong>
           <small>o haz clic para elegirlos · MP4 o MOV · puedes subir varios</small>
@@ -144,20 +145,38 @@ dialog a { color: var(--cyan); }
       </div>
 
       <div>
-        <label class="label" for="instrucciones">2 · ¿Qué video quieres?</label>
-        <textarea id="instrucciones" name="instrucciones" rows="4">Haz un video promocional para mi aceite capilar de romero y queratina. Empieza con un gancho fuerte, muestra el antes y después y termina con "Compra ahora, link en la bio".</textarea>
+        <label class="label" for="instrucciones">2 · ¿Qué video nuevo quieres?</label>
+        <textarea id="instrucciones" name="instrucciones" rows="4">Un anuncio elegante para mi aceite capilar de romero y queratina (frasco de vidrio ámbar de 30 ml). Mujer latina de cabello largo, luz natural de mañana, look premium. Termina con "Compra ahora, link en la bio".</textarea>
         <div class="presets">
-          <button type="button" class="preset" data-p="Haz un resumen viral con los momentos más impactantes, con textos llamativos.">Resumen viral</button>
-          <button type="button" class="preset" data-p="Haz un anuncio para vender mi producto: gancho, problema, solución, beneficios y llamado a la acción.">Anuncio de venta</button>
-          <button type="button" class="preset" data-p="Haz un video tipo tutorial paso a paso, con un texto corto que explique cada paso.">Tutorial</button>
-          <button type="button" class="preset" data-p="Haz un video tipo 'antes y después' muy dinámico con cortes rápidos.">Antes y después</button>
+          <button type="button" class="preset" data-p="Un video viral con el mismo estilo y ritmo de mis referencias, pero con una idea nueva y original.">Mismo estilo, idea nueva</button>
+          <button type="button" class="preset" data-p="Un anuncio para vender mi producto: gancho, problema, solución, beneficios y llamada a la acción.">Anuncio de venta</button>
+          <button type="button" class="preset" data-p="Un tutorial paso a paso de cómo usar mi producto, con una persona hablando a cámara.">Tutorial</button>
+          <button type="button" class="preset" data-p="Un video de antes y después muy dinámico, con la persona sorprendida por el resultado.">Antes y después</button>
         </div>
       </div>
 
       <div class="row">
         <div>
-          <label class="label" for="duracion">Duración (segundos)</label>
-          <input type="number" id="duracion" name="duracion" value="20" min="5" max="90">
+          <label class="label" for="duracion">Duración</label>
+          <select id="duracion" name="duracion">
+            <option value="8">8 segundos · 1 escena</option>
+            <option value="16" selected>16 segundos · 2 escenas</option>
+            <option value="24">24 segundos · 3 escenas</option>
+            <option value="32">32 segundos · 4 escenas</option>
+          </select>
+        </div>
+        <div>
+          <label class="label" for="calidad">Calidad</label>
+          <select id="calidad" name="calidad">
+            <option value="calidad" selected>Máxima calidad</option>
+            <option value="rapido">Rápido y más barato</option>
+          </select>
+        </div>
+      </div>
+      <div class="row">
+        <div>
+          <label class="label" for="foto">Foto de tu producto (opcional)</label>
+          <input type="file" id="foto" name="foto" accept="image/png,image/jpeg" class="btn2" style="width:100%">
         </div>
         <div>
           <label class="label" for="musica">Música de fondo (opcional)</label>
@@ -178,9 +197,14 @@ dialog a { color: var(--cyan); }
 
 <dialog id="keyDlg">
   <form method="dialog" id="keyForm">
-    <h2>Tu API key de Anthropic</h2>
-    <p>La app usa a Claude para ver y editar tus videos. Crea una key en <a href="https://console.anthropic.com/settings/keys" target="_blank" rel="noopener">console.anthropic.com</a> y pégala aquí. Se guarda solo en tu Mac.</p>
+    <h2>Tus dos claves</h2>
+    <p>Se guardan solo en tu Mac. Si ya las guardaste, deja los campos vacíos.</p>
+    <label class="label" for="keyInput">Claude (escribe el guion)</label>
+    <p>Créala en <a href="https://console.anthropic.com/settings/keys" target="_blank" rel="noopener">console.anthropic.com/settings/keys</a></p>
     <input type="password" id="keyInput" placeholder="sk-ant-…" autocomplete="off">
+    <label class="label" for="gkeyInput" style="margin-top:16px">Google (genera el video)</label>
+    <p>Créala en <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">aistudio.google.com/apikey</a> y activa la facturación.</p>
+    <input type="password" id="gkeyInput" placeholder="AIza…" autocomplete="off">
     <div class="actions" style="margin-top:16px">
       <button class="go" style="padding:12px 18px" id="keySave" value="save">Guardar</button>
       <button class="btn2" value="cancel">Cancelar</button>
@@ -206,12 +230,18 @@ drop.addEventListener('drop', e => { files = files.concat([...e.dataTransfer.fil
 document.querySelectorAll('.preset').forEach(b => b.onclick = () => { $('#instrucciones').value = b.dataset.p; });
 
 // API key
+// los links externos se abren en el navegador normal del Mac
+document.addEventListener('click', (e) => {
+  const a = e.target.closest('a[target=_blank]');
+  if (a) { e.preventDefault(); fetch('/api/abrir', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ url: a.href }) }); }
+});
 const dlg = $('#keyDlg');
 $('#keyBtn').onclick = () => dlg.showModal();
 $('#keySave').onclick = async (e) => {
   e.preventDefault();
-  const r = await fetch('/api/key', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ api_key: $('#keyInput').value }) });
-  if (r.ok) { $('#keyDot').classList.add('ok'); dlg.close(); }
+  const r = await fetch('/api/keys', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ anthropic: $('#keyInput').value, google: $('#gkeyInput').value }) });
+  const j = await r.json();
+  $('#keyDot').classList.toggle('ok', j.ok); dlg.close();
 };
 if (!$('#keyDot').classList.contains('ok')) dlg.showModal();
 
@@ -225,6 +255,8 @@ $('#form').onsubmit = async (e) => {
   fd.append('links', $('#links').value);
   fd.append('instrucciones', $('#instrucciones').value);
   fd.append('duracion', $('#duracion').value);
+  fd.append('calidad', $('#calidad').value);
+  if ($('#foto').files[0]) fd.append('foto', $('#foto').files[0]);
   if ($('#musica').files[0]) fd.append('musica', $('#musica').files[0]);
 
   go.disabled = true; result.hidden = true;
@@ -250,17 +282,18 @@ async function poll(id) {
   const src = '/videos/' + j.video;
   screen.innerHTML = `<video src="${src}" controls autoplay playsinline loop></video>`;
   const p = j.plan;
-  const rows = p.segmentos.map((s, i) => `<tr><td class="n">${i + 1}</td><td class="n">Video ${s.video}</td><td class="n">${s.inicio.toFixed(1)}s → ${s.fin.toFixed(1)}s</td><td>${esc(s.texto)}</td></tr>`).join('');
+  const rows = p.escenas.map((s, i) => `<tr><td class="n">${i + 1}</td><td>${esc(s.texto_pantalla)}</td><td class="muted">${esc(s.prompt_video)}</td></tr>`).join('');
   const caption = p.caption + '\n\n' + p.hashtags.map(h => h.startsWith('#') ? h : '#' + h).join(' ');
   result.innerHTML = `
     <div class="card"><h3>${esc(p.titulo)}</h3>
-      <div class="actions"><a class="btn2" href="${src}" download>Descargar video</a><button class="btn2" id="copy">Copiar caption + hashtags</button></div></div>
+      <div class="actions"><button class="btn2" id="finder">Ver en Finder</button><button class="btn2" id="copy">Copiar caption + hashtags</button></div>
+      <p class="muted" style="margin-top:10px">Guardado en la carpeta TikTokVideoAI › Videos creados.</p></div>
     <div class="card"><h3>Caption</h3><p>${esc(p.caption)}</p><p class="tags" style="margin-top:10px">${esc(p.hashtags.join(' '))}</p></div>
-    <div class="card"><h3>Lo que la IA vio en tus videos</h3><p>${esc(p.analisis)}</p></div>
-    <div class="card"><h3>Guion para voz en off</h3><p>${esc(p.guion_voz)}</p></div>
-    <div class="card"><h3>Plan de edición</h3><div class="scroll"><table><tr><th>#</th><th>Fuente</th><th>Tiempo</th><th>Texto en pantalla</th></tr>${rows}</table></div></div>`;
+    <div class="card"><h3>Lo que la IA aprendió de tus TikToks</h3><p>${esc(p.analisis)}</p></div>
+    <div class="card"><h3>Guion de escenas</h3><div class="scroll"><table><tr><th>#</th><th>Texto en pantalla</th><th>Lo que generó la IA</th></tr>${rows}</table></div></div>`;
   result.hidden = false;
-  $('#copy').onclick = (ev) => navigator.clipboard.writeText(caption).then(() => ev.target.textContent = '¡Copiado!');
+  $('#copy').onclick = async (ev) => { await fetch('/api/copiar', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ text: caption }) }); ev.target.textContent = '¡Copiado!'; };
+  $('#finder').onclick = () => fetch('/api/finder/' + j.video, { method: 'POST' });
 }
 </script>
 </body>

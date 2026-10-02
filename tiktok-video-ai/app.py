@@ -1,7 +1,12 @@
-"""TikTok Video AI — app local para Mac. Ejecuta: python app.py y abre http://127.0.0.1:5055"""
+"""TikTok Video AI — app para Mac. Abre una ventana propia (o el navegador si no se puede)."""
+
+from __future__ import annotations
 
 import json
 import os
+import socket
+import subprocess
+import sys
 import threading
 import uuid
 import webbrowser
@@ -15,48 +20,58 @@ import pipeline
 
 HOME = Path.home() / "TikTokVideoAI"
 JOBS_DIR = HOME / "trabajos"
-OUTPUT_DIR = HOME / "videos_creados"
+OUTPUT_DIR = HOME / "Videos creados"
 CONFIG = HOME / "config.json"
 for d in (JOBS_DIR, OUTPUT_DIR):
     d.mkdir(parents=True, exist_ok=True)
 
 app = Flask(__name__)
 app.config["MAX_CONTENT_LENGTH"] = 2 * 1024 * 1024 * 1024  # 2 GB
-jobs: dict[str, dict] = {}
+jobs = {}
 
 
-def get_api_key() -> str:
+def load_keys() -> dict:
+    keys = {"anthropic": os.environ.get("ANTHROPIC_API_KEY", ""), "google": os.environ.get("GEMINI_API_KEY", "")}
     if CONFIG.exists():
-        key = json.loads(CONFIG.read_text()).get("api_key", "")
-        if key:
-            return key
-    return os.environ.get("ANTHROPIC_API_KEY", "")
+        keys.update({k: v for k, v in json.loads(CONFIG.read_text()).items() if v})
+    return keys
 
 
 @app.get("/")
 def index():
-    return render_template("index.html", has_key=bool(get_api_key()))
+    keys = load_keys()
+    return render_template("index.html", has_keys=bool(keys["anthropic"] and keys["google"]))
 
 
-@app.post("/api/key")
-def save_key():
-    key = (request.json or {}).get("api_key", "").strip()
-    if not key:
-        return jsonify(error="Escribe tu API key"), 400
-    CONFIG.write_text(json.dumps({"api_key": key}))
+@app.post("/api/keys")
+def save_keys():
+    data = request.json or {}
+    keys = load_keys()
+    for k in ("anthropic", "google"):
+        if data.get(k, "").strip():
+            keys[k] = data[k].strip()
+    CONFIG.write_text(json.dumps(keys))
     CONFIG.chmod(0o600)
-    return jsonify(ok=True)
+    return jsonify(ok=bool(keys["anthropic"] and keys["google"]))
 
 
 @app.post("/api/crear")
 def crear():
-    api_key = get_api_key()
-    if not api_key:
-        return jsonify(error="Primero guarda tu API key de Anthropic (botón ⚙︎)."), 400
+    keys = load_keys()
+    if not (keys["anthropic"] and keys["google"]):
+        return jsonify(error="Primero guarda tus dos claves (botón Claves, arriba a la derecha)."), 400
 
     job_id = uuid.uuid4().hex[:10]
     work = JOBS_DIR / job_id
     work.mkdir()
+
+    def save(field: str, prefix: str = "") -> Path | None:
+        f = request.files.get(field)
+        if f and f.filename:
+            p = work / (prefix + secure_filename(f.filename))
+            f.save(p)
+            return p
+        return None
 
     files = []
     for f in request.files.getlist("videos"):
@@ -66,32 +81,32 @@ def crear():
             files.append(p)
     urls = [u.strip() for u in request.form.get("links", "").splitlines() if u.strip()]
     if not files and not urls:
-        return jsonify(error="Sube al menos un video o pega un link de TikTok."), 400
+        return jsonify(error="Sube 2 o 3 TikToks (o pega sus links)."), 400
 
-    music = None
-    m = request.files.get("musica")
-    if m and m.filename:
-        music = work / ("musica_" + secure_filename(m.filename))
-        m.save(music)
-
+    foto = save("foto", "producto_")
+    music = save("musica", "musica_")
     instrucciones = request.form.get("instrucciones", "")
-    duracion = int(request.form.get("duracion", "20") or 20)
+    duracion = int(request.form.get("duracion", "16") or 16)
+    calidad = request.form.get("calidad", "calidad")
+    if calidad not in pipeline.VEO_MODELS:
+        calidad = "calidad"
+
     out_name = f"video_{job_id}.mp4"
     job = jobs[job_id] = {"status": "Empezando…", "done": False, "error": None, "plan": None, "video": out_name}
 
     def worker():
         try:
-            pipeline.process(job, files, urls, instrucciones, duracion, music, work,
-                             OUTPUT_DIR / out_name, api_key)
+            pipeline.process(job, files, urls, instrucciones, duracion, calidad, foto, music, work,
+                             OUTPUT_DIR / out_name, keys)
         except anthropic.AuthenticationError:
-            job["error"] = "Tu API key no es válida. Cámbiala en ⚙︎."
+            job["error"] = "Tu clave de Anthropic no es válida. Cámbiala en Claves."
         except anthropic.RateLimitError:
-            job["error"] = "Demasiadas peticiones. Espera un minuto y vuelve a intentar."
+            job["error"] = "Demasiadas peticiones a Claude. Espera un minuto y vuelve a intentar."
         except anthropic.APIConnectionError:
             job["error"] = "Sin conexión a internet."
         except anthropic.APIStatusError as e:
-            job["error"] = f"Error de la IA: {e.message}"
-        except Exception as e:  # mostrar cualquier otro fallo en la interfaz
+            job["error"] = f"Error de Claude: {e.message}"
+        except Exception as e:  # mostrar cualquier otro fallo en la ventana
             job["error"] = str(e)
 
     threading.Thread(target=worker, daemon=True).start()
@@ -111,8 +126,48 @@ def video(name):
     return send_from_directory(OUTPUT_DIR, name)
 
 
+@app.post("/api/finder/<path:name>")
+def finder(name):
+    path = OUTPUT_DIR / secure_filename(name)
+    if sys.platform == "darwin" and path.exists():
+        subprocess.run(["open", "-R", str(path)])
+    return jsonify(ok=True)
+
+
+@app.post("/api/copiar")
+def copiar():
+    text = (request.json or {}).get("text", "")
+    if sys.platform == "darwin":
+        subprocess.run(["pbcopy"], input=text, text=True)
+    return jsonify(ok=True)
+
+
+@app.post("/api/abrir")
+def abrir():
+    url = (request.json or {}).get("url", "")
+    if url.startswith("https://"):
+        webbrowser.open(url)
+    return jsonify(ok=True)
+
+
+def free_port() -> int:
+    with socket.socket() as s:
+        s.bind(("127.0.0.1", 0))
+        return s.getsockname()[1]
+
+
 if __name__ == "__main__":
-    url = "http://127.0.0.1:5055"
-    print(f"\n  TikTok Video AI corriendo en {url}\n  Tus videos se guardan en {OUTPUT_DIR}\n")
-    threading.Timer(1.2, lambda: webbrowser.open(url)).start()
-    app.run(host="127.0.0.1", port=5055, debug=False)
+    port = free_port()
+    url = f"http://127.0.0.1:{port}"
+    server = threading.Thread(target=lambda: app.run(host="127.0.0.1", port=port, debug=False), daemon=True)
+    server.start()
+    try:
+        import webview
+
+        webview.create_window("TikTok Video AI", url, width=1280, height=880, min_size=(420, 600),
+                              background_color="#05070D")
+        webview.start()
+    except Exception:
+        print(f"Abriendo en el navegador: {url}")
+        threading.Timer(1.0, lambda: webbrowser.open(url)).start()
+        server.join()
