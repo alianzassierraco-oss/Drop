@@ -207,6 +207,24 @@
   .sticky .s-info small{display:block;font-size:11.5px;color:var(--muted);font-weight:600;font-variant-numeric:tabular-nums}
   .sticky .btn{font-size:16px;padding:14px 18px;width:auto;flex:none}
 
+  /* ---------- DOLOR ---------- */
+  .pain{background:#fff}
+  .pain h2 span{color:var(--red)}
+  .bill{max-width:340px;margin:0 auto 34px;background:#fff;border:3px solid var(--ink);border-radius:14px;padding:18px 20px;box-shadow:8px 8px 0 var(--red);transform:rotate(-2deg);font-weight:600}
+  .bill .row{display:flex;justify-content:space-between;border-bottom:1px dashed #C3CBD8;padding:6px 0;font-size:14px}
+  .bill .tot{display:flex;justify-content:space-between;align-items:center;margin-top:10px;font-weight:800}
+  .bill .tot b{font-family:Anton,sans-serif;font-size:32px;color:var(--red)}
+  .bill .stamp{display:inline-block;margin-top:8px;border:3px solid var(--red);color:var(--red);font-family:Anton,sans-serif;font-size:20px;padding:2px 10px;transform:rotate(-6deg)}
+  .pain .card{border-color:#FFE0E2}
+  .pain .card .ic{background:#FFE9EA;font-size:28px}
+  .pain-cta{margin-top:34px;background:var(--navy);color:#fff;border-radius:24px;padding:28px;text-align:center}
+  .pain-cta h3{font-family:Anton,sans-serif;font-weight:400;font-size:clamp(26px,4vw,38px);text-transform:uppercase;line-height:1.1;margin-bottom:10px}
+  .pain-cta h3 span{color:var(--yellow)}
+  .pain-cta p{color:#C9D3EA;max-width:620px;margin:0 auto 20px}
+  .habits{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:0 0 22px;text-align:left}
+  .habits div{background:rgba(255,255,255,.07);border-radius:12px;padding:12px;font-size:14px;font-weight:600}
+  @media (max-width:900px){.habits{grid-template-columns:1fr 1fr}}
+  @media (max-width:560px){.habits{grid-template-columns:1fr}}
   /* ---------- REVEAL ---------- */
   .rv{opacity:0;transform:translateY(24px);transition:opacity .6s, transform .6s}
   .rv.in{opacity:1;transform:none}
@@ -303,7 +321,7 @@
 <section class="hero">
   <div class="wrap">
     <div class="rv">
-      <div class="chip"><i></i> Promoción por tiempo limitado</div>
+      <div class="chip"><i></i> ¿Cansado de que la factura de luz suba cada mes?</div>
       <h1>Ahorrador de <span class="y">Energía</span><br>Power Factor <span class="g">X1</span></h1>
       <p class="sub">Precio normal $79.900 por unidad. Hoy te llevas <b style="color:#FFD60A">2 por $99.900</b>. Conéctalo, se enciende la luz verde y listo. Un dispositivo compacto que, según el fabricante, ayuda a estabilizar el voltaje y mejorar el factor de potencia de tus aparatos.</p>
 
@@ -353,10 +371,45 @@
   </div>
 </section>
 
+<!-- ================= DOLOR ================= -->
+<section class="pain">
+  <div class="wrap">
+    <h2 class="rv">¿Tu factura de luz <span>está cada vez más cara?</span></h2>
+    <p class="lead rv">Llega el recibo, lo abres… y otra vez más alto que el mes pasado. No eres el único: a millones de hogares les pasa lo mismo.</p>
+
+    <div class="bill rv">
+      <div style="font-weight:800;margin-bottom:6px">⚡ RECIBO DE ENERGÍA</div>
+      <div class="row"><span>Mes pasado</span><span>$ ????</span></div>
+      <div class="row"><span>Este mes</span><span>$ ???? 📈</span></div>
+      <div class="tot"><span>¿Otra vez subió?</span><b>😱</b></div>
+      <div class="stamp">¡OTRA VEZ!</div>
+    </div>
+
+    <div class="grid g4">
+      <div class="card rv"><div class="ic">🧊</div><h3>La nevera nunca para</h3><p>Funciona las 24 horas, los 30 días del mes. Es de lo que más consume en casa.</p></div>
+      <div class="card rv"><div class="ic">🚿</div><h3>Ducha y calentador</h3><p>Unos minutos de agua caliente al día se notan, y mucho, en el recibo.</p></div>
+      <div class="card rv"><div class="ic">❄️</div><h3>Aire y ventiladores</h3><p>Con el calor se quedan prendidos horas y horas sin darte cuenta.</p></div>
+      <div class="card rv"><div class="ic">🔌</div><h3>Consumo “fantasma”</h3><p>TV, cargadores y decodificadores enchufados consumen aunque estén apagados.</p></div>
+    </div>
+
+    <div class="pain-cta rv">
+      <h3>Es hora de <span>tomar el control</span> de tu energía</h3>
+      <p>Conecta tu Power Factor X1 junto a tus electrodomésticos y súmale estos hábitos. Así empiezas hoy mismo a cuidar tu consumo:</p>
+      <div class="habits">
+        <div>⚡ Conecta el Power Factor X1 cerca de la nevera o la lavadora</div>
+        <div>🔌 Desenchufa lo que no estés usando</div>
+        <div>🧊 No dejes la puerta de la nevera abierta</div>
+        <div>💡 Cambia a bombillos LED</div>
+      </div>
+      <a href="#oferta" class="btn btn-promo pulse">¡Quiero tomar el control! · 2x1 ⚡</a>
+    </div>
+  </div>
+</section>
+
 <!-- ================= BENEFICIOS ================= -->
 <section id="beneficios">
   <div class="wrap">
-    <h2 class="rv">¿Por qué la gente lo pide?</h2>
+    <h2 class="rv">¿Qué hace el Power Factor X1?</h2>
     <p class="lead rv">Pequeño, fácil de usar y sin instalaciones raras. Así lo describe el fabricante:</p>
     <div class="grid g4">
       <div class="card rv">
@@ -616,7 +669,7 @@
   <div class="wrap">
     <div class="chip rv" style="background:var(--ink);border-color:var(--ink);color:var(--yellow)">⏰ TIEMPO LIMITADO</div>
     <h2 class="rv">¡Lleva 2 por <span>$99.900</span>!</h2>
-    <p class="rv">Una para tu casa y otra para regalar, para la oficina o para el negocio. La promo 2x1 es por tiempo limitado.</p>
+    <p class="rv">Deja de solo quejarte del recibo y empieza a cuidar tu energía. Una para tu casa y otra para regalar, para la oficina o para el negocio. La promo 2x1 es por tiempo limitado.</p>
     <div class="timer rv" data-timer>
       <div class="u"><b data-d>00</b><small>Días</small></div>
       <div class="u"><b data-h>00</b><small>Horas</small></div>
