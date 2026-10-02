@@ -1050,3 +1050,10 @@ a { color: inherit; text-decoration: none; }
   position: relative;
   z-index: 1;
 }
+
+/* ---------- Botón de compra nativo, oculto ----------
+   El formulario de producto debe existir para que la app de contraentrega
+   (Releasit) encuentre dónde inyectar su botón. Este es el botón propio de
+   la plantilla: se oculta para no mostrar dos.
+   ¿El botón de Releasit no aparece? Borra esta regla y vuelve este. */
+.gx-native-buy { display: none; }
