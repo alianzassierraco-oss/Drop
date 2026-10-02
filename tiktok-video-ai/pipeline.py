@@ -14,6 +14,7 @@ from __future__ import annotations
 import base64
 import json
 import math
+import random
 import re
 import shutil
 import subprocess
@@ -253,22 +254,46 @@ def text_overlay(text: str, out: Path) -> Path:
     return out
 
 
-def assemble(clips: list[tuple[Path, float, float | None, str]], work: Path, out_file: Path,
-             music: Path | None) -> Path:
-    """clips: (archivo, inicio, duración o None para todo, texto en pantalla)."""
+# Looks de color para el modo gratis (filtros de ffmpeg)
+LOOKS = {
+    "vibrante": "eq=saturation=1.35:contrast=1.08:brightness=0.02",
+    "cine": "eq=contrast=1.15:saturation=0.85,colorbalance=rs=0.05:bs=-0.05:rh=-0.04:bh=0.06,vignette=PI/5",
+    "frio": "eq=contrast=1.08:saturation=1.1,colorbalance=bs=0.12:bm=0.06:rs=-0.05",
+    "calido": "eq=contrast=1.06:saturation=1.15,colorbalance=rs=0.10:rm=0.05:bs=-0.08",
+    "blanco y negro": "hue=s=0,eq=contrast=1.25",
+}
+
+
+def assemble(clips: list[tuple], work: Path, out_file: Path, music: Path | None) -> Path:
+    """clips: (archivo, inicio, duración o None para todo, texto en pantalla[, efectos]).
+
+    efectos (opcional): zoom (1.0-1.4), ox/oy (posición del recorte 0-1), espejo, look, velocidad, flash.
+    """
     parts = []
-    for i, (clip, start, length, texto) in enumerate(clips):
+    for i, (clip, start, length, texto, *rest) in enumerate(clips):
+        fx = rest[0] if rest else {}
         info = probe(clip)
         length = length or info["duration"] - start
         dur = f"{length:.2f}"
+        speed = fx.get("velocidad", 1.0)
+        zoom = fx.get("zoom", 1.0)
+        vf = [f"scale={int(WIDTH * zoom)}:{int(HEIGHT * zoom)}:force_original_aspect_ratio=increase",
+              f"crop={WIDTH}:{HEIGHT}:(iw-{WIDTH})*{fx.get('ox', 0.5)}:(ih-{HEIGHT})*{fx.get('oy', 0.5)}"]
+        if fx.get("espejo"):
+            vf.append("hflip")
+        if fx.get("look") in LOOKS:
+            vf.append(LOOKS[fx["look"]])
+        vf += ["setsar=1", f"fps={FPS}", f"setpts=PTS/{speed}"]
+        if fx.get("flash"):
+            vf.append("fade=in:st=0:d=0.15:color=white")
+        audio_src = "0:a:0" if info["has_audio"] else "2:a"
         overlay = text_overlay(texto, work / f"txt_{i}.png")
         part = work / f"part_{i}.mp4"
         run([ffmpeg_bin(), "-y", "-ss", f"{start:.2f}", "-t", dur, "-i", str(clip), "-i", str(overlay),
              "-f", "lavfi", "-t", dur, "-i", "anullsrc=r=44100:cl=stereo",
              "-filter_complex",
-             f"[0:v]scale={WIDTH}:{HEIGHT}:force_original_aspect_ratio=increase,"
-             f"crop={WIDTH}:{HEIGHT},setsar=1,fps={FPS}[bg];[bg][1:v]overlay=0:0[v]",
-             "-map", "[v]", "-map", "0:a:0" if info["has_audio"] else "2:a",
+             f"[0:v]{','.join(vf)}[bg];[bg][1:v]overlay=0:0[v];[{audio_src}]atempo={speed}[a]",
+             "-map", "[v]", "-map", "[a]",
              "-c:v", "libx264", "-preset", "medium", "-crf", "18", "-pix_fmt", "yuv420p",
              "-c:a", "aac", "-ar", "44100", "-ac", "2", "-shortest", str(part)])
         parts.append(part)
@@ -347,17 +372,19 @@ def scene_cuts(video: Path) -> list[float]:
     return [float(t) for t in re.findall(r"lavfi\.scd\.time: ([0-9.]+)", out)]
 
 
-def free_plan(videos: list[dict], duracion: int, textos: list[str]) -> list[dict]:
-    """Elige tramos cortos y dinámicos de cada video y los intercala hasta llenar la duración."""
+def free_plan(videos: list[dict], duracion: float, textos: list[str], rng: random.Random) -> list[dict]:
+    """Elige tramos cortos de cada video, en orden distinto cada vez, hasta llenar la duración."""
     shots_by_video = []
     for v in videos:
         bounds = [0.3] + [c for c in v["cuts"] if 0.3 < c < v["duration"] - 0.3] + [v["duration"]]
         shots = []
         for a, b in zip(bounds, bounds[1:]):
-            t = a
-            while b - t >= 1.2:  # tomas largas se parten en tramos de ~2.5 s
-                shots.append({"video": v["n"], "inicio": round(t, 2), "fin": round(min(t + 2.5, b), 2)})
-                t += 2.5
+            t = a + rng.uniform(0, 0.6)  # cada versión arranca en un punto distinto
+            while b - t >= 1.0:  # tomas largas se parten en tramos cortos y variados
+                step = rng.uniform(1.3, 2.4)
+                shots.append({"video": v["n"], "inicio": round(t, 2), "fin": round(min(t + step, b), 2)})
+                t += step
+        rng.shuffle(shots)  # orden nuevo: ya no sigue la historia del video original
         shots_by_video.append({"n": v["n"], "shots": shots, "ritmo": len(v["cuts"]) / max(v["duration"], 1)})
 
     # Empieza el video más dinámico (más cortes por segundo): sirve de gancho.
@@ -369,7 +396,7 @@ def free_plan(videos: list[dict], duracion: int, textos: list[str]) -> list[dict
             if q and total < duracion:
                 shot = q.pop(0)
                 shot["fin"] = round(min(shot["fin"], shot["inicio"] + duracion - total), 2)
-                if shot["fin"] - shot["inicio"] >= 0.8:
+                if shot["fin"] - shot["inicio"] >= 0.7:
                     plan.append(shot)
                     total += shot["fin"] - shot["inicio"]
     if not plan:
@@ -387,7 +414,7 @@ def free_plan(videos: list[dict], duracion: int, textos: list[str]) -> list[dict
 
 
 def process_free(job: dict, files: list[Path], urls: list[str], duracion: int, textos: list[str],
-                 music: Path | None, work: Path, out_file: Path) -> None:
+                 music: Path | None, work: Path, out_file: Path, look: str = "aleatorio") -> None:
     def progress(msg: str) -> None:
         job["status"] = msg
 
@@ -400,11 +427,21 @@ def process_free(job: dict, files: list[Path], urls: list[str], duracion: int, t
         progress(f"Buscando los mejores momentos del video {n} de {len(files)}…")
         videos.append({"n": n, "path": f, **probe(f), "cuts": scene_cuts(f)})
 
-    plan = free_plan(videos, duracion, textos)
-    job["plan"] = {"modo": "gratis", "titulo": "Tu video está listo", "segmentos": plan}
-    progress("Montando el video…")
+    rng = random.Random()  # cada video sale distinto
+    if look not in LOOKS:
+        look = rng.choice(list(LOOKS))
+    espejo = rng.random() < 0.5
+    velocidad = rng.choice([1.0, 1.1, 1.15])
+    plan = free_plan(videos, duracion * velocidad, textos, rng)
+    for i, seg in enumerate(plan):
+        z = rng.uniform(1.12, 1.4) if i % 2 == 0 else rng.uniform(1.0, 1.15)  # zoom alternado
+        seg["fx"] = {"zoom": round(z, 2), "ox": round(rng.random(), 2), "oy": round(rng.uniform(0.3, 0.7), 2),
+                     "espejo": espejo, "look": look, "velocidad": velocidad, "flash": i > 0 and rng.random() < 0.4}
+    job["plan"] = {"modo": "gratis", "titulo": "Tu video está listo", "segmentos": plan,
+                   "estilo": f"Look {look} · {'espejo · ' if espejo else ''}velocidad x{velocidad} · zooms y cortes nuevos"}
+    progress("Aplicando efectos y montando el video…")
     by_n = {v["n"]: v["path"] for v in videos}
-    assemble([(by_n[s["video"]], s["inicio"], s["fin"] - s["inicio"], s["texto"]) for s in plan],
+    assemble([(by_n[s["video"]], s["inicio"], s["fin"] - s["inicio"], s["texto"], s["fx"]) for s in plan],
              work, out_file, music)
     job["status"] = "¡Listo!"
     job["done"] = True

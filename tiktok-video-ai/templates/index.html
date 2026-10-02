@@ -190,6 +190,17 @@ Compra ahora · link en la bio</textarea>
             <option value="32">32 segundos</option>
           </select>
         </div>
+        <div class="only-free">
+          <label class="label" for="look">Look del video</label>
+          <select id="look" name="look">
+            <option value="aleatorio" selected>Sorpréndeme (distinto cada vez)</option>
+            <option value="vibrante">Vibrante</option>
+            <option value="cine">Cine</option>
+            <option value="frio">Frío azul</option>
+            <option value="calido">Cálido</option>
+            <option value="blanco y negro">Blanco y negro</option>
+          </select>
+        </div>
         <div class="only-pro">
           <label class="label" for="calidad">Calidad</label>
           <select id="calidad" name="calidad">
@@ -270,7 +281,7 @@ $('#keySave').onclick = async (e) => {
 };
 // modo gratis / IA Pro
 const LEADS = {
-  gratis: 'Sube tus videos o clips de tu producto. La app encuentra los mejores momentos, los une en un TikTok vertical nuevo y le pone tus textos y tu música. Gratis y sin claves.',
+  gratis: 'Sube tus videos o clips de tu producto. La app mezcla los mejores momentos en otro orden, cambia colores, zooms, velocidad y encuadre, y le pone tus textos y tu música. Cada vez sale un video distinto. Gratis y sin claves.',
   pro: 'Dale 2 o 3 TikToks de referencia. La IA estudia qué los hace funcionar, escribe un guion propio y genera desde cero cada escena con imagen y sonido.'
 };
 function setMode() {
@@ -296,6 +307,7 @@ $('#form').onsubmit = async (e) => {
   fd.append('calidad', $('#calidad').value);
   fd.append('modo', document.querySelector('input[name=modo]:checked').value);
   fd.append('textos', $('#textos').value);
+  fd.append('look', $('#look').value);
   if ($('#foto').files[0]) fd.append('foto', $('#foto').files[0]);
   if ($('#musica').files[0]) fd.append('musica', $('#musica').files[0]);
 
@@ -341,11 +353,13 @@ function showFree(p, src, j) {
   const rows = p.segmentos.map((s, i) => `<tr><td class="n">${i + 1}</td><td class="n">Video ${s.video}</td><td class="n">${s.inicio.toFixed(1)}s → ${s.fin.toFixed(1)}s</td><td>${esc(s.texto)}</td></tr>`).join('');
   result.innerHTML = `
     <div class="card"><h3>${esc(p.titulo)}</h3>
-      <div class="actions"><button class="btn2" id="finder">Ver en Finder</button></div>
+      <p class="muted" style="margin-bottom:12px">${esc(p.estilo)}</p>
+      <div class="actions"><button class="btn2" id="finder">Ver en Finder</button><button class="btn2" id="otra">Crear otra versión distinta</button></div>
       <p class="muted" style="margin-top:10px">Guardado en la carpeta SN DROP › Videos creados.</p></div>
     <div class="card"><h3>Momentos elegidos</h3><div class="scroll"><table><tr><th>#</th><th>Video</th><th>Tramo</th><th>Texto</th></tr>${rows}</table></div></div>`;
   result.hidden = false;
   $('#finder').onclick = () => fetch('/api/finder/' + j.video, { method: 'POST' });
+  $('#otra').onclick = () => $('#form').requestSubmit();
 }
 </script>
 </body>
