@@ -1,7 +1,17 @@
-{% comment %}Sección vacía: la página Power Factor X1 está en layout/power-factor.liquid{% endcomment %}
+{%- comment -%}
+  Sección de la página Power Factor X1. El diseño está en layout/power-factor.liquid;
+  aquí solo se muestran los bloques de apps (Releasit, reseñas, etc.) agregados desde el editor.
+{%- endcomment -%}
+{%- for block in section.blocks -%}
+  {%- case block.type -%}
+    {%- when '@app' -%}
+      {% render block %}
+  {%- endcase -%}
+{%- endfor -%}
 {% schema %}
 {
   "name": "Power Factor X1",
+  "blocks": [{ "type": "@app" }],
   "settings": []
 }
 {% endschema %}
