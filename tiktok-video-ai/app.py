@@ -1,4 +1,4 @@
-"""TikTok Video AI — app para Mac. Abre una ventana propia (o el navegador si no se puede)."""
+"""SN DROP — app para Mac. Abre una ventana propia (o el navegador si no se puede)."""
 
 from __future__ import annotations
 
@@ -18,12 +18,15 @@ from werkzeug.utils import secure_filename
 
 import pipeline
 
-HOME = Path.home() / "TikTokVideoAI"
+HOME = Path.home() / "SN DROP"
 JOBS_DIR = HOME / "trabajos"
 OUTPUT_DIR = HOME / "Videos creados"
 CONFIG = HOME / "config.json"
 for d in (JOBS_DIR, OUTPUT_DIR):
     d.mkdir(parents=True, exist_ok=True)
+_OLD_CONFIG = Path.home() / "TikTokVideoAI" / "config.json"  # claves de la versión anterior
+if _OLD_CONFIG.exists() and not CONFIG.exists():
+    CONFIG.write_text(_OLD_CONFIG.read_text())
 
 app = Flask(__name__)
 app.config["MAX_CONTENT_LENGTH"] = 2 * 1024 * 1024 * 1024  # 2 GB
@@ -58,8 +61,10 @@ def save_keys():
 @app.post("/api/crear")
 def crear():
     keys = load_keys()
-    if not (keys["anthropic"] and keys["google"]):
-        return jsonify(error="Primero guarda tus dos claves (botón Claves, arriba a la derecha)."), 400
+    gratis = request.form.get("modo") == "gratis"
+    if not gratis and not (keys["anthropic"] and keys["google"]):
+        return jsonify(error="El modo IA Pro necesita tus dos claves (botón Claves). "
+                             "O usa el Modo gratis."), 400
 
     job_id = uuid.uuid4().hex[:10]
     work = JOBS_DIR / job_id
@@ -81,7 +86,7 @@ def crear():
             files.append(p)
     urls = [u.strip() for u in request.form.get("links", "").splitlines() if u.strip()]
     if not files and not urls:
-        return jsonify(error="Sube 2 o 3 TikToks (o pega sus links)."), 400
+        return jsonify(error="Sube tus videos (o pega sus links)."), 400
 
     foto = save("foto", "producto_")
     music = save("musica", "musica_")
@@ -94,10 +99,15 @@ def crear():
     out_name = f"video_{job_id}.mp4"
     job = jobs[job_id] = {"status": "Empezando…", "done": False, "error": None, "plan": None, "video": out_name}
 
+    textos = [t.strip() for t in request.form.get("textos", "").splitlines() if t.strip()]
+
     def worker():
         try:
-            pipeline.process(job, files, urls, instrucciones, duracion, calidad, foto, music, work,
-                             OUTPUT_DIR / out_name, keys)
+            if gratis:
+                pipeline.process_free(job, files, urls, duracion, textos, music, work, OUTPUT_DIR / out_name)
+            else:
+                pipeline.process(job, files, urls, instrucciones, duracion, calidad, foto, music, work,
+                                 OUTPUT_DIR / out_name, keys)
         except anthropic.AuthenticationError:
             job["error"] = "Tu clave de Anthropic no es válida. Cámbiala en Claves."
         except anthropic.RateLimitError:
@@ -164,7 +174,7 @@ if __name__ == "__main__":
     try:
         import webview
 
-        webview.create_window("TikTok Video AI", url, width=1280, height=880, min_size=(420, 600),
+        webview.create_window("SN DROP", url, width=1280, height=880, min_size=(420, 600),
                               background_color="#05070D")
         webview.start()
     except Exception:

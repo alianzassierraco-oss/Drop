@@ -1,21 +1,24 @@
 #!/bin/bash
-# Instala "TikTok Video AI" en tu Mac: crea la app en Aplicaciones y la pone en el Dock.
+# Instala "SN DROP" en tu Mac: crea la app en Aplicaciones y la pone en el Dock.
 # Uso (en Terminal):
 #   curl -fsSL https://raw.githubusercontent.com/alianzassierraco-oss/Drop/claude/elegant-meitner-i5yqk8/tiktok-video-ai/instalar.sh | bash
 set -e
 
 REPO="alianzassierraco-oss/Drop"
 BRANCH="claude/elegant-meitner-i5yqk8"
-APP_NAME="TikTok Video AI"
-HOME_DIR="$HOME/TikTokVideoAI"
-CODE="$HOME_DIR/app"
-VENV="$HOME_DIR/.venv"
+APP_NAME="SN DROP"
+HOME_DIR="$HOME/SN DROP"          # tus videos y claves
+INTERNAL="$HOME/.sndrop"          # programa (oculto)
+CODE="$INTERNAL/app"
+VENV="$INTERNAL/venv"
+mkdir -p "$HOME_DIR" "$INTERNAL"
 
 echo ""
 echo "  ▶  Instalando ${APP_NAME}…"
 echo ""
 
 # 1. Código de la app (de esta carpeta si existe, si no se descarga de GitHub)
+rm -rf "$CODE"
 mkdir -p "$CODE"
 SRC="$(cd "$(dirname "${BASH_SOURCE[0]:-$0}")" 2>/dev/null && pwd || true)"
 if [ -n "$SRC" ] && [ -f "$SRC/app.py" ]; then
@@ -60,7 +63,7 @@ cat > "$BUNDLE/Contents/Info.plist" <<PLIST
 <plist version="1.0"><dict>
   <key>CFBundleName</key><string>${APP_NAME}</string>
   <key>CFBundleDisplayName</key><string>${APP_NAME}</string>
-  <key>CFBundleIdentifier</key><string>com.alianzassierra.tiktokvideoai</string>
+  <key>CFBundleIdentifier</key><string>com.alianzassierra.sndrop</string>
   <key>CFBundleVersion</key><string>1.0</string>
   <key>CFBundlePackageType</key><string>APPL</string>
   <key>CFBundleExecutable</key><string>launcher</string>
@@ -71,18 +74,29 @@ PLIST
 cat > "$BUNDLE/Contents/MacOS/launcher" <<LAUNCH
 #!/bin/bash
 cd "$CODE"
-exec "$VENV/bin/python" "$CODE/app.py" >> "$HOME_DIR/app.log" 2>&1
+exec "$VENV/bin/python" "$CODE/app.py" >> "$INTERNAL/app.log" 2>&1
 LAUNCH
 chmod +x "$BUNDLE/Contents/MacOS/launcher"
 touch "$BUNDLE"
 echo "  ✓ App creada en $APPS"
 
-# 4. Ponerla en el Dock (solo si aún no está)
-if ! defaults read com.apple.dock persistent-apps 2>/dev/null | grep -q "${APP_NAME}.app"; then
-  defaults write com.apple.dock persistent-apps -array-add \
-    "<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>$BUNDLE</string><key>_CFURLStringType</key><integer>0</integer></dict></dict></dict>"
-  killall Dock || true
-fi
+# 4. Quitar la versión anterior ("TikTok Video AI") y poner SN DROP en el Dock
+for OLD in "/Applications/TikTok Video AI.app" "$HOME/Applications/TikTok Video AI.app"; do
+  rm -rf "$OLD" 2>/dev/null || true
+done
+rm -rf "$HOME/TikTokVideoAI/.venv" "$HOME/TikTokVideoAI/app" 2>/dev/null || true
+defaults export com.apple.dock - | "$VENV/bin/python" -c '
+import plistlib, sys, subprocess
+bundle = sys.argv[1]
+d = plistlib.loads(sys.stdin.buffer.read())
+apps = [a for a in d.get("persistent-apps", [])
+        if "TikTok Video AI" not in str(a) and "TikTok%20Video%20AI" not in str(a)]
+if not any(bundle in str(a) or bundle.replace(" ", "%20") in str(a) for a in apps):
+    apps.append({"tile-data": {"file-data": {"_CFURLString": bundle, "_CFURLStringType": 0}}})
+d["persistent-apps"] = apps
+subprocess.run(["defaults", "import", "com.apple.dock", "-"], input=plistlib.dumps(d), check=True)
+' "$BUNDLE" || true
+killall Dock 2>/dev/null || true
 echo "  ✓ Ícono agregado al Dock"
 
 echo ""

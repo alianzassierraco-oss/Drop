@@ -1,8 +1,12 @@
-"""Motor de la app.
+"""Motor de SN DROP.
 
+Modo IA Pro:
 1. Claude mira 2-3 TikToks de referencia y escribe un guion de escenas nuevas.
 2. Veo (IA de video de Google) genera cada escena desde cero, con sonido.
 3. ffmpeg une las escenas, pone los textos en pantalla y la música.
+
+Modo gratis: detecta los cortes de tus propios videos y arma un TikTok nuevo
+con los mejores tramos, tus textos y tu música, sin usar servicios de pago.
 """
 
 from __future__ import annotations
@@ -249,14 +253,17 @@ def text_overlay(text: str, out: Path) -> Path:
     return out
 
 
-def assemble(clips: list[tuple[Path, str]], work: Path, out_file: Path, music: Path | None) -> Path:
+def assemble(clips: list[tuple[Path, float, float | None, str]], work: Path, out_file: Path,
+             music: Path | None) -> Path:
+    """clips: (archivo, inicio, duración o None para todo, texto en pantalla)."""
     parts = []
-    for i, (clip, texto) in enumerate(clips):
+    for i, (clip, start, length, texto) in enumerate(clips):
         info = probe(clip)
-        dur = f"{info['duration']:.2f}"
+        length = length or info["duration"] - start
+        dur = f"{length:.2f}"
         overlay = text_overlay(texto, work / f"txt_{i}.png")
         part = work / f"part_{i}.mp4"
-        run([ffmpeg_bin(), "-y", "-i", str(clip), "-i", str(overlay),
+        run([ffmpeg_bin(), "-y", "-ss", f"{start:.2f}", "-t", dur, "-i", str(clip), "-i", str(overlay),
              "-f", "lavfi", "-t", dur, "-i", "anullsrc=r=44100:cl=stereo",
              "-filter_complex",
              f"[0:v]scale={WIDTH}:{HEIGHT}:force_original_aspect_ratio=increase,"
@@ -325,6 +332,79 @@ def process(job: dict, files: list[Path], urls: list[str], instrucciones: str, d
         paths = list(pool.map(one, enumerate(plan["escenas"])))
 
     progress("Montando el video final…")
-    assemble([(p, e["texto_pantalla"]) for p, e in zip(paths, plan["escenas"])], work, out_file, music)
+    assemble([(p, 0.0, None, e["texto_pantalla"]) for p, e in zip(paths, plan["escenas"])], work, out_file, music)
+    job["status"] = "¡Listo!"
+    job["done"] = True
+
+
+# ---------- modo gratis ----------
+
+def scene_cuts(video: Path) -> list[float]:
+    """Segundos donde cambia la toma (detección de escenas de ffmpeg)."""
+    out = subprocess.run([ffmpeg_bin(), "-hide_banner", "-i", str(video), "-an",
+                          "-vf", "scale=160:-2,scdet=threshold=10", "-f", "null", "-"],
+                         capture_output=True, text=True).stderr
+    return [float(t) for t in re.findall(r"lavfi\.scd\.time: ([0-9.]+)", out)]
+
+
+def free_plan(videos: list[dict], duracion: int, textos: list[str]) -> list[dict]:
+    """Elige tramos cortos y dinámicos de cada video y los intercala hasta llenar la duración."""
+    shots_by_video = []
+    for v in videos:
+        bounds = [0.3] + [c for c in v["cuts"] if 0.3 < c < v["duration"] - 0.3] + [v["duration"]]
+        shots = []
+        for a, b in zip(bounds, bounds[1:]):
+            t = a
+            while b - t >= 1.2:  # tomas largas se parten en tramos de ~2.5 s
+                shots.append({"video": v["n"], "inicio": round(t, 2), "fin": round(min(t + 2.5, b), 2)})
+                t += 2.5
+        shots_by_video.append({"n": v["n"], "shots": shots, "ritmo": len(v["cuts"]) / max(v["duration"], 1)})
+
+    # Empieza el video más dinámico (más cortes por segundo): sirve de gancho.
+    shots_by_video.sort(key=lambda x: -x["ritmo"])
+    queues = [list(x["shots"]) for x in shots_by_video]
+    plan, total = [], 0.0
+    while total < duracion and any(queues):
+        for q in queues:
+            if q and total < duracion:
+                shot = q.pop(0)
+                shot["fin"] = round(min(shot["fin"], shot["inicio"] + duracion - total), 2)
+                if shot["fin"] - shot["inicio"] >= 0.8:
+                    plan.append(shot)
+                    total += shot["fin"] - shot["inicio"]
+    if not plan:
+        raise RuntimeError("Los videos son muy cortos. Sube clips de al menos 3 segundos.")
+
+    for seg in plan:
+        seg["texto"] = ""
+    if textos:  # primer texto al inicio, último al final, el resto repartido
+        n = len(plan)
+        m = min(len(textos), n)
+        for k, t in enumerate(textos[:m]):
+            idx = 0 if m == 1 else round(k * (n - 1) / (m - 1))
+            plan[idx]["texto"] = t
+    return plan
+
+
+def process_free(job: dict, files: list[Path], urls: list[str], duracion: int, textos: list[str],
+                 music: Path | None, work: Path, out_file: Path) -> None:
+    def progress(msg: str) -> None:
+        job["status"] = msg
+
+    for u in urls:
+        progress("Descargando TikTok…")
+        files.append(download_url(u, work))
+
+    videos = []
+    for n, f in enumerate(files, start=1):
+        progress(f"Buscando los mejores momentos del video {n} de {len(files)}…")
+        videos.append({"n": n, "path": f, **probe(f), "cuts": scene_cuts(f)})
+
+    plan = free_plan(videos, duracion, textos)
+    job["plan"] = {"modo": "gratis", "titulo": "Tu video está listo", "segmentos": plan}
+    progress("Montando el video…")
+    by_n = {v["n"]: v["path"] for v in videos}
+    assemble([(by_n[s["video"]], s["inicio"], s["fin"] - s["inicio"], s["texto"]) for s in plan],
+             work, out_file, music)
     job["status"] = "¡Listo!"
     job["done"] = True

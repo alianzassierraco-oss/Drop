@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>TikTok Video AI</title>
+<title>SN DROP</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800&family=Manrope:wght@400;500;700&family=JetBrains+Mono:wght@500&display=swap">
 <style>
@@ -102,6 +102,17 @@ textarea:focus, input:focus, .drop:focus-visible, button:focus-visible { outline
 .actions { display: flex; flex-wrap: wrap; gap: 10px; }
 .btn2 { background: #111a33; border: 1px solid var(--line); color: var(--fg); border-radius: 10px; padding: 10px 16px; font: 600 13px var(--body); cursor: pointer; text-decoration: none; }
 .btn2:hover { border-color: var(--blue); }
+.modes { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+@media (max-width: 560px) { .modes { grid-template-columns: 1fr; } }
+.mode { cursor: pointer; }
+.mode input { position: absolute; opacity: 0; }
+.mode span { display: grid; gap: 4px; height: 100%; padding: 16px 18px; border-radius: 16px; border: 1.5px solid var(--line); background: var(--panel); transition: border-color .2s, box-shadow .2s; }
+.mode b { font: 700 15px var(--display); }
+.mode small { color: var(--muted); font-size: 12.5px; line-height: 1.45; }
+.mode em { font: 500 12px var(--mono); font-style: normal; color: var(--cyan); }
+.mode input:checked + span { border-color: var(--blue); box-shadow: 0 0 0 1px var(--blue), 0 10px 40px -18px rgba(47,123,255,.9); }
+.mode input:focus-visible + span { outline: 2px solid var(--cyan); outline-offset: 2px; }
+body.gratis .only-pro, body.pro .only-free { display: none; }
 .muted { color: var(--muted); font-size: 12px; }
 .err { color: var(--danger); font-weight: 600; }
 table { width: 100%; border-collapse: collapse; font-size: 13px; }
@@ -120,17 +131,23 @@ dialog a { color: var(--cyan); }
 <body>
 <div class="wrap">
   <header>
-    <div class="brand"><div class="logo"><svg viewBox="0 0 10 10"><path d="M2 1 L9 5 L2 9 Z"/></svg></div>TikTok Video AI</div>
+    <div class="brand"><div class="logo"><svg viewBox="0 0 10 10"><path d="M2 1 L9 5 L2 9 Z"/></svg></div>SN DROP</div>
     <button class="icon-btn" id="keyBtn" type="button"><span class="dot {{ 'ok' if has_keys else '' }}" id="keyDot"></span>Claves</button>
   </header>
 
-  <h1>Dale 2 o 3 TikToks.<br><span>La IA crea uno nuevo.</span></h1>
-  <p class="lead">La IA estudia qué hace funcionar a tus TikToks de referencia, escribe un guion propio y genera desde cero cada escena con imagen y sonido. Recibes un video vertical listo para publicar, con caption y hashtags.</p>
+  <h1>Dale tus TikToks.<br><span>Sale uno nuevo.</span></h1>
+  <p class="lead" id="lead"></p>
 
   <div class="grid">
     <form id="form">
+      <div class="modes" role="radiogroup" aria-label="Modo">
+        <label class="mode"><input type="radio" name="modo" value="gratis" checked>
+          <span><b>Modo gratis</b><small>Edita tus propios videos: elige los mejores momentos, los une y les pone tus textos y música.</small><em>$0</em></span></label>
+        <label class="mode"><input type="radio" name="modo" value="pro">
+          <span><b>IA Pro</b><small>La IA estudia tus TikToks y crea un video totalmente nuevo desde cero.</small><em>≈ $2–3 por video</em></span></label>
+      </div>
       <div>
-        <span class="label">1 · TikToks de referencia (2 o 3)</span>
+        <span class="label" id="lblVideos">1 · Tus videos</span>
         <div class="drop" id="drop" tabindex="0" role="button">
           <strong>Arrastra tus videos aquí</strong>
           <small>o haz clic para elegirlos · MP4 o MOV · puedes subir varios</small>
@@ -144,7 +161,15 @@ dialog a { color: var(--cyan); }
         <textarea id="links" name="links" rows="2" placeholder="https://www.tiktok.com/@usuario/video/123…"></textarea>
       </div>
 
-      <div>
+      <div class="only-free">
+        <label class="label" for="textos">2 · Textos en pantalla (uno por línea, opcional)</label>
+        <textarea id="textos" name="textos" rows="4">¿Tu cabello se ve opaco?
+Romero + queratina
+Brillo desde la primera aplicación
+Compra ahora · link en la bio</textarea>
+      </div>
+
+      <div class="only-pro">
         <label class="label" for="instrucciones">2 · ¿Qué video nuevo quieres?</label>
         <textarea id="instrucciones" name="instrucciones" rows="4">Un anuncio elegante para mi aceite capilar de romero y queratina (frasco de vidrio ámbar de 30 ml). Mujer latina de cabello largo, luz natural de mañana, look premium. Termina con "Compra ahora, link en la bio".</textarea>
         <div class="presets">
@@ -159,13 +184,13 @@ dialog a { color: var(--cyan); }
         <div>
           <label class="label" for="duracion">Duración</label>
           <select id="duracion" name="duracion">
-            <option value="8">8 segundos · 1 escena</option>
-            <option value="16" selected>16 segundos · 2 escenas</option>
-            <option value="24">24 segundos · 3 escenas</option>
-            <option value="32">32 segundos · 4 escenas</option>
+            <option value="8">8 segundos</option>
+            <option value="16" selected>16 segundos</option>
+            <option value="24">24 segundos</option>
+            <option value="32">32 segundos</option>
           </select>
         </div>
-        <div>
+        <div class="only-pro">
           <label class="label" for="calidad">Calidad</label>
           <select id="calidad" name="calidad">
             <option value="calidad" selected>Máxima calidad</option>
@@ -174,7 +199,7 @@ dialog a { color: var(--cyan); }
         </div>
       </div>
       <div class="row">
-        <div>
+        <div class="only-pro">
           <label class="label" for="foto">Foto de tu producto (opcional)</label>
           <input type="file" id="foto" name="foto" accept="image/png,image/jpeg" class="btn2" style="width:100%">
         </div>
@@ -184,7 +209,7 @@ dialog a { color: var(--cyan); }
         </div>
       </div>
 
-      <button class="go" id="go" type="submit">Crear video con IA</button>
+      <button class="go" id="go" type="submit">Crear video</button>
     </form>
 
     <div class="phone"><div class="screen" id="screen">
@@ -243,7 +268,20 @@ $('#keySave').onclick = async (e) => {
   const j = await r.json();
   $('#keyDot').classList.toggle('ok', j.ok); dlg.close();
 };
-if (!$('#keyDot').classList.contains('ok')) dlg.showModal();
+// modo gratis / IA Pro
+const LEADS = {
+  gratis: 'Sube tus videos o clips de tu producto. La app encuentra los mejores momentos, los une en un TikTok vertical nuevo y le pone tus textos y tu música. Gratis y sin claves.',
+  pro: 'Dale 2 o 3 TikToks de referencia. La IA estudia qué los hace funcionar, escribe un guion propio y genera desde cero cada escena con imagen y sonido.'
+};
+function setMode() {
+  const m = document.querySelector('input[name=modo]:checked').value;
+  document.body.className = m;
+  $('#lead').textContent = LEADS[m];
+  $('#lblVideos').textContent = m === 'pro' ? '1 · TikToks de referencia (2 o 3)' : '1 · Tus videos';
+  $('#go').textContent = m === 'pro' ? 'Crear video con IA Pro' : 'Crear video gratis';
+}
+document.querySelectorAll('input[name=modo]').forEach(r => r.onchange = setMode);
+setMode();
 
 const screen = $('#screen'), result = $('#result'), go = $('#go');
 function esc(s) { const d = document.createElement('div'); d.textContent = s ?? ''; return d.innerHTML; }
@@ -256,6 +294,8 @@ $('#form').onsubmit = async (e) => {
   fd.append('instrucciones', $('#instrucciones').value);
   fd.append('duracion', $('#duracion').value);
   fd.append('calidad', $('#calidad').value);
+  fd.append('modo', document.querySelector('input[name=modo]:checked').value);
+  fd.append('textos', $('#textos').value);
   if ($('#foto').files[0]) fd.append('foto', $('#foto').files[0]);
   if ($('#musica').files[0]) fd.append('musica', $('#musica').files[0]);
 
@@ -282,17 +322,29 @@ async function poll(id) {
   const src = '/videos/' + j.video;
   screen.innerHTML = `<video src="${src}" controls autoplay playsinline loop></video>`;
   const p = j.plan;
+  if (p.modo === 'gratis') return showFree(p, src, j);
   const rows = p.escenas.map((s, i) => `<tr><td class="n">${i + 1}</td><td>${esc(s.texto_pantalla)}</td><td class="muted">${esc(s.prompt_video)}</td></tr>`).join('');
   const caption = p.caption + '\n\n' + p.hashtags.map(h => h.startsWith('#') ? h : '#' + h).join(' ');
   result.innerHTML = `
     <div class="card"><h3>${esc(p.titulo)}</h3>
       <div class="actions"><button class="btn2" id="finder">Ver en Finder</button><button class="btn2" id="copy">Copiar caption + hashtags</button></div>
-      <p class="muted" style="margin-top:10px">Guardado en la carpeta TikTokVideoAI › Videos creados.</p></div>
+      <p class="muted" style="margin-top:10px">Guardado en la carpeta SN DROP › Videos creados.</p></div>
     <div class="card"><h3>Caption</h3><p>${esc(p.caption)}</p><p class="tags" style="margin-top:10px">${esc(p.hashtags.join(' '))}</p></div>
     <div class="card"><h3>Lo que la IA aprendió de tus TikToks</h3><p>${esc(p.analisis)}</p></div>
     <div class="card"><h3>Guion de escenas</h3><div class="scroll"><table><tr><th>#</th><th>Texto en pantalla</th><th>Lo que generó la IA</th></tr>${rows}</table></div></div>`;
   result.hidden = false;
   $('#copy').onclick = async (ev) => { await fetch('/api/copiar', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ text: caption }) }); ev.target.textContent = '¡Copiado!'; };
+  $('#finder').onclick = () => fetch('/api/finder/' + j.video, { method: 'POST' });
+}
+
+function showFree(p, src, j) {
+  const rows = p.segmentos.map((s, i) => `<tr><td class="n">${i + 1}</td><td class="n">Video ${s.video}</td><td class="n">${s.inicio.toFixed(1)}s → ${s.fin.toFixed(1)}s</td><td>${esc(s.texto)}</td></tr>`).join('');
+  result.innerHTML = `
+    <div class="card"><h3>${esc(p.titulo)}</h3>
+      <div class="actions"><button class="btn2" id="finder">Ver en Finder</button></div>
+      <p class="muted" style="margin-top:10px">Guardado en la carpeta SN DROP › Videos creados.</p></div>
+    <div class="card"><h3>Momentos elegidos</h3><div class="scroll"><table><tr><th>#</th><th>Video</th><th>Tramo</th><th>Texto</th></tr>${rows}</table></div></div>`;
+  result.hidden = false;
   $('#finder').onclick = () => fetch('/api/finder/' + j.video, { method: 'POST' });
 }
 </script>
