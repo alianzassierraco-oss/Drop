@@ -1,5 +1,10 @@
 {
   "layout": "power-factor",
-  "sections": {},
-  "order": []
+  "sections": {
+    "main": {
+      "type": "pf-empty",
+      "settings": {}
+    }
+  },
+  "order": ["main"]
 }
