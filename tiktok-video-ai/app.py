@@ -99,14 +99,12 @@ def crear():
     out_name = f"video_{job_id}.mp4"
     job = jobs[job_id] = {"status": "Empezando…", "done": False, "error": None, "plan": None, "video": out_name}
 
-    request_look = request.form.get("look", "aleatorio")
     textos = [t.strip() for t in request.form.get("textos", "").splitlines() if t.strip()]
 
     def worker():
         try:
             if gratis:
-                pipeline.process_free(job, files, urls, duracion, textos, music, work, OUTPUT_DIR / out_name,
-                                      request_look)
+                pipeline.process_free(job, files, urls, textos, music, work, OUTPUT_DIR / out_name)
             else:
                 pipeline.process(job, files, urls, instrucciones, duracion, calidad, foto, music, work,
                                  OUTPUT_DIR / out_name, keys)

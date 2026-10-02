@@ -142,7 +142,7 @@ dialog a { color: var(--cyan); }
     <form id="form">
       <div class="modes" role="radiogroup" aria-label="Modo">
         <label class="mode"><input type="radio" name="modo" value="gratis">
-          <span><b>Modo gratis</b><small>Edita tus propios videos: elige los mejores momentos, los une y les pone tus textos y música.</small><em>$0</em></span></label>
+          <span><b>Modo gratis</b><small>Une tus videos tal cual, completos y en el orden que los subas. No corta ni cambia nada.</small><em>$0</em></span></label>
         <label class="mode"><input type="radio" name="modo" value="pro" checked>
           <span><b>IA Pro</b><small>La IA estudia tus TikToks y crea un video totalmente nuevo desde cero.</small><em>desde ≈ $1 por video</em></span></label>
       </div>
@@ -163,10 +163,7 @@ dialog a { color: var(--cyan); }
 
       <div class="only-free">
         <label class="label" for="textos">2 · Textos en pantalla (uno por línea, opcional)</label>
-        <textarea id="textos" name="textos" rows="4">¿Tu cabello se ve opaco?
-Romero + queratina
-Brillo desde la primera aplicación
-Compra ahora · link en la bio</textarea>
+        <textarea id="textos" name="textos" rows="3" placeholder="Déjalo vacío para no agregar ningún texto"></textarea>
       </div>
 
       <div class="only-pro">
@@ -181,24 +178,13 @@ Compra ahora · link en la bio</textarea>
       </div>
 
       <div class="row">
-        <div>
+        <div class="only-pro">
           <label class="label" for="duracion">Duración</label>
           <select id="duracion" name="duracion">
             <option value="8">8 segundos</option>
             <option value="16" selected>16 segundos</option>
             <option value="24">24 segundos</option>
             <option value="32">32 segundos</option>
-          </select>
-        </div>
-        <div class="only-free">
-          <label class="label" for="look">Look del video</label>
-          <select id="look" name="look">
-            <option value="aleatorio" selected>Sorpréndeme (distinto cada vez)</option>
-            <option value="vibrante">Vibrante</option>
-            <option value="cine">Cine</option>
-            <option value="frio">Frío azul</option>
-            <option value="calido">Cálido</option>
-            <option value="blanco y negro">Blanco y negro</option>
           </select>
         </div>
         <div class="only-pro">
@@ -282,7 +268,7 @@ $('#keySave').onclick = async (e) => {
 };
 // modo gratis / IA Pro
 const LEADS = {
-  gratis: 'Sube tus videos o clips de tu producto. La app mezcla los mejores momentos en otro orden, cambia colores, zooms, velocidad y encuadre, y le pone tus textos y tu música. Cada vez sale un video distinto. Gratis y sin claves.',
+  gratis: 'Sube tus videos o clips de tu producto. Sube tus videos y la app los une en uno solo, completos y tal cual están, en formato vertical para TikTok. Si quieres, agrégale textos o música. Gratis y sin claves.',
   pro: 'Dale 2 o 3 TikToks de referencia. La IA estudia qué los hace funcionar, escribe un guion propio y genera desde cero cada escena con imagen y sonido.'
 };
 function setMode() {
@@ -308,7 +294,6 @@ $('#form').onsubmit = async (e) => {
   fd.append('calidad', $('#calidad').value);
   fd.append('modo', document.querySelector('input[name=modo]:checked').value);
   fd.append('textos', $('#textos').value);
-  fd.append('look', $('#look').value);
   if ($('#foto').files[0]) fd.append('foto', $('#foto').files[0]);
   if ($('#musica').files[0]) fd.append('musica', $('#musica').files[0]);
 
@@ -351,16 +336,14 @@ async function poll(id) {
 }
 
 function showFree(p, src, j) {
-  const rows = p.segmentos.map((s, i) => `<tr><td class="n">${i + 1}</td><td class="n">Video ${s.video}</td><td class="n">${s.inicio.toFixed(1)}s → ${s.fin.toFixed(1)}s</td><td>${esc(s.texto)}</td></tr>`).join('');
+  const rows = p.videos.map((v, i) => `<tr><td class="n">${i + 1}</td><td>${esc(v)}</td><td>${esc(p.textos[i])}</td></tr>`).join('');
   result.innerHTML = `
     <div class="card"><h3>${esc(p.titulo)}</h3>
-      <p class="muted" style="margin-bottom:12px">${esc(p.estilo)}</p>
-      <div class="actions"><button class="btn2" id="finder">Ver en Finder</button><button class="btn2" id="otra">Crear otra versión distinta</button></div>
+      <div class="actions"><button class="btn2" id="finder">Ver en Finder</button></div>
       <p class="muted" style="margin-top:10px">Guardado en la carpeta SN DROP › Videos creados.</p></div>
-    <div class="card"><h3>Momentos elegidos</h3><div class="scroll"><table><tr><th>#</th><th>Video</th><th>Tramo</th><th>Texto</th></tr>${rows}</table></div></div>`;
+    <div class="card"><h3>Videos unidos (en este orden)</h3><div class="scroll"><table><tr><th>#</th><th>Video</th><th>Texto</th></tr>${rows}</table></div></div>`;
   result.hidden = false;
   $('#finder').onclick = () => fetch('/api/finder/' + j.video, { method: 'POST' });
-  $('#otra').onclick = () => $('#form').requestSubmit();
 }
 </script>
 </body>
