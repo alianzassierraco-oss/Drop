@@ -59,6 +59,7 @@
              box-shadow:0 6px 0 #087A35,0 12px 28px rgba(15,168,75,.4)}
   .btn-sm{font-size:14px;padding:10px 18px;background:var(--yellow);color:var(--ink);box-shadow:0 3px 0 #C99400}
   .btn-block{width:100%}
+  .pf-cod-form{margin:0}
   .pulse{animation:pulse 1.8s infinite}
   @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.04)}}
   .tag-2x1{display:inline-block;background:var(--red);color:#fff;font-family:Anton,sans-serif;font-size:15px;padding:2px 10px;border-radius:6px;margin-left:4px}
@@ -573,7 +574,12 @@
         </div>
         <div class="total">Total: <span id="total">$99.900</span></div>
 
-        <a href="#" id="buyBtn" class="btn btn-promo btn-block pulse">¡Comprar ahora! ⚡</a>
+        {%- form 'product', pf, id: 'pf-cod-form', class: 'pf-cod-form' -%}
+          <input type="hidden" name="id" value="{{ pf.selected_or_first_available_variant.id }}">
+          <input type="hidden" name="quantity" id="pf-qty" value="2">
+          <input type="hidden" name="return_to" id="pf-return" value="/checkout?discount=LLEVA2">
+          <button type="submit" name="add" id="buyBtn" class="btn btn-promo btn-block pulse _rsi-cod-form-pagefly-button-overwrite-v2">¡Pedir ahora · Pago contra entrega! ⚡</button>
+        {%- endform -%}
         <div class="ok-list"><span>Pago seguro</span><span>Compra protegida</span><span>Atención al cliente</span></div>
       </div>
     </div>
@@ -657,6 +663,26 @@
   </div>
 </section>
 
+<!-- ================= RESEÑAS (reales, de la app de reseñas) ================= -->
+{%- liquid
+  assign rating = pf.metafields.reviews.rating.value
+  assign rating_count = pf.metafields.reviews.rating_count | default: 0
+-%}
+<section id="resenas" style="background:#fff">
+  <div class="wrap">
+    <h2 class="rv">Opiniones de clientes</h2>
+    {%- if rating_count > 0 -%}
+      <p class="lead rv"><span style="color:#FFB800;font-size:26px;letter-spacing:2px">{%- assign full = rating.rating | round -%}{%- for i in (1..5) -%}{%- if i <= full -%}★{%- else -%}☆{%- endif -%}{%- endfor -%}</span><br><b>{{ rating.rating | round: 1 }} de 5</b> · {{ rating_count }} {% if rating_count == 1 %}opinión{% else %}opiniones{% endif %}</p>
+    {%- else -%}
+      <p class="lead rv">Aún no hay opiniones. ¿Ya lo compraste? Cuéntanos qué tal te fue.</p>
+    {%- endif -%}
+    <div class="rv" style="max-width:900px;margin:0 auto">
+      {%- comment -%} Widget de Judge.me (si la app está instalada aparece aquí con sus reseñas y el formulario para escribir una) {%- endcomment -%}
+      <div class="jdgm-widget jdgm-review-widget jdgm-outside-widget" data-id="{{ pf.id }}" data-product-title="{{ pf.title | escape }}">{{ pf.metafields.judgeme.widget }}</div>
+    </div>
+  </div>
+</section>
+
 <!-- ================= FAQ ================= -->
 <section style="background:#fff">
   <div class="wrap">
@@ -706,7 +732,7 @@
       </div>
       <div>
         <h4>Ayuda</h4>
-        <ul><li><a href="#oferta">Comprar</a></li><li><a href="#beneficios">Beneficios</a></li><li><a href="#">Preguntas frecuentes</a></li></ul>
+        <ul><li><a href="#oferta">Comprar</a></li><li><a href="#beneficios">Beneficios</a></li><li><a href="#resenas">Opiniones</a></li><li><a href="#">Preguntas frecuentes</a></li></ul>
       </div>
       <div>
         <h4>Políticas</h4>
@@ -796,6 +822,7 @@ document.querySelectorAll("[data-qty]").forEach(b => b.addEventListener("click",
 }));
 document.querySelectorAll('input[name="pack"]').forEach(r => r.addEventListener("change", renderQty));
 function endPromo(){
+  setTimeout(() => { if (typeof syncForm === "function") syncForm(); }, 0);
   const two = document.querySelector('input[name="pack"][value="2"]');
   two.disabled = true; two.closest(".pack").style.opacity = .45;
   document.querySelector('input[name="pack"][value="1"]').checked = true;
@@ -805,22 +832,27 @@ if (document.body.classList.contains("promo-ended")) endPromo();
 window.pfReady = true;
 renderQty();
 
-/* ---------- Botón de compra: va directo al checkout de Shopify ---------- */
+/* ---------- Botón de compra ----------
+   Es un formulario normal de producto de Shopify: el app Releasit COD Form
+   lo toma y abre su formulario de pago contra entrega. Si Releasit no está
+   activo, el formulario agrega al carrito y va al checkout (con LLEVA2 si
+   eligieron "Lleva 2"). */
 const buyBtn = document.getElementById("buyBtn");
+const qtyInput = document.getElementById("pf-qty");
+const returnInput = document.getElementById("pf-return");
+function syncForm(){
+  const p = pack();
+  qtyInput.value = qty * p.units;
+  returnInput.value = p.units === 2 ? "/checkout?discount=" + encodeURIComponent(CONFIG.discountCode) : "/checkout";
+}
+document.querySelectorAll("[data-qty], input[name='pack']").forEach(el => el.addEventListener(el.matches("input") ? "change" : "click", syncForm));
+syncForm();
 if (!CONFIG.available){
   buyBtn.textContent = "Agotado";
+  buyBtn.disabled = true;
   buyBtn.classList.remove("pulse");
-  buyBtn.style.pointerEvents = "none";
   buyBtn.style.opacity = .5;
 }
-buyBtn.addEventListener("click", e => {
-  e.preventDefault();
-  if (!CONFIG.available) return;
-  const p = pack();
-  let url = "/cart/" + CONFIG.variantId + ":" + (qty * p.units);
-  if (p.units === 2) url += "?discount=" + encodeURIComponent(CONFIG.discountCode);
-  location.href = url;
-});
 
 /* ---------- Animaciones al hacer scroll ---------- */
 const io = new IntersectionObserver(es => es.forEach(x => { if (x.isIntersecting){ x.target.classList.add("in"); io.unobserve(x.target); } }), {threshold:.12});
