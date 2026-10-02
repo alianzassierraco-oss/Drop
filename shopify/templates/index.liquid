@@ -1,0 +1,833 @@
+{% layout none %}
+{%- assign pf = all_products['ahorrador-de-energia-power-factor-x1'] -%}
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ pf.title }} – Lleva 2 por $99.900</title>
+<meta name="description" content="{{ pf.title }}. Lleva 2 por $99.900 por tiempo limitado.">
+{{ content_for_header }}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --yellow:#FFD60A;
+    --green:#22E06B;
+    --green-dark:#0FA84B;
+    --red:#FF2E3B;
+    --navy:#0B1630;
+    --navy-2:#13234A;
+    --ink:#101418;
+    --muted:#5B6472;
+    --bg:#F4F6FA;
+    --white:#fff;
+    --radius:18px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:Poppins,system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.5;overflow-x:hidden}
+  img,svg{display:block;max-width:100%}
+  a{color:inherit}
+  .wrap{max-width:1140px;margin:0 auto;padding:0 16px}
+  h1,h2,.big{font-family:Anton,Impact,sans-serif;font-weight:400;letter-spacing:.5px;line-height:1.05;text-transform:uppercase}
+  h2{font-size:clamp(30px,5vw,48px);text-align:center;margin-bottom:12px}
+  .lead{text-align:center;color:var(--muted);max-width:640px;margin:0 auto 36px}
+  section{padding:64px 0}
+
+  /* ---------- PROMO BAR ---------- */
+  .promobar{background:var(--red);color:#fff;font-weight:700;font-size:14px;text-align:center;padding:8px 12px;position:relative;z-index:30}
+  .promobar b{background:var(--yellow);color:var(--ink);padding:1px 8px;border-radius:6px;margin:0 4px}
+  .promobar .mini-timer{font-variant-numeric:tabular-nums;white-space:nowrap}
+
+  /* ---------- HEADER ---------- */
+  header{background:var(--navy);color:#fff;position:sticky;top:0;z-index:20;box-shadow:0 4px 18px rgba(0,0,0,.25)}
+  header .wrap{display:flex;align-items:center;justify-content:space-between;height:64px;gap:12px}
+  .logo{display:flex;align-items:center;gap:8px;font-weight:800;font-size:18px;text-decoration:none}
+  .logo .bolt{width:34px;height:34px;border-radius:10px;background:var(--yellow);display:grid;place-items:center}
+  .logo span em{color:var(--green);font-style:normal}
+
+  /* ---------- BUTTONS ---------- */
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;border:0;cursor:pointer;text-decoration:none;
+       font-family:Poppins,sans-serif;font-weight:800;text-transform:uppercase;letter-spacing:.3px;border-radius:999px;transition:transform .15s, box-shadow .15s, filter .15s}
+  .btn:hover{transform:translateY(-2px) scale(1.02);filter:brightness(1.05)}
+  .btn:active{transform:scale(.98)}
+  .btn-promo{background:linear-gradient(180deg,#FFE347,#FFC300);color:var(--ink);font-size:20px;padding:18px 34px;
+             box-shadow:0 6px 0 #C99400,0 12px 28px rgba(255,195,0,.45)}
+  .btn-promo:hover{box-shadow:0 8px 0 #C99400,0 16px 34px rgba(255,195,0,.55)}
+  .btn-green{background:linear-gradient(180deg,#38F07E,var(--green-dark));color:#fff;font-size:20px;padding:18px 34px;
+             box-shadow:0 6px 0 #087A35,0 12px 28px rgba(15,168,75,.4)}
+  .btn-sm{font-size:14px;padding:10px 18px;background:var(--yellow);color:var(--ink);box-shadow:0 3px 0 #C99400}
+  .btn-block{width:100%}
+  .pulse{animation:pulse 1.8s infinite}
+  @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.04)}}
+  .tag-2x1{display:inline-block;background:var(--red);color:#fff;font-family:Anton,sans-serif;font-size:15px;padding:2px 10px;border-radius:6px;margin-left:4px}
+
+  /* ---------- HERO ---------- */
+  .hero{background:radial-gradient(1200px 500px at 80% 0%, #1D3A7A 0%, transparent 60%), var(--navy);color:#fff;padding:40px 0 70px;position:relative;overflow:hidden}
+  .hero::after{content:"";position:absolute;inset:auto -10% -60px -10%;height:120px;background:var(--bg);transform:rotate(-2.5deg)}
+  .hero .wrap{display:grid;grid-template-columns:1.1fr 1fr;gap:32px;align-items:center;position:relative;z-index:1}
+  .hero h1{font-size:clamp(40px,7vw,76px)}
+  .hero h1 .y{color:var(--yellow)}
+  .hero h1 .g{color:var(--green)}
+  .hero p.sub{font-size:17px;color:#C9D3EA;margin:16px 0 22px;max-width:520px}
+  .chip{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);padding:6px 12px;border-radius:999px;font-size:13px;font-weight:600;margin-bottom:14px}
+  .chip i{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green)}
+  .price-row{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:18px}
+  .burst{width:110px;height:110px;flex:none;display:grid;place-items:center;background:var(--red);color:#fff;text-align:center;
+         clip-path:polygon(50% 0,61% 12%,76% 6%,80% 21%,95% 24%,90% 39%,100% 50%,90% 61%,95% 76%,80% 79%,76% 94%,61% 88%,50% 100%,39% 88%,24% 94%,20% 79%,5% 76%,10% 61%,0 50%,10% 39%,5% 24%,20% 21%,24% 6%,39% 12%);
+         animation:spin 14s linear infinite}
+  .burst span{font-family:Anton,sans-serif;font-size:34px;line-height:1;animation:spin 14s linear infinite reverse;display:block}
+  .burst small{display:block;font-size:11px;font-weight:700;font-family:Poppins}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .price{font-family:Anton,sans-serif;font-size:56px;color:var(--yellow);line-height:1}
+  .price small{display:block;font-family:Poppins;font-size:14px;color:#C9D3EA;font-weight:600}
+  .trust-mini{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:18px;font-size:14px;color:#C9D3EA}
+  .trust-mini span::before{content:"✓ ";color:var(--green);font-weight:800}
+
+  /* ---------- TIMER ---------- */
+  .timer{display:flex;gap:8px;margin:4px 0 22px}
+  .timer .u{background:#fff;color:var(--ink);border-radius:12px;min-width:66px;padding:8px 6px;text-align:center;box-shadow:0 4px 0 rgba(0,0,0,.25)}
+  .timer .u b{display:block;font-family:Anton,sans-serif;font-size:32px;line-height:1;font-variant-numeric:tabular-nums}
+  .timer .u small{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase}
+  .timer-label{font-weight:800;color:var(--yellow);text-transform:uppercase;font-size:14px;letter-spacing:.5px}
+  .timer.ended .u{opacity:.4}
+
+  /* ---------- CARDS ---------- */
+  .grid{display:grid;gap:18px}
+  .g4{grid-template-columns:repeat(4,1fr)}
+  .g3{grid-template-columns:repeat(3,1fr)}
+  .g2{grid-template-columns:repeat(2,1fr)}
+  .card{background:#fff;border-radius:var(--radius);padding:24px;box-shadow:0 6px 20px rgba(16,20,24,.07);border:2px solid transparent;transition:border-color .2s, transform .2s}
+  .card:hover{border-color:var(--yellow);transform:translateY(-4px)}
+  .card .ic{width:58px;height:58px;border-radius:16px;background:var(--navy);display:grid;place-items:center;margin-bottom:14px}
+  .card h3{font-size:18px;font-weight:800;margin-bottom:6px;text-transform:uppercase}
+  .card p{color:var(--muted);font-size:15px}
+  .note{font-size:12.5px;color:var(--muted);text-align:center;margin-top:20px}
+
+  /* ---------- SPLIT ---------- */
+  .split{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center}
+  .split h2{text-align:left}
+  .checklist{list-style:none;display:grid;gap:12px;margin:18px 0 26px}
+  .checklist li{display:flex;gap:12px;align-items:flex-start;font-weight:600}
+  .checklist li::before{content:"⚡";flex:none;width:30px;height:30px;border-radius:50%;background:var(--yellow);display:grid;place-items:center;font-size:15px}
+  .art{border-radius:24px;overflow:hidden;box-shadow:0 16px 40px rgba(11,22,48,.18)}
+
+  /* ---------- STEPS ---------- */
+  .steps .card{text-align:center;position:relative;padding-top:38px}
+  .steps .num{position:absolute;top:-22px;left:50%;transform:translateX(-50%);width:48px;height:48px;border-radius:50%;background:var(--red);color:#fff;font-family:Anton,sans-serif;font-size:22px;display:grid;place-items:center;box-shadow:0 4px 0 #B3141E}
+  .steps svg{margin:0 auto 12px}
+
+  /* ---------- OFFER ---------- */
+  .offer{background:linear-gradient(135deg,var(--yellow),#FFB800);position:relative;overflow:hidden}
+  .offer::before{content:"2x1 2x1 2x1 2x1 2x1 2x1 2x1 2x1 2x1 2x1 2x1 2x1";position:absolute;top:50%;left:-5%;width:120%;transform:translateY(-50%) rotate(-8deg);
+                 font-family:Anton,sans-serif;font-size:180px;line-height:1;color:rgba(255,255,255,.18);white-space:nowrap;pointer-events:none}
+  .offer-box{position:relative;background:#fff;border-radius:28px;display:grid;grid-template-columns:1fr 1.1fr;overflow:hidden;box-shadow:0 20px 50px rgba(0,0,0,.2);border:4px solid var(--ink)}
+  .offer-art{background:var(--navy);display:grid;place-items:center;padding:24px;position:relative}
+  .offer-art .ribbon{position:absolute;top:18px;left:-40px;background:var(--red);color:#fff;font-weight:800;padding:6px 50px;transform:rotate(-35deg);font-size:14px;letter-spacing:1px}
+  .offer-body{padding:32px}
+  .offer-body h2{text-align:left;font-size:clamp(28px,4vw,42px)}
+  .offer-body .price{color:var(--red);font-size:64px}
+  .offer-body .price small{color:var(--muted)}
+  .offer-body .timer .u{background:var(--navy);color:#fff}
+  .offer-body .timer .u small{color:#9FB0D6}
+  .offer-body .timer-label{color:var(--red)}
+  .packs{display:grid;gap:10px;margin:6px 0 16px}
+  .pack{display:flex;align-items:center;gap:12px;border:3px solid #D5DBE5;border-radius:16px;padding:12px 14px;cursor:pointer;position:relative;transition:border-color .15s, background .15s}
+  .pack input{accent-color:var(--red);width:20px;height:20px;flex:none}
+  .pack .p-name{flex:1;font-weight:800;line-height:1.2}
+  .pack .p-name small{display:block;font-weight:600;color:var(--muted);font-size:13px}
+  .pack .p-price{font-family:Anton,sans-serif;font-size:24px}
+  .pack:has(input:checked){border-color:var(--red);background:#FFF4F4}
+  .pack .limit{display:inline-block;margin-top:5px;background:var(--ink);color:var(--yellow);font-size:11.5px;font-weight:800;padding:3px 9px;border-radius:6px;font-variant-numeric:tabular-nums}
+  .pack .best{position:absolute;top:-12px;right:14px;background:var(--red);color:#fff;font-size:11px;font-weight:800;padding:3px 10px;border-radius:999px}
+  .qty{display:flex;align-items:center;gap:14px;margin:6px 0 20px;flex-wrap:wrap}
+  .qty-ctrl{display:flex;align-items:center;border:2px solid var(--ink);border-radius:999px;overflow:hidden}
+  .qty-ctrl button{width:44px;height:44px;border:0;background:#fff;font-size:22px;font-weight:800;cursor:pointer}
+  .qty-ctrl button:hover{background:var(--yellow)}
+  .qty-ctrl output{min-width:44px;text-align:center;font-weight:800;font-size:18px}
+  .qty-info{font-size:14px;color:var(--muted)}
+  .qty-info b{color:var(--ink)}
+  .total{font-weight:800;font-size:18px;margin-bottom:14px}
+  .total span{color:var(--red)}
+  .ok-list{display:flex;flex-wrap:wrap;gap:6px 16px;margin-top:14px;font-size:14px;font-weight:600}
+  .ok-list span::before{content:"✓ ";color:var(--green-dark);font-weight:800}
+  .ended-msg{display:none;background:#FFE9EA;color:#A3121C;border-radius:12px;padding:10px 14px;font-weight:700;margin-bottom:14px}
+  body.promo-ended .ended-msg{display:block}
+
+  /* ---------- GALLERY ---------- */
+  .gallery{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+  .gallery figure{background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 6px 20px rgba(16,20,24,.08)}
+  .gallery figure:first-child{grid-column:span 2;grid-row:span 2}
+  .gallery figcaption{font-size:13px;font-weight:700;padding:10px 14px;text-transform:uppercase}
+  .gallery svg{width:100%;height:auto}
+
+  /* ---------- SPECS ---------- */
+  .specs{background:var(--navy);color:#fff}
+  .specs h2{color:#fff}
+  .specs .lead{color:#C9D3EA}
+  .spec-table{max-width:640px;margin:0 auto;border-radius:18px;overflow:hidden;border:2px solid rgba(255,255,255,.12)}
+  .spec-table div{display:flex;justify-content:space-between;gap:16px;padding:14px 20px;border-bottom:1px solid rgba(255,255,255,.1)}
+  .spec-table div:nth-child(odd){background:rgba(255,255,255,.04)}
+  .spec-table div:last-child{border:0}
+  .spec-table b{color:var(--yellow)}
+
+  /* ---------- FAQ ---------- */
+  .faq{max-width:760px;margin:0 auto;display:grid;gap:12px}
+  .faq details{background:#fff;border-radius:14px;box-shadow:0 4px 14px rgba(16,20,24,.06);overflow:hidden}
+  .faq summary{cursor:pointer;list-style:none;padding:18px 54px 18px 20px;font-weight:700;position:relative}
+  .faq summary::-webkit-details-marker{display:none}
+  .faq summary::after{content:"+";position:absolute;right:16px;top:50%;transform:translateY(-50%);width:28px;height:28px;border-radius:50%;background:var(--yellow);display:grid;place-items:center;font-weight:800}
+  .faq details[open] summary::after{content:"–"}
+  .faq details p{padding:0 20px 18px;color:var(--muted)}
+  .edit{background:#FFF6C7;border:1px dashed #C99400;border-radius:6px;padding:0 6px;color:#6B5200}
+
+  /* ---------- FINAL CTA ---------- */
+  .final{background:var(--red);color:#fff;text-align:center}
+  .final h2{color:#fff;font-size:clamp(36px,6vw,64px)}
+  .final h2 span{color:var(--yellow)}
+  .final p{margin:0 auto 26px;max-width:560px;font-size:17px}
+  .final .timer{justify-content:center}
+  .final .timer-label{color:#fff}
+
+  /* ---------- FOOTER ---------- */
+  footer{background:var(--ink);color:#AEB6C4;padding:48px 0 110px;font-size:14px}
+  footer .cols{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:28px}
+  footer h4{color:#fff;font-size:14px;text-transform:uppercase;margin-bottom:10px}
+  footer ul{list-style:none;display:grid;gap:6px}
+  footer a{text-decoration:none}
+  footer a:hover{color:var(--yellow)}
+  .pay{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+  .pay span{background:#fff;color:var(--ink);font-weight:800;font-size:11px;padding:5px 9px;border-radius:6px}
+  .legal{border-top:1px solid #2A313B;margin-top:30px;padding-top:18px;font-size:12px}
+
+  /* ---------- STICKY MOBILE ---------- */
+  .sticky{position:fixed;left:0;right:0;bottom:0;z-index:40;background:#fff;box-shadow:0 -6px 20px rgba(0,0,0,.15);padding:10px 16px;display:none;align-items:center;gap:12px}
+  .sticky .s-info{flex:1;min-width:0;line-height:1.25}
+  .sticky .s-info b,.sticky .s-info small{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .sticky .s-info b{font-family:Anton,sans-serif;font-size:20px;color:var(--red);display:block}
+  .sticky .s-info small{display:block;font-size:11.5px;color:var(--muted);font-weight:600;font-variant-numeric:tabular-nums}
+  .sticky .btn{font-size:16px;padding:14px 18px;width:auto;flex:none}
+
+  /* ---------- DOLOR ---------- */
+  .pain{background:#fff}
+  .pain h2 span{color:var(--red)}
+  .bill{max-width:340px;margin:0 auto 34px;background:#fff;border:3px solid var(--ink);border-radius:14px;padding:18px 20px;box-shadow:8px 8px 0 var(--red);transform:rotate(-2deg);font-weight:600}
+  .bill .row{display:flex;justify-content:space-between;border-bottom:1px dashed #C3CBD8;padding:6px 0;font-size:14px}
+  .bill .tot{display:flex;justify-content:space-between;align-items:center;margin-top:10px;font-weight:800}
+  .bill .tot b{font-family:Anton,sans-serif;font-size:32px;color:var(--red)}
+  .bill .stamp{display:inline-block;margin-top:8px;border:3px solid var(--red);color:var(--red);font-family:Anton,sans-serif;font-size:20px;padding:2px 10px;transform:rotate(-6deg)}
+  .pain .card{border-color:#FFE0E2}
+  .pain .card .ic{background:#FFE9EA;font-size:28px}
+  .pain-cta{margin-top:34px;background:var(--navy);color:#fff;border-radius:24px;padding:28px;text-align:center}
+  .pain-cta h3{font-family:Anton,sans-serif;font-weight:400;font-size:clamp(26px,4vw,38px);text-transform:uppercase;line-height:1.1;margin-bottom:10px}
+  .pain-cta h3 span{color:var(--yellow)}
+  .pain-cta p{color:#C9D3EA;max-width:620px;margin:0 auto 20px}
+  .habits{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:0 0 22px;text-align:left}
+  .habits div{background:rgba(255,255,255,.07);border-radius:12px;padding:12px;font-size:14px;font-weight:600}
+  @media (max-width:900px){.habits{grid-template-columns:1fr 1fr}}
+  @media (max-width:560px){.habits{grid-template-columns:1fr}}
+  /* ---------- REVEAL ---------- */
+  .rv{opacity:0;transform:translateY(24px);transition:opacity .6s, transform .6s}
+  .rv.in{opacity:1;transform:none}
+  @media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none}.pulse,.burst,.burst span{animation:none}}
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width:900px){
+    .hero .wrap,.split,.offer-box{grid-template-columns:1fr}
+    .g4{grid-template-columns:repeat(2,1fr)}
+    .g3{grid-template-columns:1fr;gap:34px}
+    .gallery{grid-template-columns:repeat(2,1fr)}
+    footer .cols{grid-template-columns:1fr 1fr}
+    .hero-art{order:-1;max-width:380px;margin:0 auto}
+    .split h2{text-align:center}
+  }
+  @media (max-width:560px){
+    section{padding:48px 0}
+    .g4,.g2{grid-template-columns:1fr}
+    .btn-promo,.btn-green{width:100%;font-size:18px;padding:17px 20px}
+    .timer .u{min-width:0;flex:1}
+    .price{font-size:48px}
+    .offer-body{padding:22px}
+    .offer-body .price{font-size:52px}
+    .header-cta{display:none}
+    .sticky{display:flex}
+    .promobar{font-size:12.5px}
+    .gallery figure:first-child{grid-column:span 2;grid-row:auto}
+  }
+</style>
+</head>
+<body>
+
+<!-- =========================================================
+     SVG reutilizables: el dispositivo dibujado (ilustración propia)
+========================================================== -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="caseG" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#E3E8F0"/>
+    </linearGradient>
+    <linearGradient id="sideG" x1="0" x2="1">
+      <stop offset="0" stop-color="#D5DBE5"/><stop offset="1" stop-color="#F4F6FA"/>
+    </linearGradient>
+    <filter id="glow" x="-50%" y="-200%" width="200%" height="500%">
+      <feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="10" stdDeviation="10" flood-color="#000" flood-opacity=".25"/>
+    </filter>
+    <!-- Vista frontal: 160 x 230 -->
+    <symbol id="dev" viewBox="0 0 160 230">
+      <rect x="4" y="4" width="152" height="222" rx="30" fill="url(#caseG)" stroke="#CBD3DF" stroke-width="2"/>
+      <rect x="14" y="14" width="132" height="202" rx="22" fill="none" stroke="#fff" stroke-width="2" opacity=".8"/>
+      <circle cx="80" cy="66" r="30" fill="none" stroke="#0B1630" stroke-width="2"/>
+      <circle cx="80" cy="66" r="22" fill="#0B1630"/>
+      <text x="80" y="62" text-anchor="middle" font-family="Anton,Impact,sans-serif" font-size="11" fill="#FFD60A">POWER</text>
+      <text x="80" y="76" text-anchor="middle" font-family="Anton,Impact,sans-serif" font-size="11" fill="#22E06B">FACTOR</text>
+      <text x="80" y="112" text-anchor="middle" font-family="Poppins,sans-serif" font-weight="800" font-size="14" fill="#0B1630">X1</text>
+      <rect x="4" y="140" width="152" height="9" fill="#22E06B" filter="url(#glow)"/>
+      <path d="M86 166 l-16 24 h11 l-5 20 l18 -27 h-11 z" fill="#22E06B" filter="url(#glow)"/>
+    </symbol>
+    <!-- Vista lateral con clavija: 200 x 230 -->
+    <symbol id="devSide" viewBox="0 0 200 230">
+      <rect x="20" y="4" width="120" height="222" rx="26" fill="url(#caseG)" stroke="#CBD3DF" stroke-width="2"/>
+      <rect x="120" y="4" width="40" height="222" rx="18" fill="url(#sideG)" stroke="#CBD3DF" stroke-width="2"/>
+      <rect x="20" y="140" width="120" height="8" fill="#22E06B" filter="url(#glow)"/>
+      <rect x="158" y="70" width="38" height="10" rx="2" fill="#B7BEC9"/>
+      <rect x="158" y="104" width="38" height="10" rx="2" fill="#B7BEC9"/>
+      <circle cx="192" cy="75" r="2.5" fill="#fff"/><circle cx="192" cy="109" r="2.5" fill="#fff"/>
+      <text x="36" y="190" font-family="Poppins,sans-serif" font-size="9" font-weight="700" fill="#5B6472">90-250V · 50/60Hz</text>
+    </symbol>
+    <!-- Bolt icon -->
+    <symbol id="bolt" viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></symbol>
+  </defs>
+</svg>
+
+<!-- ================= PROMO BAR ================= -->
+<div class="promobar">
+  🔥 PROMO <b>2x1</b> — Lleva 2 por $99.900 · ⏰ Termina el <span data-enddate>31 de octubre</span> · <span class="mini-timer" data-mini>--:--:--</span>
+</div>
+
+<!-- ================= HEADER ================= -->
+<header>
+  <div class="wrap">
+    <a href="#" class="logo" aria-label="Power Factor X1">
+      <span class="bolt"><svg width="20" height="20" fill="#0B1630"><use href="#bolt"/></svg></span>
+      <span>Power Factor <em>X1</em></span>
+    </a>
+    <a href="#oferta" class="btn btn-sm header-cta">Comprar 2x1 ⚡</a>
+  </div>
+</header>
+
+<!-- ================= HERO ================= -->
+<section class="hero">
+  <div class="wrap">
+    <div class="rv">
+      <div class="chip"><i></i> ¿Cansado de que la factura de luz suba cada mes?</div>
+      <h1>Ahorrador de <span class="y">Energía</span><br>Power Factor <span class="g">X1</span></h1>
+      <p class="sub">Precio normal $79.900 por unidad. Hoy te llevas <b style="color:#FFD60A">2 por $99.900</b>. Conéctalo, se enciende la luz verde y listo. Un dispositivo compacto que, según el fabricante, ayuda a estabilizar el voltaje y mejorar el factor de potencia de tus aparatos.</p>
+
+      <div class="price-row">
+        <div class="burst"><div><span>2x1</span><small>¡PROMO!</small></div></div>
+        <div class="price">$99.900<small>2 unidades · Precio normal $79.900 c/u</small></div>
+      </div>
+
+      <div class="timer-label">⏰ La promo termina en:</div>
+      <div class="timer" data-timer>
+        <div class="u"><b data-d>00</b><small>Días</small></div>
+        <div class="u"><b data-h>00</b><small>Horas</small></div>
+        <div class="u"><b data-m>00</b><small>Min</small></div>
+        <div class="u"><b data-s>00</b><small>Seg</small></div>
+      </div>
+
+      <a href="#oferta" class="btn btn-promo pulse">¡Quiero mi 2x1! ⚡</a>
+      <div class="trust-mini"><span>Compra segura</span><span>Pago protegido</span><span>Atención al cliente</span></div>
+    </div>
+
+    <!-- Ilustración hero: toma de pared + dispositivo -->
+    <div class="hero-art rv">
+      <svg viewBox="0 0 440 440" role="img" aria-label="Ilustración del Power Factor X1 conectado a la pared">
+        <defs>
+          <radialGradient id="halo"><stop offset="0" stop-color="#22E06B" stop-opacity=".45"/><stop offset="1" stop-color="#22E06B" stop-opacity="0"/></radialGradient>
+        </defs>
+        <circle cx="220" cy="220" r="210" fill="url(#halo)"/>
+        <!-- rayos -->
+        <g fill="#FFD60A" opacity=".9">
+          <use href="#bolt" x="30" y="60" width="46" height="46"/>
+          <use href="#bolt" x="370" y="110" width="38" height="38"/>
+          <use href="#bolt" x="352" y="330" width="44" height="44"/>
+          <use href="#bolt" x="48" y="320" width="32" height="32"/>
+        </g>
+        <!-- placa de pared -->
+        <rect x="110" y="70" width="220" height="220" rx="22" fill="#E9EDF4" stroke="#C3CBD8" stroke-width="3"/>
+        <rect x="128" y="88" width="184" height="184" rx="14" fill="#F7F9FC"/>
+        <!-- dispositivo -->
+        <use href="#dev" x="140" y="120" width="160" height="250" filter="url(#shadow)"/>
+        <!-- sticker -->
+        <g transform="translate(300 300) rotate(12)">
+          <rect x="-10" y="0" width="120" height="44" rx="10" fill="#FF2E3B"/>
+          <text x="50" y="29" text-anchor="middle" font-family="Anton,sans-serif" font-size="22" fill="#fff">PLUG&amp;PLAY</text>
+        </g>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ================= DOLOR ================= -->
+<section class="pain">
+  <div class="wrap">
+    <h2 class="rv">¿Tu factura de luz <span>está cada vez más cara?</span></h2>
+    <p class="lead rv">Llega el recibo, lo abres… y otra vez más alto que el mes pasado. No eres el único: a millones de hogares les pasa lo mismo.</p>
+
+    <div class="bill rv">
+      <div style="font-weight:800;margin-bottom:6px">⚡ RECIBO DE ENERGÍA</div>
+      <div class="row"><span>Mes pasado</span><span>$ ????</span></div>
+      <div class="row"><span>Este mes</span><span>$ ???? 📈</span></div>
+      <div class="tot"><span>¿Otra vez subió?</span><b>😱</b></div>
+      <div class="stamp">¡OTRA VEZ!</div>
+    </div>
+
+    <div class="grid g4">
+      <div class="card rv"><div class="ic">🧊</div><h3>La nevera nunca para</h3><p>Funciona las 24 horas, los 30 días del mes. Es de lo que más consume en casa.</p></div>
+      <div class="card rv"><div class="ic">🚿</div><h3>Ducha y calentador</h3><p>Unos minutos de agua caliente al día se notan, y mucho, en el recibo.</p></div>
+      <div class="card rv"><div class="ic">❄️</div><h3>Aire y ventiladores</h3><p>Con el calor se quedan prendidos horas y horas sin darte cuenta.</p></div>
+      <div class="card rv"><div class="ic">🔌</div><h3>Consumo “fantasma”</h3><p>TV, cargadores y decodificadores enchufados consumen aunque estén apagados.</p></div>
+    </div>
+
+    <div class="pain-cta rv">
+      <h3>Es hora de <span>tomar el control</span> de tu energía</h3>
+      <p>Conecta tu Power Factor X1 junto a tus electrodomésticos y súmale estos hábitos. Así empiezas hoy mismo a cuidar tu consumo:</p>
+      <div class="habits">
+        <div>⚡ Conecta el Power Factor X1 cerca de la nevera o la lavadora</div>
+        <div>🔌 Desenchufa lo que no estés usando</div>
+        <div>🧊 No dejes la puerta de la nevera abierta</div>
+        <div>💡 Cambia a bombillos LED</div>
+      </div>
+      <a href="#oferta" class="btn btn-promo pulse">¡Quiero tomar el control! · 2x1 ⚡</a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= BENEFICIOS ================= -->
+<section id="beneficios">
+  <div class="wrap">
+    <h2 class="rv">¿Qué hace el Power Factor X1?</h2>
+    <p class="lead rv">Pequeño, fácil de usar y sin instalaciones raras. Así lo describe el fabricante:</p>
+    <div class="grid g4">
+      <div class="card rv">
+        <div class="ic"><svg width="30" height="30" fill="#FFD60A"><use href="#bolt"/></svg></div>
+        <h3>Estabiliza</h3>
+        <p>Diseñado para ayudar a estabilizar el voltaje y equilibrar la corriente en el circuito.</p>
+      </div>
+      <div class="card rv">
+        <div class="ic"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#22E06B" stroke-width="2.4" stroke-linecap="round"><path d="M3 17l5-5 4 4 8-9"/><path d="M15 7h5v5"/></svg></div>
+        <h3>Factor de potencia</h3>
+        <p>Pensado para mejorar el factor de potencia de equipos con motor o compresor.</p>
+      </div>
+      <div class="card rv">
+        <div class="ic"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#FFD60A" stroke-width="2.4" stroke-linejoin="round"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/></svg></div>
+        <h3>Filtra picos</h3>
+        <p>El fabricante lo presenta como filtro ante picos de voltaje (“spike buster”).</p>
+      </div>
+      <div class="card rv">
+        <div class="ic"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#22E06B" stroke-width="2.4" stroke-linecap="round"><path d="M9 2v6M15 2v6"/><rect x="6" y="8" width="12" height="7" rx="2"/><path d="M12 15v7"/></svg></div>
+        <h3>Plug &amp; Play</h3>
+        <p>Sin cables ni herramientas: lo conectas a un tomacorriente y la luz verde indica que funciona.</p>
+      </div>
+    </div>
+    <p class="note rv">Las funciones descritas son las indicadas por el fabricante. Los resultados varían según la instalación eléctrica y los equipos de cada hogar.</p>
+    <div style="text-align:center;margin-top:30px" class="rv">
+      <a href="#oferta" class="btn btn-promo">Aprovechar el 2x1 ⚡</a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= QUE ES ================= -->
+<section style="padding-top:0">
+  <div class="wrap split">
+    <div class="art rv">
+      <!-- Escena: sala con TV, dispositivo en la pared -->
+      <svg viewBox="0 0 520 420" role="img" aria-label="Ilustración del dispositivo en una sala">
+        <rect width="520" height="420" fill="#FFF4C2"/>
+        <rect y="320" width="520" height="100" fill="#E8B04B"/>
+        <rect y="314" width="520" height="10" fill="#C98E2E"/>
+        <!-- ventana -->
+        <rect x="40" y="40" width="140" height="150" rx="8" fill="#9BD3FF" stroke="#fff" stroke-width="8"/>
+        <line x1="110" y1="40" x2="110" y2="190" stroke="#fff" stroke-width="6"/>
+        <circle cx="150" cy="80" r="18" fill="#FFD60A"/>
+        <!-- TV -->
+        <rect x="250" y="90" width="210" height="125" rx="10" fill="#0B1630"/>
+        <rect x="262" y="102" width="186" height="101" rx="4" fill="#1D3A7A"/>
+        <path d="M262 180 l50 -40 l40 30 l40 -45 l56 50 v28 h-186z" fill="#22E06B" opacity=".6"/>
+        <rect x="320" y="215" width="70" height="8" fill="#0B1630"/>
+        <!-- mueble -->
+        <rect x="230" y="230" width="250" height="90" rx="8" fill="#FF2E3B"/>
+        <rect x="245" y="245" width="105" height="60" rx="6" fill="#E01F2B"/>
+        <rect x="360" y="245" width="105" height="60" rx="6" fill="#E01F2B"/>
+        <!-- planta -->
+        <rect x="58" y="260" width="44" height="58" rx="6" fill="#0B1630"/>
+        <path d="M80 262 c-30 -30 -30 -60 0 -80 c30 20 30 50 0 80z" fill="#0FA84B"/>
+        <path d="M80 262 c-40 -10 -50 -40 -40 -55 c25 5 40 25 40 55z" fill="#22E06B"/>
+        <!-- tomacorriente con dispositivo -->
+        <rect x="160" y="232" width="58" height="74" rx="8" fill="#fff" stroke="#C3CBD8" stroke-width="2"/>
+        <use href="#dev" x="164" y="222" width="50" height="76" filter="url(#shadow)"/>
+        <!-- callout -->
+        <path d="M218 250 q30 -40 60 -60" fill="none" stroke="#0B1630" stroke-width="2" stroke-dasharray="5 5"/>
+        <g transform="translate(150 150)">
+          <rect width="120" height="34" rx="17" fill="#0B1630"/>
+          <text x="60" y="22" text-anchor="middle" font-family="Poppins,sans-serif" font-weight="800" font-size="13" fill="#FFD60A">¡Conectado! ⚡</text>
+        </g>
+      </svg>
+    </div>
+    <div class="rv">
+      <h2>Conéctalo y <span style="color:var(--green-dark)">olvídate</span></h2>
+      <p style="color:var(--muted)">El Power Factor X1 es un dispositivo enchufable para casa, apartamento, oficina o local. No necesitas electricista ni herramientas.</p>
+      <ul class="checklist">
+        <li>Funciona en redes de 90 V a 250 V (50/60 Hz)</li>
+        <li>Luz LED verde que indica que está activo</li>
+        <li>Tamaño compacto, no estorba en la pared</li>
+        <li>Ideal para zonas con nevera, lavadora o aire acondicionado</li>
+      </ul>
+      <a href="#oferta" class="btn btn-green">Comprar 2 por $99.900</a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CÓMO SE USA ================= -->
+<section style="background:#fff">
+  <div class="wrap">
+    <h2 class="rv">Úsalo en 3 pasos</h2>
+    <p class="lead rv">Más fácil, imposible.</p>
+    <div class="grid g3 steps">
+      <div class="card rv">
+        <div class="num">1</div>
+        <svg width="120" height="110" viewBox="0 0 120 110"><rect x="25" y="10" width="70" height="90" rx="12" fill="#E9EDF4" stroke="#C3CBD8" stroke-width="2"/><rect x="47" y="38" width="6" height="16" rx="2" fill="#0B1630"/><rect x="67" y="38" width="6" height="16" rx="2" fill="#0B1630"/><circle cx="60" cy="72" r="5" fill="#0B1630"/></svg>
+        <h3>Elige el tomacorriente</h3>
+        <p>Preferiblemente uno cercano a tus electrodomésticos principales.</p>
+      </div>
+      <div class="card rv">
+        <div class="num">2</div>
+        <svg width="120" height="110" viewBox="0 0 120 110"><rect x="20" y="10" width="80" height="90" rx="12" fill="#E9EDF4" stroke="#C3CBD8" stroke-width="2"/><use href="#dev" x="36" y="14" width="48" height="76"/><path d="M60 104 v-8" stroke="#FF2E3B" stroke-width="4" stroke-linecap="round"/><path d="M52 100 l8 -8 l8 8" fill="none" stroke="#FF2E3B" stroke-width="4" stroke-linecap="round"/></svg>
+        <h3>Conéctalo</h3>
+        <p>Inserta el dispositivo con firmeza en el tomacorriente.</p>
+      </div>
+      <div class="card rv">
+        <div class="num">3</div>
+        <svg width="120" height="110" viewBox="0 0 120 110"><circle cx="60" cy="55" r="44" fill="#22E06B" opacity=".18"/><use href="#dev" x="36" y="14" width="48" height="76"/><g fill="#FFD60A"><use href="#bolt" x="88" y="12" width="22" height="22"/><use href="#bolt" x="8" y="60" width="20" height="20"/></g></svg>
+        <h3>Luz verde = listo</h3>
+        <p>Cuando la franja verde se enciende, el equipo está funcionando.</p>
+      </div>
+    </div>
+    <p class="note rv">⚠️ Usa siempre tomacorrientes en buen estado, no lo conectes a extensiones sobrecargadas y mantenlo lejos del agua y del alcance de los niños.</p>
+  </div>
+</section>
+
+<!-- ================= OFERTA ================= -->
+<section class="offer" id="oferta">
+  <div class="wrap">
+    <div class="offer-box rv">
+      <div class="offer-art">
+        <div class="ribbon">2x1</div>
+        {%- if pf.featured_image -%}
+        <img src="{{ pf.featured_image | image_url: width: 900 }}" alt="{{ pf.featured_image.alt | default: pf.title | escape }}" width="450" height="450" loading="lazy" style="border-radius:18px;background:#fff;max-height:420px;object-fit:contain">
+        {%- else -%}
+        <svg viewBox="0 0 360 320" role="img" aria-label="Dos unidades del Power Factor X1">
+          <circle cx="180" cy="160" r="150" fill="#22E06B" opacity=".12"/>
+          <use href="#devSide" x="10" y="40" width="180" height="230" filter="url(#shadow)" transform="rotate(-8 100 150)"/>
+          <use href="#dev" x="170" y="50" width="160" height="240" filter="url(#shadow)"/>
+          <g transform="translate(250 30)">
+            <circle r="42" fill="#FFD60A"/>
+            <text y="-2" text-anchor="middle" font-family="Anton,sans-serif" font-size="28" fill="#0B1630">x2</text>
+            <text y="18" text-anchor="middle" font-family="Poppins,sans-serif" font-weight="800" font-size="10" fill="#0B1630">UNIDADES</text>
+          </g>
+        </svg>
+        {%- endif -%}
+      </div>
+      <div class="offer-body">
+        <div class="chip" style="background:#FFE9EA;color:#A3121C;border-color:#FFC2C6"><i style="background:var(--red);box-shadow:none"></i> Oferta por tiempo limitado</div>
+        <h2>Ahorrador De Energía Power Factor X1 <span class="tag-2x1">2x1</span></h2>
+        <div class="price" style="margin:12px 0 16px">$99.900<small>2 unidades · precio normal por unidad $79.900 (COP)</small></div>
+
+        <div class="timer-label">⏰ La promo termina en:</div>
+        <div class="timer" data-timer>
+          <div class="u"><b data-d>00</b><small>Días</small></div>
+        <div class="u"><b data-h>00</b><small>Horas</small></div>
+        <div class="u"><b data-m>00</b><small>Min</small></div>
+          <div class="u"><b data-s>00</b><small>Seg</small></div>
+        </div>
+
+        <div class="ended-msg">La promoción "Lleva 2" terminó. Puedes seguir comprando por unidad a $79.900.</div>
+
+        <div class="packs">
+          <label class="pack"><input type="radio" name="pack" value="1"><span class="p-name">1 unidad<small>Precio normal</small></span><span class="p-price">$79.900</span></label>
+          <label class="pack"><span class="best">🔥 PROMO · AHORRAS $59.900</span><input type="radio" name="pack" value="2" checked><span class="p-name">Lleva 2 · 2x1<small>Te llevas 2 por casi el precio de 1</small><span class="limit">⏰ HASTA EL <span data-enddate>31 de octubre</span> · <span data-mini>--:--:--</span></span></span><span class="p-price" style="color:var(--red)">$99.900</span></label>
+        </div>
+
+        <div class="qty">
+          <div class="qty-ctrl">
+            <button type="button" data-qty="-1" aria-label="Quitar">−</button>
+            <output id="qty">1</output>
+            <button type="button" data-qty="1" aria-label="Agregar">+</button>
+          </div>
+          <div class="qty-info">Cantidad · <b id="units">2 unidades</b></div>
+        </div>
+        <div class="total">Total: <span id="total">$99.900</span></div>
+
+        <a href="#" id="buyBtn" class="btn btn-promo btn-block pulse">¡Comprar ahora! ⚡</a>
+        <div class="ok-list"><span>Pago seguro</span><span>Compra protegida</span><span>Atención al cliente</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= GALERÍA ================= -->
+<section>
+  <div class="wrap">
+    <h2 class="rv">Míralo de cerca</h2>
+    <p class="lead rv">Diseño compacto y blanco que combina con cualquier pared.</p>
+    <div class="gallery">
+      {%- for media in pf.media limit: 2 -%}{%- if media.media_type == 'image' -%}
+      <figure class="rv">
+        <img src="{{ media | image_url: width: 800 }}" alt="{{ media.alt | default: pf.title | escape }}" width="400" height="400" loading="lazy" style="width:100%;aspect-ratio:1;object-fit:contain;background:#fff">
+        <figcaption>{{ pf.title }}</figcaption>
+      </figure>
+      {%- endif -%}{%- endfor -%}
+      <figure class="rv">
+        <svg viewBox="0 0 400 400"><rect width="400" height="400" fill="#0B1630"/><circle cx="200" cy="200" r="160" fill="#22E06B" opacity=".14"/><circle cx="200" cy="200" r="110" fill="#22E06B" opacity=".14"/><use href="#dev" x="110" y="60" width="180" height="280" filter="url(#shadow)"/></svg>
+        <figcaption>Vista frontal</figcaption>
+      </figure>
+      <figure class="rv">
+        <svg viewBox="0 0 400 400"><rect width="400" height="400" fill="#FFD60A"/><use href="#devSide" x="80" y="70" width="230" height="260" filter="url(#shadow)"/></svg>
+        <figcaption>Clavija integrada</figcaption>
+      </figure>
+      <figure class="rv">
+        <svg viewBox="0 0 400 400"><rect width="400" height="400" fill="#E9EDF4"/><rect x="0" y="0" width="400" height="400" fill="url(#caseG)"/><rect x="0" y="210" width="400" height="26" fill="#22E06B" filter="url(#glow)"/><path d="M215 260 l-40 60 h28 l-12 50 l46 -68 h-28 z" fill="#22E06B" filter="url(#glow)"/><text x="200" y="130" text-anchor="middle" font-family="Anton,sans-serif" font-size="46" fill="#0B1630">LED ON</text></svg>
+        <figcaption>Indicador LED verde</figcaption>
+      </figure>
+      <figure class="rv">
+        <svg viewBox="0 0 400 400"><rect width="400" height="400" fill="#DDF7E7"/>
+          <!-- cocina: nevera -->
+          <rect x="60" y="60" width="140" height="300" rx="14" fill="#fff" stroke="#B9C3D1" stroke-width="3"/>
+          <line x1="60" y1="170" x2="200" y2="170" stroke="#B9C3D1" stroke-width="3"/>
+          <rect x="176" y="100" width="8" height="40" rx="4" fill="#B9C3D1"/><rect x="176" y="200" width="8" height="60" rx="4" fill="#B9C3D1"/>
+          <rect x="250" y="200" width="70" height="90" rx="10" fill="#fff" stroke="#B9C3D1" stroke-width="2"/>
+          <use href="#dev" x="257" y="188" width="56" height="88" filter="url(#shadow)"/>
+          <rect y="360" width="400" height="40" fill="#0FA84B"/></svg>
+        <figcaption>Junto a la nevera</figcaption>
+      </figure>
+      <figure class="rv">
+        <svg viewBox="0 0 400 400"><rect width="400" height="400" fill="#FF2E3B"/>
+          <use href="#dev" x="50" y="90" width="140" height="215" filter="url(#shadow)"/>
+          <use href="#dev" x="210" y="90" width="140" height="215" filter="url(#shadow)"/>
+          <text x="200" y="365" text-anchor="middle" font-family="Anton,sans-serif" font-size="44" fill="#FFD60A">2 por $99.900</text></svg>
+        <figcaption>Combo 2x1</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ESPECIFICACIONES ================= -->
+<section class="specs">
+  <div class="wrap">
+    <h2 class="rv">Ficha técnica</h2>
+    <p class="lead rv">Datos según la etiqueta del fabricante.</p>
+    <div class="spec-table rv">
+      <div><span>Producto</span><b>Power Factor X1</b></div>
+      <div><span>Modelo de referencia</span><b>SD001</b></div>
+      <div><span>Voltaje nominal</span><b>90 V – 250 V</b></div>
+      <div><span>Frecuencia</span><b>50 Hz – 60 Hz</b></div>
+      <div><span>Tipo de clavija</span><b><span class="edit">Editar: tipo A / B</span></b></div>
+      <div><span>Indicador</span><b>LED verde</b></div>
+      <div><span>Contenido de la promo</span><b>2 unidades</b></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CONFIANZA ================= -->
+<section>
+  <div class="wrap">
+    <h2 class="rv">Compra sin miedo</h2>
+    <p class="lead rv">Así funciona tu pedido.</p>
+    <div class="grid g4">
+      <div class="card rv"><div class="ic" style="font-size:26px">🔒</div><h3>Pago seguro</h3><p>Tus datos de pago se procesan de forma segura.</p></div>
+      <div class="card rv"><div class="ic" style="font-size:26px">📦</div><h3>Envío</h3><p>Recibe tu pedido en la dirección que indiques. <span class="edit">Editar: cobertura y tiempos reales</span></p></div>
+      <div class="card rv"><div class="ic" style="font-size:26px">💬</div><h3>Atención</h3><p>Te ayudamos con cualquier duda antes y después de tu compra.</p></div>
+      <div class="card rv"><div class="ic" style="font-size:26px">↩️</div><h3>Devoluciones</h3><p><span class="edit">Editar: pega aquí la política real de la tienda</span></p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FAQ ================= -->
+<section style="background:#fff">
+  <div class="wrap">
+    <h2 class="rv">Preguntas frecuentes</h2>
+    <p class="lead rv">Resolvemos tus dudas antes de comprar.</p>
+    <div class="faq rv">
+      <details><summary>¿En qué consiste la promoción 2x1?</summary><p>El precio normal es $79.900 COP por unidad. Con la promo pagas $99.900 COP y recibes 2 unidades del Power Factor X1. La promoción es válida hasta el <span data-enddate>31 de octubre</span> a las 11:59 p. m. (hora de Colombia). Después el precio vuelve a $79.900 por unidad.</p></details>
+      <details><summary>¿Cómo se instala?</summary><p>Solo lo conectas a un tomacorriente. Cuando la franja verde se enciende, el dispositivo está activo. No requiere herramientas ni cableado.</p></details>
+      <details><summary>¿Cuánto voy a ahorrar en mi factura?</summary><p>No podemos prometer un porcentaje de ahorro. En los hogares el medidor registra principalmente la energía activa que consumen tus aparatos, así que el efecto en la factura depende de tu instalación, tus equipos y tus hábitos de consumo. Lo que más reduce la factura sigue siendo apagar lo que no usas y usar equipos eficientes.</p></details>
+      <details><summary>¿Con qué voltaje funciona?</summary><p>Según el fabricante, funciona entre 90 V y 250 V a 50/60 Hz, por lo que es compatible con la red eléctrica doméstica de Colombia (110–120 V).</p></details>
+      <details><summary>¿Dónde lo conecto?</summary><p>En un tomacorriente en buen estado, idealmente cerca de los electrodomésticos que más usas (nevera, lavadora, aire acondicionado). Evita conectarlo a extensiones sobrecargadas.</p></details>
+      <details><summary>¿Es seguro?</summary><p>Sigue siempre las indicaciones del empaque: no lo mojes, no lo abras y mantenlo fuera del alcance de los niños. Si notas calor excesivo, olor o ruido, desconéctalo.</p></details>
+      <details><summary>¿Cuánto tarda el envío?</summary><p><span class="edit">Editar: indica aquí los tiempos de envío reales por ciudad.</span></p></details>
+      <details><summary>¿Puedo pagar contra entrega?</summary><p><span class="edit">Editar: indica aquí los métodos de pago disponibles.</span></p></details>
+      <details><summary>¿Puedo devolver mi pedido?</summary><p><span class="edit">Editar: indica aquí la política real de devoluciones y garantía.</span></p></details>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CTA FINAL ================= -->
+<section class="final">
+  <div class="wrap">
+    <div class="chip rv" style="background:var(--ink);border-color:var(--ink);color:var(--yellow)">⏰ TERMINA EL <span data-enddate>31 de octubre</span></div>
+    <h2 class="rv">¡Lleva 2 por <span>$99.900</span>!</h2>
+    <p class="rv">Deja de solo quejarte del recibo y empieza a cuidar tu energía. Una para tu casa y otra para regalar, para la oficina o para el negocio. La promo termina el <span data-enddate>31 de octubre</span>.</p>
+    <div class="timer rv" data-timer>
+      <div class="u"><b data-d>00</b><small>Días</small></div>
+        <div class="u"><b data-h>00</b><small>Horas</small></div>
+        <div class="u"><b data-m>00</b><small>Min</small></div>
+      <div class="u"><b data-s>00</b><small>Seg</small></div>
+    </div>
+    <a href="#oferta" class="btn btn-promo pulse rv">Pedir mi combo 2x1 ⚡</a>
+  </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer>
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <a href="#" class="logo" style="color:#fff;margin-bottom:10px">
+          <span class="bolt"><svg width="20" height="20" fill="#0B1630"><use href="#bolt"/></svg></span>
+          <span>Power Factor <em>X1</em></span>
+        </a>
+        <p>Contacto: <span class="edit">correo@tutienda.com</span></p>
+        <p>WhatsApp: <span class="edit">+57 300 000 0000</span></p>
+      </div>
+      <div>
+        <h4>Ayuda</h4>
+        <ul><li><a href="#oferta">Comprar</a></li><li><a href="#beneficios">Beneficios</a></li><li><a href="#">Preguntas frecuentes</a></li></ul>
+      </div>
+      <div>
+        <h4>Políticas</h4>
+        <ul><li><a href="#">Privacidad</a></li><li><a href="#">Términos y condiciones</a></li><li><a href="#">Envíos</a></li><li><a href="#">Devoluciones</a></li></ul>
+      </div>
+      <div>
+        <h4>Síguenos</h4>
+        <ul><li><a href="#">Instagram</a></li><li><a href="#">Facebook</a></li><li><a href="#">TikTok</a></li></ul>
+        <div class="pay"><span>VISA</span><span>MASTERCARD</span><span>PSE</span><span>NEQUI</span></div>
+      </div>
+    </div>
+    <div class="legal">© <span id="yr"></span> Power Factor X1. Promoción "Lleva 2 por $99.900" válida hasta el <span data-enddate>31 de octubre</span> a las 11:59 p. m. (hora de Colombia) o hasta agotar existencias. Las funciones descritas corresponden a la información del fabricante; el ahorro en la factura de energía no está garantizado y depende del consumo de cada hogar. Ilustraciones de referencia.</div>
+  </div>
+</footer>
+
+<!-- ================= STICKY MÓVIL ================= -->
+<div class="sticky">
+  <div class="s-info"><b>Lleva 2 por $99.900</b><small>⏰ Termina en <span data-mini>--:--:--</span></small></div>
+  <a href="#oferta" class="btn btn-promo">Comprar ⚡</a>
+</div>
+
+<script>
+/* =========================================================
+   CONFIGURACIÓN — edita estos valores
+========================================================== */
+const CONFIG = {
+  // Fecha REAL en que termina la promo "Lleva 2". Se cambia desde Shopify:
+  // Producto > Metacampos > "Fin de la promo" (custom.promo_fin). Formato: 2026-10-31T23:59:59-05:00
+  promoEnd: {{ pf.metafields.custom.promo_fin.value | default: "2026-10-31T23:59:59-05:00" | json }},
+  // Precios en COP (el precio de 1 unidad sale de Shopify)
+  unitPrice: {{ pf.price | divided_by: 100 }},
+  comboPrice: 99900,                 // 2 unidades
+  // Datos de Shopify: no tocar
+  variantId: {{ pf.selected_or_first_available_variant.id | json }},
+  available: {{ pf.available | json }},
+  discountCode: "LLEVA2"             // código creado en Shopify: $29.950 menos por unidad al llevar 2 o más
+};
+
+const fmt = n => "$" + n.toLocaleString("es-CO");
+const pad = n => String(n).padStart(2, "0");
+
+/* ---------- Contador real hasta CONFIG.promoEnd ---------- */
+const end = new Date(CONFIG.promoEnd).getTime();
+const endTxt = new Date(end).toLocaleDateString("es-CO", {day: "numeric", month: "long", timeZone: "America/Bogota"});
+document.querySelectorAll("[data-enddate]").forEach(e => e.textContent = endTxt);
+function tick(){
+  let diff = Math.max(0, end - Date.now());
+  const d = Math.floor(diff / 864e5); diff -= d * 864e5;
+  const h = Math.floor(diff / 36e5);  diff -= h * 36e5;
+  const m = Math.floor(diff / 6e4);   diff -= m * 6e4;
+  const s = Math.floor(diff / 1e3);
+  document.querySelectorAll("[data-timer]").forEach(t => {
+    t.querySelector("[data-d]").textContent = pad(d);
+    t.querySelector("[data-h]").textContent = pad(h);
+    t.querySelector("[data-m]").textContent = pad(m);
+    t.querySelector("[data-s]").textContent = pad(s);
+  });
+  document.querySelectorAll("[data-mini]").forEach(e => e.textContent = (d > 0 ? d + "d " : "") + pad(h) + ":" + pad(m) + ":" + pad(s));
+  if (end - Date.now() <= 0 && !document.body.classList.contains("promo-ended")){
+    document.body.classList.add("promo-ended");
+    document.querySelectorAll("[data-timer]").forEach(t => t.classList.add("ended"));
+    document.querySelectorAll("[data-mini]").forEach(e => e.textContent = "finalizada");
+    clearInterval(timerId);
+    if (window.pfReady) endPromo();
+  }
+}
+const timerId = setInterval(tick, 1000); tick();
+
+/* ---------- Paquete y cantidad ---------- */
+let qty = 1;
+const qtyEl = document.getElementById("qty"), unitsEl = document.getElementById("units"), totalEl = document.getElementById("total");
+const pack = () => {
+  const promoOn = !document.body.classList.contains("promo-ended");
+  const v = document.querySelector('input[name="pack"]:checked').value;
+  return (v === "2" && promoOn)
+    ? {units: 2, price: CONFIG.comboPrice, name: "promo 2x1"}
+    : {units: 1, price: CONFIG.unitPrice, name: "1 unidad"};
+};
+function renderQty(){
+  const p = pack();
+  qtyEl.textContent = qty;
+  unitsEl.textContent = (qty * p.units) + (qty * p.units === 1 ? " unidad" : " unidades");
+  totalEl.textContent = fmt(qty * p.price);
+}
+document.querySelectorAll("[data-qty]").forEach(b => b.addEventListener("click", () => {
+  qty = Math.min(10, Math.max(1, qty + Number(b.dataset.qty))); renderQty();
+}));
+document.querySelectorAll('input[name="pack"]').forEach(r => r.addEventListener("change", renderQty));
+function endPromo(){
+  const two = document.querySelector('input[name="pack"][value="2"]');
+  two.disabled = true; two.closest(".pack").style.opacity = .45;
+  document.querySelector('input[name="pack"][value="1"]').checked = true;
+  renderQty();
+}
+if (document.body.classList.contains("promo-ended")) endPromo();
+window.pfReady = true;
+renderQty();
+
+/* ---------- Botón de compra: va directo al checkout de Shopify ---------- */
+const buyBtn = document.getElementById("buyBtn");
+if (!CONFIG.available){
+  buyBtn.textContent = "Agotado";
+  buyBtn.classList.remove("pulse");
+  buyBtn.style.pointerEvents = "none";
+  buyBtn.style.opacity = .5;
+}
+buyBtn.addEventListener("click", e => {
+  e.preventDefault();
+  if (!CONFIG.available) return;
+  const p = pack();
+  let url = "/cart/" + CONFIG.variantId + ":" + (qty * p.units);
+  if (p.units === 2) url += "?discount=" + encodeURIComponent(CONFIG.discountCode);
+  location.href = url;
+});
+
+/* ---------- Animaciones al hacer scroll ---------- */
+const io = new IntersectionObserver(es => es.forEach(x => { if (x.isIntersecting){ x.target.classList.add("in"); io.unobserve(x.target); } }), {threshold:.12});
+document.querySelectorAll(".rv").forEach(el => io.observe(el));
+
+document.getElementById("yr").textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
