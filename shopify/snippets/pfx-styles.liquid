@@ -1,0 +1,25 @@
+{%- comment -%} Estilos y utilidades compartidas de las secciones Power Factor X1 {%- endcomment -%}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  .pfx{--y:#FFD60A;--g:#22E06B;--gd:#0FA84B;--r:#FF2E3B;--n:#0B1630;--ink:#101418;--mut:#5B6472;font-family:Poppins,system-ui,sans-serif;color:var(--ink);line-height:1.5}
+  .pfx *{box-sizing:border-box}
+  .pfx .w{max-width:1140px;margin:0 auto;padding:0 16px}
+  .pfx h2{font-family:Anton,Impact,sans-serif;font-weight:400;text-transform:uppercase;letter-spacing:.5px;line-height:1.05;font-size:clamp(30px,5vw,48px);text-align:center;margin:0 0 12px}
+  .pfx .lead{text-align:center;color:var(--mut);max-width:640px;margin:0 auto 32px}
+  .pfx .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;cursor:pointer;text-decoration:none;font-family:Poppins,sans-serif;font-weight:800;text-transform:uppercase;border-radius:999px;background:linear-gradient(180deg,#FFE347,#FFC300);color:var(--ink);font-size:18px;padding:16px 30px;box-shadow:0 6px 0 #C99400;transition:transform .15s}
+  .pfx .btn:hover{transform:translateY(-2px)}
+</style>
+<script>
+  /* Botones "Pedir ahora": suben al bloque de compra del producto (precio + Releasit) */
+  if (!window.pfxTopBound){
+    window.pfxTopBound = true;
+    document.addEventListener("click", function(e){
+      var a = e.target.closest("[data-pfx-top]");
+      if (!a) return;
+      e.preventDefault();
+      window.scrollTo({top: 0, behavior: "smooth"});
+    });
+  }
+</script>

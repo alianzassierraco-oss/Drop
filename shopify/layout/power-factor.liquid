@@ -59,7 +59,8 @@
              box-shadow:0 6px 0 #087A35,0 12px 28px rgba(15,168,75,.4)}
   .btn-sm{font-size:14px;padding:10px 18px;background:var(--yellow);color:var(--ink);box-shadow:0 3px 0 #C99400}
   .btn-block{width:100%}
-  .pf-cod-form{margin:0}
+  .offer-body .qty,.offer-body .total{display:none}
+  .offer-body .pack{cursor:default}
   .pulse{animation:pulse 1.8s infinite}
   @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.04)}}
   .tag-2x1{display:inline-block;background:var(--red);color:#fff;font-family:Anton,sans-serif;font-size:15px;padding:2px 10px;border-radius:6px;margin-left:4px}
@@ -316,7 +317,7 @@
       <span class="bolt"><svg width="20" height="20" fill="#0B1630"><use href="#bolt"/></svg></span>
       <span>Power Factor <em>X1</em></span>
     </a>
-    <a href="#oferta" class="btn btn-sm header-cta">Comprar 2x1 ⚡</a>
+    <a href="{{ pf.url }}" class="btn btn-sm header-cta">Comprar 2x1 ⚡</a>
   </div>
 </header>
 
@@ -574,14 +575,7 @@
         </div>
         <div class="total">Total: <span id="total">$99.900</span></div>
 
-        {%- form 'product', pf, id: 'pf-cod-form', class: 'pf-cod-form' -%}
-          <input type="hidden" name="id" value="{{ pf.selected_or_first_available_variant.id }}">
-          <input type="hidden" name="quantity" id="pf-qty" value="2">
-          <input type="hidden" name="return_to" id="pf-return" value="/checkout?discount=LLEVA2">
-          <button type="submit" name="add" id="buyBtn" class="btn btn-promo btn-block pulse _rsi-cod-form-pagefly-button-overwrite-v2">¡Pedir ahora · Pago contra entrega! ⚡</button>
-        {%- endform -%}
-        {%- comment -%} Aquí aparecen los bloques de apps (por ejemplo el botón de Releasit) que agregues en el editor del tema {%- endcomment -%}
-        <div class="pf-app-blocks" style="margin-top:12px">{{ content_for_layout }}</div>
+        <a href="{{ pf.url }}" id="buyBtn" class="btn btn-promo btn-block pulse">¡Comprar ahora! ⚡</a>
         <div class="ok-list"><span>Pago seguro</span><span>Compra protegida</span><span>Atención al cliente</span></div>
       </div>
     </div>
@@ -716,7 +710,7 @@
         <div class="u"><b data-m>00</b><small>Min</small></div>
       <div class="u"><b data-s>00</b><small>Seg</small></div>
     </div>
-    <a href="#oferta" class="btn btn-promo pulse rv">Pedir mi combo 2x1 ⚡</a>
+    <a href="{{ pf.url }}" class="btn btn-promo pulse rv">Pedir mi combo 2x1 ⚡</a>
   </div>
 </section>
 
@@ -753,7 +747,7 @@
 <!-- ================= STICKY MÓVIL ================= -->
 <div class="sticky">
   <div class="s-info"><b>Lleva 2 por $99.900</b><small>⏰ Termina en <span data-mini>--:--:--</span></small></div>
-  <a href="#oferta" class="btn btn-promo">Comprar ⚡</a>
+  <a href="{{ pf.url }}" class="btn btn-promo">Comprar ⚡</a>
 </div>
 
 <script>
@@ -824,7 +818,6 @@ document.querySelectorAll("[data-qty]").forEach(b => b.addEventListener("click",
 }));
 document.querySelectorAll('input[name="pack"]').forEach(r => r.addEventListener("change", renderQty));
 function endPromo(){
-  setTimeout(() => { if (typeof syncForm === "function") syncForm(); }, 0);
   const two = document.querySelector('input[name="pack"][value="2"]');
   two.disabled = true; two.closest(".pack").style.opacity = .45;
   document.querySelector('input[name="pack"][value="1"]').checked = true;
@@ -834,27 +827,9 @@ if (document.body.classList.contains("promo-ended")) endPromo();
 window.pfReady = true;
 renderQty();
 
-/* ---------- Botón de compra ----------
-   Es un formulario normal de producto de Shopify: el app Releasit COD Form
-   lo toma y abre su formulario de pago contra entrega. Si Releasit no está
-   activo, el formulario agrega al carrito y va al checkout (con LLEVA2 si
-   eligieron "Lleva 2"). */
+/* ---------- Botón de compra: lleva a la página del producto (allí está Releasit) ---------- */
 const buyBtn = document.getElementById("buyBtn");
-const qtyInput = document.getElementById("pf-qty");
-const returnInput = document.getElementById("pf-return");
-function syncForm(){
-  const p = pack();
-  qtyInput.value = qty * p.units;
-  returnInput.value = p.units === 2 ? "/checkout?discount=" + encodeURIComponent(CONFIG.discountCode) : "/checkout";
-}
-document.querySelectorAll("[data-qty], input[name='pack']").forEach(el => el.addEventListener(el.matches("input") ? "change" : "click", syncForm));
-syncForm();
-if (!CONFIG.available){
-  buyBtn.textContent = "Agotado";
-  buyBtn.disabled = true;
-  buyBtn.classList.remove("pulse");
-  buyBtn.style.opacity = .5;
-}
+if (!CONFIG.available){ buyBtn.textContent = "Agotado"; buyBtn.classList.remove("pulse"); buyBtn.style.pointerEvents = "none"; buyBtn.style.opacity = .5; }
 
 /* ---------- Animaciones al hacer scroll ---------- */
 const io = new IntersectionObserver(es => es.forEach(x => { if (x.isIntersecting){ x.target.classList.add("in"); io.unobserve(x.target); } }), {threshold:.12});
@@ -862,5 +837,6 @@ document.querySelectorAll(".rv").forEach(el => io.observe(el));
 
 document.getElementById("yr").textContent = new Date().getFullYear();
 </script>
+<div hidden>{{ content_for_layout }}</div>
 </body>
 </html>

@@ -1,0 +1,77 @@
+{%- comment -%} Power Factor X1 · Funciones (según el fabricante) + ficha técnica {%- endcomment -%}
+{% render 'pfx-styles' %}
+<style>
+  .pfx-feat{background:#fff;padding:64px 0}
+  .pfx-feat .split{display:grid;grid-template-columns:1fr 1.2fr;gap:36px;align-items:center}
+  .pfx-feat .photo{border-radius:24px;overflow:hidden;background:#F4F6FA;box-shadow:0 14px 36px rgba(11,22,48,.14)}
+  .pfx-feat .photo img,.pfx-feat .photo svg{display:block;width:100%;height:auto}
+  .pfx-feat .list{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .pfx-feat .it{background:#F4F6FA;border-radius:18px;padding:18px}
+  .pfx-feat .it svg{width:52px;height:52px;margin-bottom:8px}
+  .pfx-feat .it h3{font-size:16px;font-weight:800;text-transform:uppercase;margin:0 0 4px}
+  .pfx-feat .it p{color:var(--mut);font-size:14px;margin:0}
+  .pfx-feat .note{font-size:12.5px;color:var(--mut);margin-top:14px}
+  .pfx-specs{margin-top:40px;background:var(--n);color:#fff;border-radius:22px;padding:22px}
+  .pfx-specs h3{font-family:Anton,Impact,sans-serif;font-weight:400;text-transform:uppercase;font-size:26px;margin:0 0 12px;text-align:center}
+  .pfx-specs dl{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:0}
+  .pfx-specs dl div{background:rgba(255,255,255,.07);border-radius:12px;padding:12px;text-align:center}
+  .pfx-specs dt{font-size:12px;color:#9FB0D6;text-transform:uppercase;font-weight:700}
+  .pfx-specs dd{margin:4px 0 0;font-weight:800;color:var(--y)}
+  @media (max-width:860px){.pfx-feat .split{grid-template-columns:1fr}.pfx-specs dl{grid-template-columns:1fr 1fr}}
+  @media (max-width:480px){.pfx-feat .list{grid-template-columns:1fr}}
+</style>
+<div class="pfx">
+  <section class="pfx-feat">
+    <div class="w">
+      <h2>¿Qué hace el Power Factor X1?</h2>
+      <p class="lead">Pequeño, plug &amp; play y sin instalaciones. Así lo describe el fabricante:</p>
+      <div class="split">
+        <div class="photo">
+          {%- assign img = product.media[1] | default: product.featured_media -%}
+          {%- if img -%}
+            {{ img.preview_image | image_url: width: 900 | image_tag: loading: 'lazy', alt: product.title }}
+          {%- else -%}
+            <svg viewBox="0 0 400 400" role="img" aria-label="Power Factor X1 conectado"><rect width="400" height="400" fill="#0B1630"/><circle cx="200" cy="200" r="150" fill="#22E06B" opacity=".15"/><rect x="130" y="70" width="140" height="220" rx="28" fill="#fff"/><rect x="130" y="200" width="140" height="9" fill="#22E06B"/><path d="M206 225 l-16 24 h11 l-5 20 l18 -27 h-11z" fill="#22E06B"/></svg>
+          {%- endif -%}
+        </div>
+        <div>
+          <div class="list">
+            <div class="it">
+              <svg viewBox="0 0 52 52"><rect width="52" height="52" rx="14" fill="#0B1630"/><path d="M10 30 q8 -14 16 0 t16 0" fill="none" stroke="#FFD60A" stroke-width="3.5" stroke-linecap="round"/><path d="M10 22 h32" stroke="#22E06B" stroke-width="3" stroke-dasharray="4 4"/></svg>
+              <h3>Estabiliza</h3><p>Diseñado para ayudar a estabilizar el voltaje y equilibrar la corriente.</p>
+            </div>
+            <div class="it">
+              <svg viewBox="0 0 52 52"><rect width="52" height="52" rx="14" fill="#0B1630"/><path d="M26 10 a16 16 0 1 1 -16 16" fill="none" stroke="#22E06B" stroke-width="4" stroke-linecap="round"/><path d="M26 26 l9 -8" stroke="#FFD60A" stroke-width="4" stroke-linecap="round"/><text x="26" y="44" text-anchor="middle" font-family="Poppins,sans-serif" font-weight="800" font-size="9" fill="#fff">PF</text></svg>
+              <h3>Factor de potencia</h3><p>Pensado para mejorar el factor de potencia de equipos con motor.</p>
+            </div>
+            <div class="it">
+              <svg viewBox="0 0 52 52"><rect width="52" height="52" rx="14" fill="#0B1630"/><path d="M26 9 l14 5 v10 c0 9 -6 15 -14 18 c-8 -3 -14 -9 -14 -18 v-10z" fill="none" stroke="#FFD60A" stroke-width="3.5" stroke-linejoin="round"/><path d="M28 17 l-6 9 h5 l-2 8 l7 -10 h-5z" fill="#22E06B"/></svg>
+              <h3>Filtra picos</h3><p>El fabricante lo presenta como protector ante picos de voltaje.</p>
+            </div>
+            <div class="it">
+              <svg viewBox="0 0 52 52"><rect width="52" height="52" rx="14" fill="#0B1630"/><rect x="16" y="12" width="20" height="28" rx="6" fill="#fff"/><rect x="16" y="28" width="20" height="3" fill="#22E06B"/><path d="M22 40 v6 M30 40 v6" stroke="#B7BEC9" stroke-width="3" stroke-linecap="round"/></svg>
+              <h3>Plug &amp; Play</h3><p>Lo conectas al tomacorriente y la luz verde indica que está activo.</p>
+            </div>
+          </div>
+          <p class="note">Funciones según la información del fabricante. Los resultados varían según la instalación eléctrica y los equipos de cada hogar; el ahorro en la factura no está garantizado.</p>
+          <a href="#" class="btn" data-pfx-top style="margin-top:14px">Pedir ahora ⚡</a>
+        </div>
+      </div>
+      <div class="pfx-specs">
+        <h3>Ficha técnica</h3>
+        <dl>
+          <div><dt>Modelo</dt><dd>SD001</dd></div>
+          <div><dt>Voltaje</dt><dd>90 V – 250 V</dd></div>
+          <div><dt>Frecuencia</dt><dd>50 / 60 Hz</dd></div>
+          <div><dt>Indicador</dt><dd>LED verde</dd></div>
+        </dl>
+      </div>
+    </div>
+  </section>
+</div>
+{% schema %}
+{
+  "name": "PF · Funciones",
+  "settings": []
+}
+{% endschema %}

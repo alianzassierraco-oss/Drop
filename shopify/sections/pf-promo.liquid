@@ -1,0 +1,60 @@
+{%- comment -%}
+  Power Factor X1 · Franja de oferta "Lleva 2 por $99.900" con contador real
+  hasta la fecha del metacampo custom.promo_fin (o el 31 de octubre por defecto).
+{%- endcomment -%}
+{% render 'pfx-styles' %}
+<style>
+  .pfx-promo{background:var(--r);color:#fff;padding:22px 0}
+  .pfx-promo .w{display:flex;align-items:center;justify-content:center;gap:18px 28px;flex-wrap:wrap;text-align:center}
+  .pfx-promo .big{font-family:Anton,Impact,sans-serif;font-size:clamp(26px,4vw,40px);text-transform:uppercase;line-height:1}
+  .pfx-promo .big b{color:var(--y);font-weight:400}
+  .pfx-promo small{display:block;font-size:13px;font-weight:600;opacity:.9}
+  .pfx-t{display:flex;gap:6px}
+  .pfx-t div{background:#fff;color:var(--ink);border-radius:10px;min-width:58px;padding:6px 4px;text-align:center}
+  .pfx-t b{display:block;font-family:Anton,sans-serif;font-size:26px;line-height:1;font-variant-numeric:tabular-nums}
+  .pfx-t span{font-size:10px;font-weight:700;text-transform:uppercase;color:var(--mut)}
+  .pfx-promo.ended .pfx-t{opacity:.4}
+</style>
+<div class="pfx">
+  <div class="pfx-promo" id="pfx-promo">
+    <div class="w">
+      <div>
+        <div class="big">🔥 Lleva 2 por <b>$99.900</b></div>
+        <small>Precio normal $79.900 c/u · Ahorras $59.900 · Termina el <span data-pfx-date>31 de octubre</span></small>
+      </div>
+      <div class="pfx-t" aria-label="Tiempo restante de la promoción">
+        <div><b data-pfx="d">00</b><span>Días</span></div>
+        <div><b data-pfx="h">00</b><span>Horas</span></div>
+        <div><b data-pfx="m">00</b><span>Min</span></div>
+        <div><b data-pfx="s">00</b><span>Seg</span></div>
+      </div>
+      <a href="#" class="btn" data-pfx-top>Pedir ahora ⚡</a>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var endIso = {{ product.metafields.custom.promo_fin.value | default: "2026-10-31T23:59:59-05:00" | json }};
+  var end = new Date(endIso).getTime();
+  var txt = new Date(end).toLocaleDateString("es-CO", {day: "numeric", month: "long", timeZone: "America/Bogota"});
+  document.querySelectorAll("[data-pfx-date]").forEach(function(e){ e.textContent = txt; });
+  function pad(n){ return String(n).padStart(2, "0"); }
+  function tick(){
+    var diff = Math.max(0, end - Date.now());
+    var d = Math.floor(diff / 864e5); diff -= d * 864e5;
+    var h = Math.floor(diff / 36e5);  diff -= h * 36e5;
+    var m = Math.floor(diff / 6e4);   diff -= m * 6e4;
+    var s = Math.floor(diff / 1e3);
+    var v = {d: d, h: h, m: m, s: s};
+    document.querySelectorAll("[data-pfx]").forEach(function(e){ e.textContent = pad(v[e.dataset.pfx]); });
+    if (end - Date.now() <= 0){ document.getElementById("pfx-promo").classList.add("ended"); clearInterval(t); }
+  }
+  var t = setInterval(tick, 1000); tick();
+})();
+</script>
+{% schema %}
+{
+  "name": "PF · Oferta Lleva 2",
+  "settings": []
+}
+{% endschema %}

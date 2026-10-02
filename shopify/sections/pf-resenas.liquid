@@ -1,0 +1,40 @@
+{%- comment -%}
+  Power Factor X1 · Reseñas REALES de clientes.
+  Muestra las estrellas que guarda la app de reseñas (metacampos reviews.rating / reviews.rating_count)
+  y el widget de Judge.me si la app está instalada. Sin app ni reseñas, invita a dejar la primera.
+{%- endcomment -%}
+{% render 'pfx-styles' %}
+{%- liquid
+  assign rating = product.metafields.reviews.rating.value
+  assign rating_count = product.metafields.reviews.rating_count.value | default: 0
+-%}
+<style>
+  .pfx-rev{background:#F4F6FA;padding:64px 0}
+  .pfx-rev .stars{color:#FFB800;font-size:30px;letter-spacing:3px;text-align:center}
+  .pfx-rev .sum{text-align:center;font-weight:800;margin-bottom:24px}
+  .pfx-rev .box{max-width:900px;margin:0 auto;background:#fff;border-radius:22px;padding:22px;box-shadow:0 8px 24px rgba(16,20,24,.06)}
+  .pfx-rev .empty{text-align:center;color:var(--mut)}
+</style>
+<div class="pfx">
+  <section class="pfx-rev" id="resenas">
+    <div class="w">
+      <h2>Opiniones de clientes</h2>
+      {%- if rating_count > 0 -%}
+        {%- assign full = rating.rating | round -%}
+        <div class="stars">{%- for i in (1..5) -%}{%- if i <= full -%}★{%- else -%}☆{%- endif -%}{%- endfor -%}</div>
+        <p class="sum">{{ rating.rating | round: 1 }} de 5 · {{ rating_count }} {% if rating_count == 1 %}opinión{% else %}opiniones{% endif %}</p>
+      {%- else -%}
+        <p class="lead">Aún no hay opiniones publicadas. ¿Ya lo compraste? Cuéntanos qué tal te fue.</p>
+      {%- endif -%}
+      <div class="box">
+        <div class="jdgm-widget jdgm-review-widget jdgm-outside-widget" data-id="{{ product.id }}" data-product-title="{{ product.title | escape }}">{{ product.metafields.judgeme.widget }}</div>
+      </div>
+    </div>
+  </section>
+</div>
+{% schema %}
+{
+  "name": "PF · Reseñas",
+  "settings": []
+}
+{% endschema %}

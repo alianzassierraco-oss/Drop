@@ -1,0 +1,87 @@
+{%- comment -%} Power Factor X1 · Sección de dolor: el recibo de la luz {%- endcomment -%}
+{% render 'pfx-styles' %}
+<style>
+  .pfx-pain{background:#FFF6F6;padding:64px 0}
+  .pfx-pain h2 span{color:var(--r)}
+  .pfx-pain .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .pfx-pain .card{background:#fff;border-radius:20px;overflow:hidden;box-shadow:0 8px 24px rgba(16,20,24,.08)}
+  .pfx-pain .card svg{display:block;width:100%;height:auto}
+  .pfx-pain .card div{padding:18px 20px 22px}
+  .pfx-pain .card h3{font-size:18px;font-weight:800;text-transform:uppercase;margin:0 0 6px}
+  .pfx-pain .card p{color:var(--mut);font-size:15px;margin:0}
+  .pfx-pain .cta{margin-top:30px;background:var(--n);color:#fff;border-radius:24px;padding:28px 20px;text-align:center}
+  .pfx-pain .cta h3{font-family:Anton,Impact,sans-serif;font-weight:400;font-size:clamp(24px,4vw,36px);text-transform:uppercase;line-height:1.1;margin:0 0 10px}
+  .pfx-pain .cta h3 span{color:var(--y)}
+  .pfx-pain .cta p{color:#C9D3EA;max-width:620px;margin:0 auto 20px}
+  @media (max-width:800px){.pfx-pain .grid{grid-template-columns:1fr}}
+</style>
+<div class="pfx">
+  <section class="pfx-pain">
+    <div class="w">
+      <h2>¿El recibo de la luz <span>te llega cada vez más alto?</span></h2>
+      <p class="lead">Lo abres, miras el total y otra vez subió. La nevera, la ducha y lo que queda enchufado no paran de consumir.</p>
+      <div class="grid">
+        <div class="card">
+          <!-- Recibo con barras que suben -->
+          <svg viewBox="0 0 400 260" role="img" aria-label="Recibo de luz con consumo en aumento">
+            <rect width="400" height="260" fill="#FFE3E5"/>
+            <g transform="translate(60 22) rotate(-4)">
+              <rect width="200" height="220" rx="10" fill="#fff" stroke="#101418" stroke-width="3"/>
+              <rect x="16" y="16" width="120" height="12" rx="3" fill="#101418"/>
+              <rect x="16" y="38" width="80" height="8" rx="3" fill="#C3CBD8"/>
+              <rect x="30" y="140" width="22" height="40" fill="#22E06B"/>
+              <rect x="64" y="120" width="22" height="60" fill="#FFD60A"/>
+              <rect x="98" y="96" width="22" height="84" fill="#FF9F1C"/>
+              <rect x="132" y="66" width="22" height="114" fill="#FF2E3B"/>
+              <line x1="20" y1="180" x2="180" y2="180" stroke="#101418" stroke-width="2"/>
+              <text x="16" y="208" font-family="Poppins,sans-serif" font-weight="800" font-size="16" fill="#FF2E3B">TOTAL: $ ???</text>
+            </g>
+            <path d="M285 170 l40 -60 l20 20 l35 -70" fill="none" stroke="#FF2E3B" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M362 50 h20 v20" fill="none" stroke="#FF2E3B" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <div><h3>Cada mes sube</h3><p>El total del recibo crece y no sabes bien por qué.</p></div>
+        </div>
+        <div class="card">
+          <!-- Medidor girando -->
+          <svg viewBox="0 0 400 260" role="img" aria-label="Medidor de energía girando rápido">
+            <rect width="400" height="260" fill="#0B1630"/>
+            <rect x="120" y="30" width="160" height="200" rx="18" fill="#E9EDF4"/>
+            <rect x="140" y="50" width="120" height="44" rx="6" fill="#101418"/>
+            <text x="200" y="81" text-anchor="middle" font-family="Anton,sans-serif" font-size="26" fill="#22E06B">08 8 8 8</text>
+            <circle cx="200" cy="155" r="48" fill="#fff" stroke="#101418" stroke-width="4"/>
+            <path d="M200 155 L236 128" stroke="#FF2E3B" stroke-width="6" stroke-linecap="round"/>
+            <circle cx="200" cy="155" r="7" fill="#101418"/>
+            <path d="M140 118 a70 70 0 0 1 30 -20" fill="none" stroke="#FFD60A" stroke-width="5" stroke-linecap="round"/>
+            <path d="M262 192 a70 70 0 0 1 -30 22" fill="none" stroke="#FFD60A" stroke-width="5" stroke-linecap="round"/>
+            <g fill="#FFD60A"><path d="M70 60 l-18 26 h12 l-6 22 l20 -30 h-12z"/><path d="M335 150 l-18 26 h12 l-6 22 l20 -30 h-12z"/></g>
+          </svg>
+          <div><h3>El medidor no para</h3><p>Nevera, lavadora y aire acondicionado funcionando todo el día.</p></div>
+        </div>
+        <div class="card">
+          <!-- Regleta llena de enchufes -->
+          <svg viewBox="0 0 400 260" role="img" aria-label="Regleta con muchos aparatos enchufados">
+            <rect width="400" height="260" fill="#FFF4C2"/>
+            <rect x="40" y="150" width="320" height="56" rx="14" fill="#fff" stroke="#101418" stroke-width="3"/>
+            <g fill="#101418"><rect x="70" y="168" width="40" height="22" rx="5"/><rect x="130" y="168" width="40" height="22" rx="5"/><rect x="190" y="168" width="40" height="22" rx="5"/><rect x="250" y="168" width="40" height="22" rx="5"/><rect x="310" y="168" width="34" height="22" rx="5"/></g>
+            <g stroke="#101418" stroke-width="5" fill="none" stroke-linecap="round"><path d="M90 168 C90 120 60 100 60 60"/><path d="M150 168 C150 110 160 90 150 50"/><path d="M210 168 C210 120 240 90 250 55"/><path d="M270 168 C280 120 320 100 330 70"/></g>
+            <rect x="40" y="36" width="44" height="30" rx="6" fill="#0B1630"/><rect x="130" y="28" width="40" height="26" rx="6" fill="#FF2E3B"/><rect x="232" y="34" width="40" height="26" rx="6" fill="#0FA84B"/><rect x="312" y="48" width="40" height="26" rx="6" fill="#0B1630"/>
+            <circle cx="62" cy="51" r="5" fill="#FF2E3B"/><circle cx="332" cy="61" r="5" fill="#FF2E3B"/>
+            <text x="200" y="240" text-anchor="middle" font-family="Poppins,sans-serif" font-weight="800" font-size="15" fill="#FF2E3B">Consumen aunque estén apagados</text>
+          </svg>
+          <div><h3>Consumo “fantasma”</h3><p>TV, cargadores y decodificadores enchufados gastan energía en reposo.</p></div>
+        </div>
+      </div>
+      <div class="cta">
+        <h3>Es hora de <span>tomar el control</span> de tu energía</h3>
+        <p>Conecta tu Power Factor X1 cerca de tus electrodomésticos y súmale hábitos simples: desenchufa lo que no usas, cierra bien la nevera y usa bombillos LED.</p>
+        <a href="#" class="btn" data-pfx-top>Quiero el mío · Lleva 2 por $99.900 ⚡</a>
+      </div>
+    </div>
+  </section>
+</div>
+{% schema %}
+{
+  "name": "PF · Dolor recibo de luz",
+  "settings": []
+}
+{% endschema %}
