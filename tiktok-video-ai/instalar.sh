@@ -30,10 +30,13 @@ echo "  ✓ Archivos descargados"
 
 # 2. Python propio de la app (con uv, no hace falta instalar nada más)
 export PATH="$HOME/.local/bin:$PATH"
+# Usar solo el Python que descarga uv (evita que macOS pida instalar herramientas de Xcode)
+export UV_PYTHON_PREFERENCE=only-managed
 if ! command -v uv >/dev/null 2>&1; then
   curl -LsSf https://astral.sh/uv/install.sh | sh >/dev/null 2>&1
 fi
-uv venv --quiet --allow-existing --python 3.12 "$VENV"
+uv python install --quiet 3.12
+uv venv --quiet --allow-existing --python-preference only-managed --python 3.12 "$VENV"
 uv pip install --quiet --python "$VENV/bin/python" -r "$CODE/requirements.txt"
 echo "  ✓ Componentes instalados"
 
