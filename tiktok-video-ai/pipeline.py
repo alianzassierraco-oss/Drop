@@ -364,16 +364,29 @@ def process_free(job: dict, files: list[Path], urls: list[str], textos: list[str
         progress("Descargando TikTok…")
         files.append(download_url(u, work))
 
-    textos_por_video = [""] * len(files)
-    if textos:  # primer texto en el primer video, último en el último, el resto repartido
-        n, m = len(files), min(len(textos), len(files))
-        for k, t in enumerate(textos[:m]):
-            textos_por_video[0 if m == 1 else round(k * (n - 1) / (m - 1))] = t
-
     progress("Uniendo tus videos…")
-    assemble([(f, 0.0, None, t, {"encajar": True}) for f, t in zip(files, textos_por_video)],
-             work, out_file, music)
+    joined = work / "sin_textos.mp4"
+    assemble([(f, 0.0, None, "", {"encajar": True}) for f in files], work,
+             joined if textos else out_file, music)
+
+    if textos:
+        # Los textos se reparten por tiempo a lo largo de todo el video, uno detrás de otro.
+        progress("Poniendo los textos…")
+        total = probe(joined)["duration"]
+        tramo = total / len(textos)
+        cmd = [ffmpeg_bin(), "-y", "-i", str(joined)]
+        for k, t in enumerate(textos):
+            cmd += ["-i", str(text_overlay(t, work / f"texto_{k}.png"))]
+        chain, prev = [], "[0:v]"
+        for k in range(len(textos)):
+            out = "[v]" if k == len(textos) - 1 else f"[v{k}]"
+            chain.append(f"{prev}[{k + 1}:v]overlay=0:0:enable='between(t,{k * tramo:.2f},{(k + 1) * tramo:.2f})'{out}")
+            prev = out
+        run(cmd + ["-filter_complex", ";".join(chain), "-map", "[v]", "-map", "0:a",
+                   "-c:v", "libx264", "-preset", "medium", "-crf", "18", "-pix_fmt", "yuv420p",
+                   "-c:a", "copy", str(out_file)])
+
     job["plan"] = {"modo": "gratis", "titulo": "Tu video está listo",
-                   "videos": [f.name for f in files], "textos": textos_por_video}
+                   "videos": [f.name for f in files], "textos": textos}
     job["status"] = "¡Listo!"
     job["done"] = True

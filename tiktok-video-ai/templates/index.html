@@ -162,7 +162,7 @@ dialog a { color: var(--cyan); }
       </div>
 
       <div class="only-free">
-        <label class="label" for="textos">2 · Textos en pantalla (uno por línea, opcional)</label>
+        <label class="label" for="textos">2 · Textos en pantalla (uno por línea, opcional · se reparten a lo largo del video)</label>
         <textarea id="textos" name="textos" rows="3" placeholder="Déjalo vacío para no agregar ningún texto"></textarea>
       </div>
 
@@ -336,12 +336,14 @@ async function poll(id) {
 }
 
 function showFree(p, src, j) {
-  const rows = p.videos.map((v, i) => `<tr><td class="n">${i + 1}</td><td>${esc(v)}</td><td>${esc(p.textos[i])}</td></tr>`).join('');
+  const rows = p.videos.map((v, i) => `<tr><td class="n">${i + 1}</td><td>${esc(v)}</td></tr>`).join('');
+  const textRows = p.textos.map((t, i) => `<tr><td class="n">${i + 1}</td><td>${esc(t)}</td></tr>`).join('');
   result.innerHTML = `
     <div class="card"><h3>${esc(p.titulo)}</h3>
       <div class="actions"><button class="btn2" id="finder">Ver en Finder</button></div>
       <p class="muted" style="margin-top:10px">Guardado en la carpeta SN DROP › Videos creados.</p></div>
-    <div class="card"><h3>Videos unidos (en este orden)</h3><div class="scroll"><table><tr><th>#</th><th>Video</th><th>Texto</th></tr>${rows}</table></div></div>`;
+    <div class="card"><h3>Videos unidos (en este orden)</h3><div class="scroll"><table><tr><th>#</th><th>Video</th></tr>${rows}</table></div></div>
+    ${p.textos.length ? `<div class="card"><h3>Textos (aparecen en este orden)</h3><div class="scroll"><table><tr><th>#</th><th>Texto</th></tr>${textRows}</table></div></div>` : ''}`;
   result.hidden = false;
   $('#finder').onclick = () => fetch('/api/finder/' + j.video, { method: 'POST' });
 }
