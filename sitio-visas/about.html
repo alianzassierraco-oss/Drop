@@ -6,18 +6,32 @@
   <title>About Us</title>
   <meta name="description" content="Our vision, mission and team.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/styles.css">
 </head>
 <body>
   <header id="site-header"></header>
 
   <main>
-    <section class="hero">
-      <div class="container">
-        <p class="eyebrow">About us</p>
-        <h1>Your trusted link to Australia.</h1>
-        <p class="lead"><span data-brand></span> was founded by people with [##] years of first-hand experience living and working in Australia.</p>
+    <section class="hero" data-hero="friends">
+      <div class="container hero-inner">
+        <h1>About Us</h1>
+        <p class="hero-brand" data-brand></p>
+        <div class="hero-row">
+          <a class="btn btn-red btn-lg" data-booking href="#"><span aria-hidden="true">✆</span> Get Started</a>
+          <ul class="hero-links" data-quicklinks></ul>
+        </div>
+      </div>
+      <a class="scroll-cue" href="#intro" aria-label="Scroll down"></a>
+    </section>
+
+    <section id="intro" class="intro-sec">
+      <div class="container intro intro-center">
+        <div>
+          <h2 class="display"><span class="red">Your trusted link</span><br>to Australia.</h2>
+          <p class="lead-dark"><span data-brand></span> was founded by people with [##] years of first-hand experience living and working in Australia.</p>
+          <a class="btn btn-red" data-booking href="#">Book Strategy Session</a>
+        </div>
       </div>
     </section>
 
@@ -38,11 +52,13 @@
 
     <section class="soft">
       <div class="container split">
+        <div class="img-stack">
+          <div class="img-frame"><img data-photo="team" alt="Our team at work"></div>
+          <div class="img-frame small"><img data-photo="sydney" alt="Sydney"></div>
+        </div>
         <div>
           <p class="eyebrow">Our story</p>
           <h2>Guidance over pressure</h2>
-        </div>
-        <div>
           <p class="muted">We saw first-hand the challenges international students and professionals face in Australia, and the need for a consultancy that goes beyond high-pressure sales to provide genuine, professional guidance.</p>
           <p class="muted">Driven by integrity and transparency, we design education and career pathways that align global talent with Australian industry needs — so every step you take builds toward your goal.</p>
         </div>
@@ -61,6 +77,15 @@
           <div class="card team-card"><div class="avatar">B</div><h3>[Founder name]</h3><p class="role">[Role / title]</p><p class="creds">[Credentials]</p><p class="muted">[Short bio — experience and focus area.]</p></div>
           <div class="card team-card"><div class="avatar">C</div><h3>[Founder name]</h3><p class="role">[Role / title]</p><p class="creds">[Credentials]</p><p class="muted">[Short bio — experience and focus area.]</p></div>
         </div>
+      </div>
+    </section>
+
+    <section class="photo-band" data-band="opera">
+      <div class="container">
+        <p class="eyebrow" style="color:var(--gold)">Our home</p>
+        <h2>We chose Australia. We'll help you make it yours.</h2>
+        <p>Talk to people who have lived the journey themselves.</p>
+        <a class="btn btn-red btn-lg" data-booking href="#">Book Strategy Session</a>
       </div>
     </section>
 

@@ -30,6 +30,16 @@ Todo lo que está entre **[corchetes]** es un dato que hay que reemplazar.
 4. **`jobs.html`:** enlaces a los archivos descargables (están como `#`).
 5. **`index.html`:** conectar el formulario de contacto a un servicio (Formspree, Netlify Forms, etc.) en el `action`.
 6. **`index.html`:** los idiomas que habla el equipo.
+7. **Logo:** poner el archivo en `assets/img/` y escribir la ruta en `SITE.logoImage` (si no, se ve el texto de `SITE.logoText`).
+8. **Video:** pegar el ID del video de YouTube en `SITE.youtubeId` (lo que va después de `v=` en el enlace).
+9. **Cifras:** en `index.html`, cambiar las estadísticas entre corchetes ([500+], [122], etc.) por números reales.
+
+## Fotos
+
+Todas las fotos se eligen en un solo lugar: el objeto `PHOTOS` en `assets/site.js`.
+Por defecto son fotos libres de [Unsplash](https://unsplash.com) que se cargan desde internet.
+Para usar fotos propias (recomendado: oficina, equipo, clientes reales con permiso), copiarlas a `assets/img/`
+y reemplazar el valor, por ejemplo `team: "assets/img/equipo.jpg"`. Se actualizan en todas las páginas.
 
 ## Verlo en la computadora
 

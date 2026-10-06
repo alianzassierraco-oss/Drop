@@ -6,19 +6,32 @@
   <title>Skilled Migration | Skilled Pathway</title>
   <meta name="description" content="Points-tested skilled visas 189, 190 and 491: skills assessment, EOI, state nomination and invitation explained.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/styles.css">
 </head>
 <body>
   <header id="site-header"></header>
 
   <main>
-    <section class="hero">
-      <div class="container">
-        <p class="eyebrow">Skilled pathway</p>
-        <h1>Build your future in Australia.</h1>
-        <p class="lead">Skilled visas are for people qualified in an eligible occupation. We connect you with a specialist immigration lawyer and support you through the entire journey.</p>
-        <div class="actions"><a class="btn" data-booking href="#">Book initial consultation</a></div>
+    <section class="hero" data-hero="trades">
+      <div class="container hero-inner">
+        <h1>Skilled Pathway</h1>
+        <p class="hero-brand" data-brand></p>
+        <div class="hero-row">
+          <a class="btn btn-red btn-lg" data-booking href="#"><span aria-hidden="true">✆</span> Get Started</a>
+          <ul class="hero-links" data-quicklinks></ul>
+        </div>
+      </div>
+      <a class="scroll-cue" href="#intro" aria-label="Scroll down"></a>
+    </section>
+
+    <section id="intro" class="intro-sec">
+      <div class="container intro intro-center">
+        <div>
+          <h2 class="display"><span class="red">Your future</span><br>in Australia.</h2>
+          <p class="lead-dark">Skilled visas are for people qualified in an eligible occupation. We connect you with a specialist immigration lawyer and support you through the entire journey.</p>
+          <a class="btn btn-red" data-booking href="#">Book Strategy Session</a>
+        </div>
       </div>
     </section>
 
@@ -50,6 +63,11 @@
           <h2>From assessment to permanent residency</h2>
           <p class="muted">Every case is different, but most skilled applications follow these stages.</p>
           <a class="btn btn-outline" href="https://immi.homeaffairs.gov.au/help-support/tools/points-calculator" target="_blank" rel="noopener">Points calculator ↗</a>
+          <div class="img-stack" style="margin-top:36px">
+            <div class="img-frame" style="aspect-ratio:4/3"><img data-photo="engineer" alt="Engineer at work"></div>
+            <div class="img-frame small"><img data-photo="nurse" alt="Nurse"></div>
+            <div class="badge"><strong>PR</strong>permanent<br>residency</div>
+          </div>
         </div>
         <ol class="timeline">
           <li><strong>Review &amp; pre-assessment</strong><span class="muted">Confirm you meet the criteria for your chosen subclass.</span></li>
@@ -65,7 +83,16 @@
       </div>
     </section>
 
-    <section id="reviews"></section>
+    <section class="photo-band" data-band="sydney">
+      <div class="container">
+        <p class="eyebrow" style="color:var(--gold)">Your future</p>
+        <h2>Your skills can take you all the way to permanent residency.</h2>
+        <p>Book an initial consultation and find the visa that fits your profile.</p>
+        <a class="btn btn-red btn-lg" data-booking href="#">Book consultation</a>
+      </div>
+    </section>
+
+    <section id="reviews" class="soft"></section>
     <div class="cta-band" data-cta="Find out how many points you have."></div>
   </main>
 

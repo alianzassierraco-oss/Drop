@@ -6,19 +6,32 @@
   <title>Employer Sponsored Visas | Sponsor Guide</title>
   <meta name="description" content="How Australian employer-sponsored visas work: subclass 482, 186 and 494, step by step.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/styles.css">
 </head>
 <body>
   <header id="site-header"></header>
 
   <main>
-    <section class="hero">
-      <div class="container">
-        <p class="eyebrow">Sponsor guide</p>
-        <h1>Get sponsored. Work &amp; live in Australia.</h1>
-        <p class="lead">Employer-sponsored visas let Australian businesses bring in skilled workers to fill genuine skill shortages. The employer sponsors; the worker proves experience, qualifications and English.</p>
-        <div class="actions"><a class="btn" data-booking href="#">Get Started</a></div>
+    <section class="hero" data-hero="meeting">
+      <div class="container hero-inner">
+        <h1>Sponsor Guide</h1>
+        <p class="hero-brand" data-brand></p>
+        <div class="hero-row">
+          <a class="btn btn-red btn-lg" data-booking href="#"><span aria-hidden="true">✆</span> Get Started</a>
+          <ul class="hero-links" data-quicklinks></ul>
+        </div>
+      </div>
+      <a class="scroll-cue" href="#intro" aria-label="Scroll down"></a>
+    </section>
+
+    <section id="intro" class="intro-sec">
+      <div class="container intro intro-center">
+        <div>
+          <h2 class="display"><span class="red">Sponsor in Australia</span><br>work &amp; live.</h2>
+          <p class="lead-dark">Employer-sponsored visas let Australian businesses bring in skilled workers to fill genuine skill shortages. The employer sponsors; the worker proves experience, qualifications and English.</p>
+          <a class="btn btn-red" data-booking href="#">Book Strategy Session</a>
+        </div>
       </div>
     </section>
 
@@ -29,6 +42,10 @@
           <h2>The sponsorship process</h2>
           <p class="muted">Based on Department of Home Affairs guidance.</p>
           <a class="btn btn-outline" href="https://immi.homeaffairs.gov.au/visas/working-in-australia/skill-occupation-list" target="_blank" rel="noopener">Core skills occupation list ↗</a>
+          <div class="img-stack" style="margin-top:36px">
+            <div class="img-frame" style="aspect-ratio:4/3"><img data-photo="team" alt="Sponsored worker with team"></div>
+            <div class="img-frame small"><img data-photo="signing" alt="Signing an employment contract"></div>
+          </div>
         </div>
         <ol class="timeline">
           <li><strong>Employer becomes an approved sponsor</strong><span class="muted">The business applies to become a Standard Business Sponsor with registration and financial records. Approval is generally valid for five years.</span></li>
@@ -77,7 +94,16 @@
       </div>
     </section>
 
-    <section id="reviews"></section>
+    <section class="photo-band" data-band="melbourne">
+      <div class="container">
+        <p class="eyebrow" style="color:var(--gold)">Work &amp; live</p>
+        <h2>Turn a job offer into a life in Australia.</h2>
+        <p>Whether you are an employer or a worker, we'll map the sponsorship route with you.</p>
+        <a class="btn btn-red btn-lg" data-booking href="#">Plan my sponsorship</a>
+      </div>
+    </section>
+
+    <section id="reviews" class="soft"></section>
     <div class="cta-band" data-cta="Employer or worker? Let's plan your sponsorship."></div>
   </main>
 

@@ -6,19 +6,32 @@
   <title>Jobs in Australia | Career Strategy</title>
   <meta name="description" content="Tools to find a job in Australia: sponsor companies, labour agreements, DAMA regions, resumes, cover letters and interview preparation.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/styles.css">
 </head>
 <body>
   <header id="site-header"></header>
 
   <main>
-    <section class="hero">
-      <div class="container">
-        <p class="eyebrow">Jobs &amp; careers</p>
-        <h1>Find employers in Australia.</h1>
-        <p class="lead">Our mission is to bridge the gap between global talent and Australian job opportunities — with clear strategy, the right tools and real industry links.</p>
-        <div class="actions"><a class="btn" data-booking href="#">Get Started</a></div>
+    <section class="hero" data-hero="team">
+      <div class="container hero-inner">
+        <h1>Jobs</h1>
+        <p class="hero-brand" data-brand></p>
+        <div class="hero-row">
+          <a class="btn btn-red btn-lg" data-booking href="#"><span aria-hidden="true">✆</span> Get Started</a>
+          <ul class="hero-links" data-quicklinks></ul>
+        </div>
+      </div>
+      <a class="scroll-cue" href="#intro" aria-label="Scroll down"></a>
+    </section>
+
+    <section id="intro" class="intro-sec">
+      <div class="container intro intro-center">
+        <div>
+          <h2 class="display"><span class="red">Jobs in Australia</span><br>find employers.</h2>
+          <p class="lead-dark">Our mission is to bridge the gap between global talent and Australian job opportunities — with clear strategy, the right tools and real industry links.</p>
+          <a class="btn btn-red" data-booking href="#">Book Strategy Session</a>
+        </div>
       </div>
     </section>
 
@@ -29,10 +42,10 @@
           <h2>Career mapping for every stage</h2>
         </div>
         <div class="grid grid-4">
-          <div class="card"><h3>International students</h3><p class="muted">Align your study choices with long-term industry demand.</p></div>
-          <div class="card"><h3>Early-career professionals</h3><p class="muted">Turn your graduate or post-study visa into a professional career.</p></div>
-          <div class="card"><h3>Working holiday makers</h3><p class="muted">Use your time in Australia to build lasting industry links.</p></div>
-          <div class="card"><h3>Offshore professionals</h3><p class="muted">Plan a strategic entry into the Australian workforce.</p></div>
+          <div class="card card-photo"><img data-photo="students" alt="International students"><div class="cp-body"><h3>International students</h3><p class="muted">Align your study choices with long-term industry demand.</p></div></div>
+          <div class="card card-photo"><img data-photo="graduation" alt="Graduates"><div class="cp-body"><h3>Early-career professionals</h3><p class="muted">Turn your graduate or post-study visa into a professional career.</p></div></div>
+          <div class="card card-photo"><img data-photo="beach" alt="Australian beach"><div class="cp-body"><h3>Working holiday makers</h3><p class="muted">Use your time in Australia to build lasting industry links.</p></div></div>
+          <div class="card card-photo"><img data-photo="plane" alt="Plane flying to Australia"><div class="cp-body"><h3>Offshore professionals</h3><p class="muted">Plan a strategic entry into the Australian workforce.</p></div></div>
         </div>
       </div>
     </section>
@@ -63,6 +76,7 @@
           <h2>Every career goal is achievable with a clear strategy</h2>
           <p class="muted">We help you build a personalised plan and identify employers seeking global expertise, with a framework to get you sponsorship-ready.</p>
           <ul class="chips"><li>Job search</li><li>Networking</li><li>Resume</li><li>Cover letter</li><li>Interviews</li></ul>
+          <div class="img-frame" style="aspect-ratio:16/10;margin-top:32px"><img data-photo="meeting" alt="Job interview"></div>
         </div>
         <div class="card">
           <h3>Top interview questions</h3>
@@ -80,6 +94,15 @@
             <li>Do you have any questions for us?</li>
           </ol>
         </div>
+      </div>
+    </section>
+
+    <section class="photo-band" data-band="chef">
+      <div class="container">
+        <p class="eyebrow" style="color:var(--gold)">Industries in demand</p>
+        <h2>Construction, health, hospitality, engineering — Australia needs skilled people.</h2>
+        <p>We map your experience to where the jobs really are.</p>
+        <a class="btn btn-red btn-lg" data-booking href="#">Build my job strategy</a>
       </div>
     </section>
 

@@ -6,29 +6,42 @@
   <title>Family &amp; Partner Visas | Family Link</title>
   <meta name="description" content="Partner, parent and child visa pathways to bring your family to Australia.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/styles.css">
 </head>
 <body>
   <header id="site-header"></header>
 
   <main>
-    <section class="hero">
-      <div class="container">
-        <p class="eyebrow">Family link</p>
-        <h1>Bring your family to Australia.</h1>
-        <p class="lead">Australian citizens, permanent residents and eligible New Zealand citizens can sponsor family members to live permanently in Australia.</p>
-        <div class="actions"><a class="btn" data-booking href="#">Get Started</a></div>
+    <section class="hero" data-hero="family">
+      <div class="container hero-inner">
+        <h1>Family Link</h1>
+        <p class="hero-brand" data-brand></p>
+        <div class="hero-row">
+          <a class="btn btn-red btn-lg" data-booking href="#"><span aria-hidden="true">✆</span> Get Started</a>
+          <ul class="hero-links" data-quicklinks></ul>
+        </div>
+      </div>
+      <a class="scroll-cue" href="#intro" aria-label="Scroll down"></a>
+    </section>
+
+    <section id="intro" class="intro-sec">
+      <div class="container intro intro-center">
+        <div>
+          <h2 class="display"><span class="red">Family strategy</span><br>in Australia.</h2>
+          <p class="lead-dark">Australian citizens, permanent residents and eligible New Zealand citizens can sponsor family members to live permanently in Australia.</p>
+          <a class="btn btn-red" data-booking href="#">Book Strategy Session</a>
+        </div>
       </div>
     </section>
 
     <section>
       <div class="container">
         <div class="grid grid-4">
-          <div class="card"><div class="icon" aria-hidden="true">💍</div><h3>Partner visas</h3><p class="muted">For a spouse, de facto partner or prospective spouse.</p></div>
-          <div class="card"><div class="icon" aria-hidden="true">👵</div><h3>Parent visas</h3><p class="muted">For parents to move to and stay in Australia.</p></div>
-          <div class="card"><div class="icon" aria-hidden="true">🧒</div><h3>Child visas</h3><p class="muted">For dependent, adopted or orphaned relative children.</p></div>
-          <div class="card"><div class="icon" aria-hidden="true">🏠</div><h3>Other family</h3><p class="muted">Carers, remaining relatives and aged dependent relatives.</p></div>
+          <div class="card card-photo"><img data-photo="couple" alt="Couple holding hands"><div class="cp-body"><h3>Partner visas</h3><p class="muted">For a spouse, de facto partner or prospective spouse.</p></div></div>
+          <div class="card card-photo"><img data-photo="family" alt="Family together"><div class="cp-body"><h3>Parent visas</h3><p class="muted">For parents to move to and stay in Australia.</p></div></div>
+          <div class="card card-photo"><img data-photo="friends" alt="Children and family"><div class="cp-body"><h3>Child visas</h3><p class="muted">For dependent, adopted or orphaned relative children.</p></div></div>
+          <div class="card card-photo"><img data-photo="passport" alt="Travel documents"><div class="cp-body"><h3>Other family</h3><p class="muted">Carers, remaining relatives and aged dependent relatives.</p></div></div>
         </div>
       </div>
     </section>
@@ -86,7 +99,16 @@
       </div>
     </section>
 
-    <section id="reviews"></section>
+    <section class="photo-band" data-band="beach">
+      <div class="container">
+        <p class="eyebrow" style="color:var(--gold)">Together again</p>
+        <h2>Home is wherever your family is — let's bring them to Australia.</h2>
+        <p>Partner, parent or child visa: we'll prepare the strongest possible application.</p>
+        <a class="btn btn-red btn-lg" data-booking href="#">Talk to us</a>
+      </div>
+    </section>
+
+    <section id="reviews" class="soft"></section>
     <div class="cta-band" data-cta="Let's plan your family's next step."></div>
   </main>
 

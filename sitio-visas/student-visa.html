@@ -6,24 +6,32 @@
   <title>Student Visa (Subclass 500) | Study in Australia</title>
   <meta name="description" content="Step-by-step support to study in Australia: course selection, documents, OSHC insurance and Student visa (subclass 500) application.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/styles.css">
 </head>
 <body>
   <header id="site-header"></header>
 
   <main>
-    <section class="hero">
-      <div class="container">
-        <p class="eyebrow">Student Visa · Subclass 500</p>
-        <h1>Study in Australia. World-class education.</h1>
-        <p class="lead">From choosing the right course to lodging your visa, we guide you through every step with honest, personalised advice.</p>
-        <div class="actions">
-          <a class="btn" data-booking href="#">Get Started</a>
-          <a class="btn btn-outline" href="#steps">How it works</a>
+    <section class="hero" data-hero="graduation">
+      <div class="container hero-inner">
+        <h1>Student Visa</h1>
+        <p class="hero-brand" data-brand></p>
+        <div class="hero-row">
+          <a class="btn btn-red btn-lg" data-booking href="#"><span aria-hidden="true">✆</span> Get Started</a>
+          <ul class="hero-links" data-quicklinks></ul>
         </div>
-        <div class="hero-badges">
-          <span>Up to 5 years stay</span><span>Apply onshore or offshore</span><span>Digital visa — no label</span>
+      </div>
+      <a class="scroll-cue" href="#intro" aria-label="Scroll down"></a>
+    </section>
+
+    <section id="intro" class="intro-sec">
+      <div class="container intro split">
+        <div class="video" data-video="students"></div>
+        <div>
+          <h2 class="display"><span class="red">Australia</span><br>world-class Education.</h2>
+          <p class="lead-dark">From choosing the right course to lodging your visa, we guide you through every step with honest, personalised advice.</p>
+          <a class="btn btn-red" data-booking href="#">Book Strategy Session</a>
         </div>
       </div>
     </section>
@@ -63,14 +71,17 @@
           <p class="muted">Some trade and university qualifications are linked to occupations in demand and can open future pathways to permanent residency, subject to the migration rules in force at the time.</p>
         </div>
         <div class="grid grid-3">
-          <div class="card">
-            <div class="icon" aria-hidden="true">🗣️</div>
+          <div class="card card-photo">
+            <img data-photo="studying" alt="Student studying English">
+            <div class="cp-body">
             <h3>Study English</h3>
             <p>General English, English for Academic Purposes (EAP) and English for Specific Purposes (ESP).</p>
             <p class="muted">Exam preparation: IELTS, TOEFL, TOEIC, PTE and Cambridge.</p>
+            </div>
           </div>
-          <div class="card">
-            <div class="icon" aria-hidden="true">🛠️</div>
+          <div class="card card-photo">
+            <img data-photo="trades" alt="Trades worker on a construction site">
+            <div class="cp-body">
             <h3>Trade courses</h3>
             <ul class="chips">
               <li>Carpentry</li><li>Joinery</li><li>Bricklaying</li><li>Plastering</li><li>Electrotechnology</li>
@@ -78,13 +89,16 @@
               <li>Automotive Body Repair</li><li>Heavy Diesel Mechanic</li><li>Air Conditioning &amp; Refrigeration</li>
               <li>Boat Building</li><li>Commercial Cookery (Chef)</li>
             </ul>
+            </div>
           </div>
-          <div class="card">
-            <div class="icon" aria-hidden="true">🎓</div>
+          <div class="card card-photo">
+            <img data-photo="campus" alt="University campus">
+            <div class="cp-body">
             <h3>University degrees</h3>
             <ul class="chips">
               <li>Engineering</li><li>Nursing</li><li>Education</li><li>Social Work</li><li>Information Technology</li><li>Construction Management</li>
             </ul>
+            </div>
           </div>
         </div>
       </div>
@@ -92,9 +106,16 @@
 
     <section>
       <div class="container">
-        <div class="section-head">
-          <p class="eyebrow">Key facts</p>
-          <h2>What you need to know about the Subclass 500</h2>
+        <div class="split" style="margin-bottom:48px">
+          <div class="section-head" style="margin:0">
+            <p class="eyebrow">Key facts</p>
+            <h2>What you need to know about the Subclass 500</h2>
+            <p class="muted">Study, work part-time and explore Australia while you build your future. Here are the essentials before you apply.</p>
+          </div>
+          <div class="img-stack">
+            <div class="img-frame" style="aspect-ratio:16/11"><img data-photo="friends" alt="Students enjoying life in Australia"></div>
+            <div class="badge"><strong>5 yrs</strong>maximum stay</div>
+          </div>
         </div>
         <div class="facts">
           <div>
@@ -137,6 +158,15 @@
           <a href="https://immi.homeaffairs.gov.au/visas/getting-a-visa/fees-and-charges/visa-pricing-estimator" target="_blank" rel="noopener">Visa pricing estimator</a>
           <a href="https://www.studyaustralia.gov.au/" target="_blank" rel="noopener">More about studying in Australia</a>
         </div>
+      </div>
+    </section>
+
+    <section class="photo-band" data-band="opera">
+      <div class="container">
+        <p class="eyebrow" style="color:var(--gold)">Ready?</p>
+        <h2>Your classroom could be in Sydney, Melbourne or Brisbane.</h2>
+        <p>Tell us your goals and budget — we'll shortlist the best courses and schools for you.</p>
+        <a class="btn btn-red btn-lg" data-booking href="#">Find my course</a>
       </div>
     </section>
 
