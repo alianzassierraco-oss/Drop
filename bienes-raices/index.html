@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Inmobiliaria · Casas y departamentos en venta y renta</title>
+  <meta name="description" content="Encuentra casas, departamentos, terrenos y locales en venta y renta. Asesoría inmobiliaria personalizada.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- ENCABEZADO -->
+  <header class="header" id="top">
+    <div class="container header__inner">
+      <a href="#top" class="logo" aria-label="Inicio">
+        <svg viewBox="0 0 32 32" width="28" height="28" aria-hidden="true"><path d="M4 15 16 5l12 10v12H19v-8h-6v8H4z" fill="currentColor"/></svg>
+        <span data-config="brandName">Inmobiliaria</span>
+      </a>
+      <nav class="nav" id="nav" aria-label="Principal">
+        <a href="#propiedades">Propiedades</a>
+        <a href="#servicios">Servicios</a>
+        <a href="#proceso">Cómo trabajamos</a>
+        <a href="#vender">Vende tu propiedad</a>
+        <a href="#contacto" class="btn btn--small">Contacto</a>
+      </nav>
+      <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="nav">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO + BUSCADOR -->
+    <section class="hero">
+      <div class="hero__media" aria-hidden="true">
+        <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1800&q=70" alt="" onerror="this.remove()">
+      </div>
+      <div class="container hero__content">
+        <p class="eyebrow">Venta · Renta · Asesoría</p>
+        <h1>Encuentra el lugar donde quieres vivir</h1>
+        <p class="hero__lead">Casas, departamentos, terrenos y locales comerciales. Te acompañamos en cada paso, desde la primera visita hasta la firma.</p>
+
+        <form class="search" id="heroSearch">
+          <div class="search__tabs" role="tablist">
+            <button type="button" class="search__tab is-active" data-op="venta" role="tab" aria-selected="true">Comprar</button>
+            <button type="button" class="search__tab" data-op="renta" role="tab" aria-selected="false">Rentar</button>
+          </div>
+          <div class="search__fields">
+            <label class="field">
+              <span>Ubicación</span>
+              <input type="text" name="q" placeholder="Ciudad, colonia o zona">
+            </label>
+            <label class="field">
+              <span>Tipo</span>
+              <select name="tipo">
+                <option value="">Todos</option>
+                <option value="casa">Casa</option>
+                <option value="departamento">Departamento</option>
+                <option value="terreno">Terreno</option>
+                <option value="local">Local comercial</option>
+              </select>
+            </label>
+            <label class="field">
+              <span>Recámaras</span>
+              <select name="recamaras">
+                <option value="0">Cualquiera</option>
+                <option value="1">1+</option>
+                <option value="2">2+</option>
+                <option value="3">3+</option>
+                <option value="4">4+</option>
+              </select>
+            </label>
+            <button type="submit" class="btn search__submit">Buscar</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- PROPIEDADES -->
+    <section class="section" id="propiedades">
+      <div class="container">
+        <div class="section__head">
+          <div>
+            <p class="eyebrow">Catálogo</p>
+            <h2>Propiedades disponibles</h2>
+          </div>
+          <p class="section__note">Las propiedades mostradas son de ejemplo. Reemplázalas en <code>app.js</code> con tu inventario real.</p>
+        </div>
+
+        <div class="filters" id="filters">
+          <div class="chips" role="group" aria-label="Operación">
+            <button class="chip is-active" data-filter-op="">Todas</button>
+            <button class="chip" data-filter-op="venta">En venta</button>
+            <button class="chip" data-filter-op="renta">En renta</button>
+          </div>
+          <div class="filters__right">
+            <label class="field field--inline">
+              <span>Precio máx.</span>
+              <select id="filterPrecio">
+                <option value="">Sin límite</option>
+              </select>
+            </label>
+            <label class="field field--inline">
+              <span>Ordenar</span>
+              <select id="filterOrden">
+                <option value="recientes">Más recientes</option>
+                <option value="precio-asc">Precio: menor a mayor</option>
+                <option value="precio-desc">Precio: mayor a menor</option>
+                <option value="m2-desc">Mayor superficie</option>
+              </select>
+            </label>
+          </div>
+        </div>
+
+        <p class="results-count" id="resultsCount" aria-live="polite"></p>
+        <div class="grid" id="propertyGrid"></div>
+        <div class="empty" id="emptyState" hidden>
+          <p>No encontramos propiedades con esos filtros.</p>
+          <button class="btn btn--ghost" id="clearFilters">Limpiar filtros</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- SERVICIOS -->
+    <section class="section section--alt" id="servicios">
+      <div class="container">
+        <div class="section__head section__head--center">
+          <p class="eyebrow">Servicios</p>
+          <h2>Todo lo que necesitas en un solo lugar</h2>
+        </div>
+        <div class="services">
+          <article class="service reveal">
+            <div class="service__icon"><svg viewBox="0 0 24 24"><path d="M3 11 12 4l9 7v9h-6v-6H9v6H3z"/></svg></div>
+            <h3>Compra</h3>
+            <p>Te ayudamos a encontrar la propiedad que se ajusta a tu presupuesto y estilo de vida.</p>
+          </article>
+          <article class="service reveal">
+            <div class="service__icon"><svg viewBox="0 0 24 24"><path d="M7 14a4 4 0 1 1 3.9-5H21v3h-2v3h-3v-3h-5.1A4 4 0 0 1 7 14zm0-2.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/></svg></div>
+            <h3>Renta</h3>
+            <p>Opciones residenciales y comerciales con contratos claros y acompañamiento en todo el proceso.</p>
+          </article>
+          <article class="service reveal">
+            <div class="service__icon"><svg viewBox="0 0 24 24"><path d="M12 2 2 7v2h20V7zM4 11h3v7H4zm6.5 0h3v7h-3zM17 11h3v7h-3zM2 20h20v2H2z"/></svg></div>
+            <h3>Venta</h3>
+            <p>Promocionamos tu inmueble con fotografía profesional y difusión en los principales portales.</p>
+          </article>
+          <article class="service reveal">
+            <div class="service__icon"><svg viewBox="0 0 24 24"><path d="M5 3h14v18H5zm3 4v2h8V7zm0 4v2h8v-2zm0 4v2h5v-2z"/></svg></div>
+            <h3>Asesoría legal y avalúos</h3>
+            <p>Revisión de documentos, valuación del inmueble y orientación sobre créditos hipotecarios.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROCESO -->
+    <section class="section" id="proceso">
+      <div class="container">
+        <div class="section__head section__head--center">
+          <p class="eyebrow">Cómo trabajamos</p>
+          <h2>Un proceso claro, de principio a fin</h2>
+        </div>
+        <ol class="steps">
+          <li class="step reveal"><span class="step__num">01</span><h3>Conversamos</h3><p>Entendemos qué buscas, tu zona ideal y tu presupuesto.</p></li>
+          <li class="step reveal"><span class="step__num">02</span><h3>Seleccionamos</h3><p>Te presentamos opciones que realmente encajan contigo.</p></li>
+          <li class="step reveal"><span class="step__num">03</span><h3>Visitamos</h3><p>Agendamos recorridos en los horarios que te acomoden.</p></li>
+          <li class="step reveal"><span class="step__num">04</span><h3>Cerramos</h3><p>Te acompañamos en la negociación, documentos y firma.</p></li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- VENDE TU PROPIEDAD -->
+    <section class="section section--dark" id="vender">
+      <div class="container sell">
+        <div class="sell__text">
+          <p class="eyebrow eyebrow--light">Propietarios</p>
+          <h2>¿Quieres vender o rentar tu propiedad?</h2>
+          <p>Cuéntanos sobre tu inmueble y te contactamos para darte una valoración y un plan de comercialización.</p>
+          <ul class="checks">
+            <li>Valoración del inmueble</li>
+            <li>Fotografía y anuncio profesional</li>
+            <li>Filtro de prospectos y agenda de visitas</li>
+            <li>Acompañamiento hasta la firma</li>
+          </ul>
+        </div>
+        <div class="sell__cta">
+          <a href="#contacto" class="btn btn--light" data-interest="Quiero vender o rentar mi propiedad">Solicitar valoración</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACTO -->
+    <section class="section" id="contacto">
+      <div class="container contact">
+        <div class="contact__info">
+          <p class="eyebrow">Contacto</p>
+          <h2>Hablemos de tu próxima propiedad</h2>
+          <p>Déjanos tus datos y un asesor te responderá a la brevedad.</p>
+          <ul class="contact__list">
+            <li><strong>Teléfono</strong><a data-config="phone" href="#">[Tu teléfono]</a></li>
+            <li><strong>Correo</strong><a data-config="email" href="#">[Tu correo]</a></li>
+            <li><strong>Oficina</strong><span data-config="address">[Dirección de la oficina]</span></li>
+            <li><strong>Horario</strong><span data-config="hours">[Horario de atención]</span></li>
+          </ul>
+          <a class="btn btn--whatsapp" id="whatsappBtn" href="#" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2c0 1.3.9 2.5 1 2.7.1.2 1.8 2.8 4.4 3.9 1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2l-.6-.3z"/></svg>
+            Escríbenos por WhatsApp
+          </a>
+        </div>
+
+        <form class="form" id="contactForm" novalidate>
+          <div class="form__row">
+            <label class="field"><span>Nombre *</span><input type="text" name="nombre" required autocomplete="name"></label>
+            <label class="field"><span>Teléfono *</span><input type="tel" name="telefono" required autocomplete="tel"></label>
+          </div>
+          <label class="field"><span>Correo electrónico</span><input type="email" name="email" autocomplete="email"></label>
+          <label class="field">
+            <span>Me interesa</span>
+            <select name="interes">
+              <option>Comprar una propiedad</option>
+              <option>Rentar una propiedad</option>
+              <option>Vender o rentar mi propiedad</option>
+              <option>Asesoría / avalúo</option>
+            </select>
+          </label>
+          <label class="field"><span>Mensaje</span><textarea name="mensaje" rows="4" id="contactMessage" placeholder="Cuéntanos qué estás buscando"></textarea></label>
+          <label class="consent"><input type="checkbox" name="privacidad" required> Acepto el <a href="#" data-legal>aviso de privacidad</a>.</label>
+          <button type="submit" class="btn btn--block">Enviar mensaje</button>
+          <p class="form__status" id="formStatus" role="status"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer__inner">
+      <div>
+        <a href="#top" class="logo logo--light">
+          <svg viewBox="0 0 32 32" width="24" height="24" aria-hidden="true"><path d="M4 15 16 5l12 10v12H19v-8h-6v8H4z" fill="currentColor"/></svg>
+          <span data-config="brandName">Inmobiliaria</span>
+        </a>
+        <p class="footer__tag">Asesoría inmobiliaria para comprar, vender y rentar.</p>
+      </div>
+      <nav class="footer__links" aria-label="Pie de página">
+        <a href="#propiedades">Propiedades</a>
+        <a href="#servicios">Servicios</a>
+        <a href="#vender">Vende tu propiedad</a>
+        <a href="#contacto">Contacto</a>
+        <a href="#" data-legal>Aviso de privacidad</a>
+        <a href="#" data-legal>Términos y condiciones</a>
+      </nav>
+    </div>
+    <div class="container footer__bottom">
+      <small>© <span id="year"></span> <span data-config="brandName">Inmobiliaria</span>. Todos los derechos reservados.</small>
+    </div>
+  </footer>
+
+  <!-- MODAL DETALLE -->
+  <div class="modal" id="propertyModal" hidden>
+    <div class="modal__backdrop" data-close></div>
+    <div class="modal__dialog" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <button class="modal__close" data-close aria-label="Cerrar">×</button>
+      <div id="modalBody"></div>
+    </div>
+  </div>
+
+  <!-- BOTÓN FLOTANTE MÓVIL -->
+  <a href="#contacto" class="fab">Contactar a un asesor</a>
+
+  <script src="app.js"></script>
+</body>
+</html>
