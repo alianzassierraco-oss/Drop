@@ -1,10 +1,13 @@
 {
-  "autodeskProduct": "Fusion360",
-  "type": "script",
-  "author": "",
-  "description": {
-    "": "Genera un modelo conceptual de protesis total de rodilla (componente femoral, bandeja tibial con vastago e inserto de polietileno)."
-  },
-  "supportedOS": "windows|mac",
-  "editEnabled": true
+	"autodeskProduct": "Fusion",
+	"type": "script",
+	"id": "a016a02f-d76c-4ee8-a83c-39dacceaf64f",
+	"author": "",
+	"description": {
+		"": "Genera un modelo conceptual de protesis total de rodilla (componente femoral, bandeja tibial con vastago e inserto de polietileno)."
+	},
+	"version": "1.0.0",
+	"runOnStartup": false,
+	"supportedOS": "windows|mac",
+	"editEnabled": true
 }
