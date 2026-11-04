@@ -1,0 +1,446 @@
+{% layout none %}
+{%- comment -%}
+  GleamXi · Landing 2x1 (plantilla de producto alternativa)
+  Asigna esta plantilla al producto: Productos > GleamXi > Plantilla del tema: "gleamxi".
+  Fecha fin de la promo: cambia FIN_PROMOCION abajo.
+{%- endcomment -%}
+{%- assign v2 = product.variants | where: "sku", "GLX-2X1" | first -%}
+{%- assign v1 = product.variants | where: "sku", "GLX-1U" | first -%}
+{%- if v2 == blank -%}{%- assign v2 = product.variants.first -%}{%- endif -%}
+{%- if v1 == blank -%}{%- assign v1 = product.variants.last -%}{%- endif -%}
+{%- assign full2 = v1.price | times: 2 -%}
+{%- if v2.compare_at_price > v2.price -%}{%- assign full2 = v2.compare_at_price -%}{%- endif -%}
+{%- assign save2 = full2 | minus: v2.price -%}
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GleamXi · Aceite capilar de Romero y Queratina | Promoción 2x1 – {{ shop.name }}</title>
+  <meta name="description" content="GleamXi Rosemary Hydrolyzed Keratin Smoothing Hair Oil. Aceite capilar de 30 ml con romero y queratina hidrolizada. Controla el frizz y aporta brillo. ¡Promoción 2x1 por {{ v2.price | money_without_trailing_zeros }}!">
+  <link rel="canonical" href="{{ canonical_url }}">
+  <meta name="theme-color" content="#0f1f17">
+  <meta property="og:type" content="product">
+  <meta property="og:title" content="GleamXi · ¡Promoción 2x1! Aceite de Romero + Queratina">
+  <meta property="og:description" content="Controla el frizz, mejora la suavidad y consigue un cabello con apariencia más brillante. Lleva 2 por {{ v2.price | money_without_trailing_zeros }}.">
+  <meta property="og:image" content="https:{{ product.featured_image | image_url: width: 1200 }}">
+  <meta property="og:url" content="{{ canonical_url }}">
+  {%- if settings.favicon != blank -%}<link rel="icon" href="{{ settings.favicon | image_url: width: 64 }}">{%- endif -%}
+  {{ content_for_header }}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Allura&family=Montserrat:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="preload" as="image" href="{{ 'gleamxi-producto.jpg' | asset_url }}">
+  {{ 'gleamxi.css' | asset_url | stylesheet_tag }}
+</head>
+<body>
+
+  <!-- ===== Barra de anuncio ===== -->
+  <div class="announce" role="region" aria-label="Promoción">
+    <div class="announce__track">
+      <span>🔥 <strong>PROMOCIÓN 2X1</strong> · Llévate 2 pagando 1</span>
+      <span class="announce__timer">Termina en <strong data-countdown-inline>--:--:--</strong></span>
+      <span class="announce__hide-sm">✓ Compra segura · ✓ Pago protegido</span>
+    </div>
+  </div>
+
+  <!-- ===== Header ===== -->
+  <header class="header" id="top">
+    <div class="container header__inner">
+      <a href="#top" class="logo" aria-label="GleamXi inicio">Gleam<span>Xi</span></a>
+      <nav class="nav" aria-label="Principal">
+        <a href="#beneficios">Beneficios</a>
+        <a href="#como-usar">Cómo usar</a>
+        <a href="#preguntas">Preguntas</a>
+      </nav>
+      <a href="#pedido" class="btn btn--gold btn--sm">Comprar 2x1</a>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ===== 1. HERO ===== -->
+    <section class="hero">
+      <div class="hero__bg" aria-hidden="true"></div>
+      <div class="container hero__grid">
+        <div class="hero__copy">
+          <p class="eyebrow reveal">Rosemary · Hydrolyzed Keratin · 30 ml</p>
+          <h1 class="hero__title reveal">¡Dale a tu cabello el <span class="script">cuidado</span> que se merece!</h1>
+          <p class="hero__sub reveal">Controla el frizz, mejora la suavidad y consigue un cabello con apariencia más brillante.</p>
+
+          <div class="hero__promo reveal">
+            <span class="badge-2x1">2x1</span>
+            <div>
+              <strong>¡Compra ahora y recibe dos unidades!</strong>
+              <span>2 unidades por solo {{ v2.price | money_without_trailing_zeros }} · Oferta por tiempo limitado</span>
+            </div>
+          </div>
+
+          <div class="hero__ctas reveal">
+            <a href="#oferta" class="btn btn--gold btn--lg btn--pulse">¡QUIERO APROVECHAR MI 2X1!</a>
+            <a href="#beneficios" class="btn btn--ghost">Ver beneficios</a>
+          </div>
+
+          <ul class="trust reveal">
+            <li><svg viewBox="0 0 24 24"><use href="#i-check"/></svg>Compra segura</li>
+            <li><svg viewBox="0 0 24 24"><use href="#i-check"/></svg>Pago protegido</li>
+            <li><svg viewBox="0 0 24 24"><use href="#i-check"/></svg>Atención personalizada</li>
+          </ul>
+        </div>
+
+        <div class="hero__media reveal">
+          <div class="hero__frame">
+            <picture>
+              <img src="{{ 'gleamxi-producto.jpg' | asset_url }}" alt="Frasco gotero de GleamXi Rosemary Hydrolyzed Keratin Smoothing Hair Oil de 30 ml junto a una rama de romero" width="564" height="900" fetchpriority="high">
+            </picture>
+            <div class="sticker" aria-hidden="true"><b>2x1</b><span>HOY</span></div>
+            <div class="chip chip--a"><svg viewBox="0 0 24 24"><use href="#i-leaf"/></svg> Con romero</div>
+            <div class="chip chip--b"><svg viewBox="0 0 24 24"><use href="#i-drop"/></svg> Queratina hidrolizada</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Franja de sellos ===== -->
+    <section class="seals" aria-label="Características">
+      <div class="container seals__grid">
+        <div class="seal"><svg viewBox="0 0 24 24"><use href="#i-leaf"/></svg><span>Ingredientes<br>naturales</span></div>
+        <div class="seal"><svg viewBox="0 0 24 24"><use href="#i-flask"/></svg><span>Libre de<br>siliconas</span></div>
+        <div class="seal"><svg viewBox="0 0 24 24"><use href="#i-drop"/></svg><span>Libre de<br>parabenos</span></div>
+        <div class="seal"><svg viewBox="0 0 24 24"><use href="#i-heart"/></svg><span>Cruelty<br>free</span></div>
+      </div>
+    </section>
+
+    <!-- ===== 2 + 3. PROMOCIÓN 2X1 + TEMPORIZADOR ===== -->
+    <section class="offer" id="oferta">
+      <div class="container">
+        <div class="offer__card reveal">
+          <div class="offer__media">
+            <div class="duo" aria-hidden="true">
+              <img src="{{ 'gleamxi-detalle.jpg' | asset_url }}" alt="" width="264" height="570" loading="lazy">
+              <img src="{{ 'gleamxi-detalle.jpg' | asset_url }}" alt="" width="264" height="570" loading="lazy">
+            </div>
+            <span class="duo__plus">1 + 1 <em>GRATIS</em></span>
+          </div>
+
+          <div class="offer__body">
+            <p class="eyebrow eyebrow--gold">Oferta por tiempo limitado</p>
+            <h2 class="offer__title">¡PROMOCIÓN ESPECIAL <span>2X1</span>!</h2>
+            <p class="offer__lead">Llévate <strong>2 unidades</strong> por solo <strong>{{ v2.price | money_without_trailing_zeros }}</strong>.</p>
+
+            <div class="price">
+              {%- if save2 > 0 -%}<span class="price__old">{{ full2 | money_without_trailing_zeros }}</span>{%- endif -%}
+              <span class="price__new">{{ v2.price | money_without_trailing_zeros }}<small>por 2 unidades</small></span>
+              {%- if save2 > 0 -%}<span class="price__save">Ahorras {{ save2 | money_without_trailing_zeros }}</span>{%- endif -%}
+            </div>
+
+            <div class="countdown" data-countdown aria-live="polite">
+              <p class="countdown__label">La promoción termina en:</p>
+              <div class="countdown__grid">
+                <div class="cd"><span data-cd="d">00</span><small>Días</small></div>
+                <div class="cd"><span data-cd="h">00</span><small>Horas</small></div>
+                <div class="cd"><span data-cd="m">00</span><small>Minutos</small></div>
+                <div class="cd"><span data-cd="s">00</span><small>Segundos</small></div>
+              </div>
+              <p class="countdown__ended" data-cd-ended hidden></p>
+            </div>
+
+            <a href="#pedido" class="btn btn--gold btn--xl btn--pulse btn--block">¡QUIERO APROVECHAR MI 2X1!</a>
+            <p class="offer__note">¡No dejes pasar esta oportunidad! Un frasco para ti y otro para regalar… o para tener siempre a la mano.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 4. BENEFICIOS ===== -->
+    <section class="section" id="beneficios">
+      <div class="container">
+        <header class="section__head reveal">
+          <p class="eyebrow">¿Por qué GleamXi?</p>
+          <h2>Nutre tu <span class="script">cabello</span> de forma natural</h2>
+          <p>Una fórmula de romero y queratina hidrolizada para un cabello sedoso, manejable y con brillo — sin sensación grasosa.</p>
+        </header>
+
+        <div class="benefits">
+          <article class="benefit reveal">
+            <div class="benefit__icon"><svg viewBox="0 0 24 24"><use href="#i-wind"/></svg></div>
+            <h3>Ayuda a controlar el frizz</h3>
+            <p>Doma el cabello rebelde y el encrespamiento para un look más pulido durante el día.</p>
+          </article>
+          <article class="benefit reveal">
+            <div class="benefit__icon"><svg viewBox="0 0 24 24"><use href="#i-feather"/></svg></div>
+            <h3>Ayuda a suavizar el cabello</h3>
+            <p>Deja una sensación de cabello más suave al tacto, fácil de peinar y desenredar.</p>
+          </article>
+          <article class="benefit reveal">
+            <div class="benefit__icon"><svg viewBox="0 0 24 24"><use href="#i-spark"/></svg></div>
+            <h3>Aporta brillo y luminosidad</h3>
+            <p>Realza el brillo natural para un cabello con apariencia más sana y radiante.</p>
+          </article>
+          <article class="benefit reveal">
+            <div class="benefit__icon"><svg viewBox="0 0 24 24"><use href="#i-leaf"/></svg></div>
+            <h3>Romero + queratina hidrolizada</h3>
+            <p>La combinación que cuida la fibra capilar y la nutre en cada aplicación.</p>
+          </article>
+          <article class="benefit reveal">
+            <div class="benefit__icon"><svg viewBox="0 0 24 24"><use href="#i-drop"/></svg></div>
+            <h3>Acabado ligero y sedoso</h3>
+            <p>Se absorbe con facilidad. No apelmaza ni deja el cabello pesado o grasoso.</p>
+          </article>
+          <a href="#pedido" class="benefit benefit--cta reveal">
+            <p class="script">Tu cabello merece este cuidado</p>
+            <span class="btn btn--gold">Aprovecha el 2x1 hoy →</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Fórmula ===== -->
+    <section class="formula">
+      <div class="container formula__grid">
+        <div class="formula__media reveal">
+          <picture>
+            <img src="{{ 'gleamxi-producto.jpg' | asset_url }}" alt="Aceite GleamXi sobre una roca con musgo junto a un arroyo" width="564" height="900" loading="lazy">
+          </picture>
+        </div>
+        <div class="formula__copy">
+          <p class="eyebrow eyebrow--gold reveal">La fórmula</p>
+          <h2 class="reveal">Dos ingredientes, un cabello que se nota</h2>
+          <div class="ingredient reveal">
+            <div class="ingredient__icon"><svg viewBox="0 0 24 24"><use href="#i-leaf"/></svg></div>
+            <div>
+              <h3>Romero</h3>
+              <p>Ingrediente botánico tradicionalmente usado en el cuidado capilar. Aporta frescura y ayuda a que el cabello luzca revitalizado.</p>
+            </div>
+          </div>
+          <div class="ingredient reveal">
+            <div class="ingredient__icon"><svg viewBox="0 0 24 24"><use href="#i-drop"/></svg></div>
+            <div>
+              <h3>Queratina hidrolizada</h3>
+              <p>Proteína en partículas finas que ayuda a suavizar la superficie del cabello, reduciendo el frizz y mejorando el brillo.</p>
+            </div>
+          </div>
+          <ul class="checks reveal">
+            <li>Textura ligera, no grasosa</li>
+            <li>Frasco gotero de 30 ml · dosificación precisa</li>
+            <li>Para todo tipo de cabello</li>
+          </ul>
+          <a href="#oferta" class="btn btn--gold reveal">¡Compra ahora y recibe dos unidades!</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 5a. CÓMO USAR ===== -->
+    <section class="section section--soft" id="como-usar">
+      <div class="container">
+        <header class="section__head reveal">
+          <p class="eyebrow">Fácil y rápido</p>
+          <h2>Cómo usar GleamXi</h2>
+          <p>Incorpóralo a tu rutina en menos de un minuto.</p>
+        </header>
+        <ol class="steps">
+          <li class="step reveal">
+            <span class="step__n">1</span>
+            <h3>Dosifica</h3>
+            <p>Coloca de 2 a 4 gotas en la palma de tu mano (ajusta según el largo y grosor de tu cabello).</p>
+          </li>
+          <li class="step reveal">
+            <span class="step__n">2</span>
+            <h3>Frota</h3>
+            <p>Frota suavemente las manos para distribuir el aceite de forma uniforme.</p>
+          </li>
+          <li class="step reveal">
+            <span class="step__n">3</span>
+            <h3>Aplica</h3>
+            <p>Aplica de medios a puntas sobre cabello húmedo o seco, evitando la raíz si tu cabello es graso.</p>
+          </li>
+          <li class="step reveal">
+            <span class="step__n">4</span>
+            <h3>Peina y luce</h3>
+            <p>Peina como de costumbre. Disfruta un cabello más suave, controlado y con brillo.</p>
+          </li>
+        </ol>
+        <p class="tip reveal"><strong>Tip:</strong> úsalo también como toque final para controlar el frizz durante el día. Uso externo. Evita el contacto con los ojos.</p>
+      </div>
+    </section>
+
+    <!-- ===== Banner CTA ===== -->
+    <section class="banner">
+      <div class="container banner__inner reveal">
+        <div>
+          <h2>Aprovecha el 2x1 hoy</h2>
+          <p>Termina en <strong data-countdown-inline>--:--:--</strong> · Unidades sujetas a disponibilidad</p>
+        </div>
+        <a href="#pedido" class="btn btn--gold btn--lg">¡QUIERO MI 2X1!</a>
+      </div>
+    </section>
+
+    <!-- ===== 6. COMPRA (checkout de Shopify) ===== -->
+    <section class="section" id="pedido">
+      <div class="container order">
+        <div class="order__info reveal">
+          <p class="eyebrow">Haz tu pedido</p>
+          <h2>¡Compra ahora y recibe <span class="script">dos</span> unidades!</h2>
+          <p>Elige tu presentación, presiona <strong>Comprar ahora</strong> y completa tus datos de envío y pago en nuestro checkout seguro. Así de fácil.</p>
+          <ul class="order__steps">
+            <li><span>1</span>Elige la promo 2x1</li>
+            <li><span>2</span>Completa tus datos de envío</li>
+            <li><span>3</span>Recibe tu pedido en casa</li>
+          </ul>
+          <div class="mini-offer">
+            <img src="{{ 'gleamxi-detalle.jpg' | asset_url }}" alt="" width="66" height="142" loading="lazy">
+            <div>
+              <strong>GleamXi Rosemary Keratin Oil · 30 ml</strong>
+              <span class="mini-offer__tag">PROMO 2X1</span>
+              <span class="mini-offer__price">{{ v2.price | money_without_trailing_zeros }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="order__form reveal" id="buyBox">
+          <h3>Elige tu presentación</h3>
+          <div class="packs" role="radiogroup" aria-label="Presentación">
+            <label class="pack is-on">
+              <input type="radio" name="pack" value="{{ v2.id }}" data-price="{{ v2.price }}" checked {% unless v2.available %}disabled{% endunless %}>
+              <span class="pack__radio" aria-hidden="true"></span>
+              <span class="pack__info"><strong>Promo 2x1 · 2 unidades</strong><small>La opción favorita · {{ v2.price | divided_by: 2 | money_without_trailing_zeros }} c/u</small></span>
+              <span class="pack__price"><b>{{ v2.price | money_without_trailing_zeros }}</b>{%- if save2 > 0 -%}<s>{{ full2 | money_without_trailing_zeros }}</s>{%- endif -%}</span>
+              <span class="pack__badge">MÁS VENDIDO</span>
+            </label>
+            <label class="pack">
+              <input type="radio" name="pack" value="{{ v1.id }}" data-price="{{ v1.price }}" {% unless v1.available %}disabled{% endunless %}>
+              <span class="pack__radio" aria-hidden="true"></span>
+              <span class="pack__info"><strong>1 unidad</strong><small>Frasco gotero de 30 ml</small></span>
+              <span class="pack__price"><b>{{ v1.price | money_without_trailing_zeros }}</b></span>
+            </label>
+          </div>
+          <div class="qty">
+            <span>Cantidad</span>
+            <div class="qty__ctrl">
+              <button type="button" data-qty="-1" aria-label="Quitar uno">−</button>
+              <output id="qtyOut" aria-live="polite">1</output>
+              <button type="button" data-qty="1" aria-label="Agregar uno">+</button>
+            </div>
+          </div>
+          <div class="order__total"><span>Total</span><b id="totalOut">{{ v2.price | money_without_trailing_zeros }}</b></div>
+          <a href="/cart/{{ v2.id }}:1" class="btn btn--gold btn--xl btn--block btn--pulse" id="buyNow">¡COMPRAR AHORA!</a>
+          {%- unless product.available -%}<p class="soldout">Producto agotado temporalmente.</p>{%- endunless -%}
+          <ul class="secure"><li>Pago seguro</li><li>Datos protegidos</li><li>Confirmación por correo</li></ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 5b. PREGUNTAS FRECUENTES ===== -->
+    <section class="section section--soft" id="preguntas">
+      <div class="container container--narrow">
+        <header class="section__head reveal">
+          <p class="eyebrow">Resolvemos tus dudas</p>
+          <h2>Preguntas frecuentes</h2>
+        </header>
+
+        <div class="faq">
+          <details class="reveal" open>
+            <summary>¿Cómo funciona la promoción 2x1?</summary>
+            <p>Al elegir la promo 2x1 recibes <strong>2 frascos de GleamXi de 30 ml</strong> por solo {{ v2.price | money_without_trailing_zeros }}, en lugar de {{ full2 | money_without_trailing_zeros }}. La oferta es válida hasta que el contador llegue a cero o hasta agotar existencias.</p>
+          </details>
+          <details class="reveal">
+            <summary>¿Cómo hago mi pedido?</summary>
+            <p>Presiona cualquier botón de compra, elige tu presentación y pulsa <strong>Comprar ahora</strong>. En el checkout completas tu dirección y el pago. Recibirás la confirmación de tu pedido por correo.</p>
+          </details>
+          <details class="reveal">
+            <summary>¿Hacen envíos a mi ciudad?</summary>
+            <p>Al ingresar tu dirección en el checkout verás las opciones, el costo y la cobertura de envío disponibles para tu ciudad antes de pagar.</p>
+          </details>
+          <details class="reveal">
+            <summary>¿Cuáles son las formas de pago?</summary>
+            <p>En el checkout verás todos los métodos de pago disponibles. El pago se procesa de forma segura a través de Shopify.</p>
+          </details>
+          <details class="reveal">
+            <summary>¿Puedo pedir más de una promoción?</summary>
+            <p>¡Sí! Usa el selector de cantidad: cada promo 2x1 incluye 2 frascos.</p>
+          </details>
+          <details class="reveal">
+            <summary>¿Para qué tipo de cabello sirve?</summary>
+            <p>Es apto para todo tipo de cabello: liso, ondulado, rizado, teñido o con tendencia al frizz. Ajusta la cantidad de gotas según el largo y grosor.</p>
+          </details>
+          <details class="reveal">
+            <summary>¿Deja el cabello grasoso?</summary>
+            <p>No. Es una fórmula de acabado ligero y sedoso. Recomendamos empezar con pocas gotas y aplicar de medios a puntas.</p>
+          </details>
+          <details class="reveal">
+            <summary>¿Cuánto me dura un frasco?</summary>
+            <p>Depende de la frecuencia de uso y del largo del cabello. Al usar solo unas gotas por aplicación, cada frasco de 30 ml rinde para muchas aplicaciones.</p>
+          </details>
+          <details class="reveal">
+            <summary>¿Cómo hago seguimiento a mi pedido?</summary>
+            <p>Cuando tu pedido sea despachado recibirás la información de seguimiento en el correo que registraste en el checkout.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== CTA FINAL ===== -->
+    <section class="final">
+      <div class="final__bg" aria-hidden="true"></div>
+      <div class="container final__inner reveal">
+        <span class="badge-2x1 badge-2x1--lg">2x1</span>
+        <h2>¡No dejes pasar esta oportunidad!</h2>
+        <p>Tu cabello merece este cuidado. Llévate 2 unidades de GleamXi por solo {{ v2.price | money_without_trailing_zeros }}.</p>
+        <div class="countdown countdown--light" data-countdown>
+          <div class="countdown__grid">
+            <div class="cd"><span data-cd="d">00</span><small>Días</small></div>
+            <div class="cd"><span data-cd="h">00</span><small>Horas</small></div>
+            <div class="cd"><span data-cd="m">00</span><small>Min</small></div>
+            <div class="cd"><span data-cd="s">00</span><small>Seg</small></div>
+          </div>
+          <p class="countdown__ended" data-cd-ended hidden></p>
+        </div>
+        <div class="final__ctas">
+          <a href="#pedido" class="btn btn--gold btn--xl btn--pulse">¡QUIERO APROVECHAR MI 2X1!</a>
+          
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer__inner">
+      <a href="#top" class="logo">Gleam<span>Xi</span></a>
+      <p>Rosemary Hydrolyzed Keratin Smoothing Hair Oil · 30 ml / 1 fl oz</p>
+      <p class="footer__links">{%- for link in linklists.footer.links -%}<a href="{{ link.url }}">{{ link.title }}</a>{%- endfor -%}</p>
+      <p class="footer__small">Producto cosmético de uso externo. Los resultados pueden variar según el tipo de cabello. © {{ "now" | date: "%Y" }} {{ shop.name }}.</p>
+    </div>
+  </footer>
+
+  <!-- Barra de compra fija (móvil) -->
+  <div class="buybar" id="buybar">
+    <div class="buybar__info">
+      <strong>2x1 · {{ v2.price | money_without_trailing_zeros }}</strong>
+      <span data-countdown-inline>--:--:--</span>
+    </div>
+    <a href="#pedido" class="btn btn--gold">¡QUIERO MI 2X1!</a>
+  </div>
+
+  <!-- ===== Iconos SVG ===== -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="i-check" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" d="M5 12.5l4.2 4.2L19 7"/></symbol>
+    <symbol id="i-leaf" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" d="M5 19c0-8 5-13 15-14-1 10-6 15-14 15M5 19l8-8"/></symbol>
+    <symbol id="i-drop" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" d="M12 3c-4 5-6.5 8.6-6.5 11.5a6.5 6.5 0 0013 0C18.5 11.6 16 8 12 3z"/><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" d="M9 15a3 3 0 003 3"/></symbol>
+    <symbol id="i-flask" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" d="M9 3h6M10 3v6l-5 9a2 2 0 001.8 3h10.4a2 2 0 001.8-3l-5-9V3M7.5 14h9"/></symbol>
+    <symbol id="i-heart" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" d="M12 20s-7-4.4-7-10a4 4 0 017-2.6A4 4 0 0119 10c0 5.6-7 10-7 10z"/></symbol>
+    <symbol id="i-spark" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8zM18.5 15.5l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8z"/></symbol>
+    <symbol id="i-wind" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" d="M3 8h11a3 3 0 10-3-3M3 12h15a3 3 0 11-3 3M3 16h7"/></symbol>
+    <symbol id="i-feather" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" d="M20 4C12 4 6 9 6 17v3M6 17c6 0 11-3 12-9M10 13h5"/></symbol>
+  </svg>
+
+  <script>
+    window.GLEAMXI_CONFIG = {
+      // Fecha y hora en que TERMINA la promoción 2x1 (hora de Colombia = -05:00).
+      finPromocion: "2026-11-30T23:59:59-05:00",
+      textoPromoFinalizada: "La promoción terminó. Pronto tendremos nuevas ofertas.",
+      moneyFormat: {{ shop.money_format | json }}
+    };
+  </script>
+  <script src="{{ 'gleamxi.js' | asset_url }}" defer></script>
+</body>
+</html>
