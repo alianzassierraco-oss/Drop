@@ -9,6 +9,7 @@
     var fmt = C.moneyFormat || "${{amount_no_decimals}}";
     var v = (cents / 100);
     function grp(n, d, t, s) {
+      if (Math.round(n * 100) % 100 === 0) d = 0; // igual que money_without_trailing_zeros
       var p = n.toFixed(d).split(".");
       p[0] = p[0].replace(/\B(?=(\d{3})+(?!\d))/g, t);
       return p[0] + (p[1] ? s + p[1] : "");

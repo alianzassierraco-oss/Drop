@@ -516,3 +516,5 @@ p { margin: 0 0 1em; }
 .footer__links a { color: rgba(255,255,255,.7); text-decoration: none; font-size: .85rem; }
 .footer__links a:hover { color: var(--gold); }
 .order__info h2 .script { font-size: 1.6em; }
+.order__form label.pack { display: flex; margin: 0; font-size: 1rem; font-weight: 400; }
+.pack__price s { display: block; }
